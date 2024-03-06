@@ -2,6 +2,7 @@ import { render } from 'preact'
 import { StrictMode } from 'preact/compat'
 
 import { Popup } from './Popup'
+import './styles.scss'
 
 render(
   <StrictMode>
