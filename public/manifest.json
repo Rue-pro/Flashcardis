@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "version": "1.0.0",
+  "name": "__MSG_extName__",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
+  "permissions": ["storage", "scripting", "tabs", "contextMenus"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "content_scripts": [
+    {
+      "js": ["./content/ankiWeb/assets/ankiWeb.js"],
+      "matches": ["https://ankiuser.net/add"],
+      "run_at": "document_idle"
+    },
+    {
+      "js": ["./content/dictionary/assets/dictionary.js"],
+      "matches": ["<all_urls>"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Flashcardis",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "./background/assets/background.js",
+    "type": "module"
+  },
+  "host_permissions": ["<all_urls>"]
+}

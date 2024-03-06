@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Flashcardis",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Chrome extension for filling anki cards automatically",
+    "description": "Extension description"
+  }
+}
