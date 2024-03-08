@@ -5,7 +5,7 @@ export const chromeBrowser: IBrowser = {
     local: {
       get: (key, defaultValue) => {
         return new Promise((resolve) => {
-          chrome.storage.local.get([key], (storage) => {
+          chrome.storage.local.get(key, (storage) => {
             try {
               const json = JSON.parse(storage[key])
               resolve(json)
