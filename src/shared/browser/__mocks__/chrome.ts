@@ -5,25 +5,17 @@ type StoreValue = Record<string, unknown>
 
 let store: StoreValue = {}
 
-function resolveKey(key: unknown) {
-  if (typeof key === 'string') {
-    const result: StoreValue = {}
-    result[key] = store[key]
-    return result
-  } else if (Array.isArray(key)) {
-    return key.reduce((acc, curr) => {
-      acc[curr] = store[curr]
-      return acc
-    }, {})
-  }
-  throw new Error('Wrong key given')
+function getStorageValueByKey(key: string) {
+  const result: StoreValue = {}
+  result[key] = store[key]
+  return result
 }
 
-export const chromeBrowserMock = {
+export const chromeMock = {
   storage: {
     local: {
       get: vi.fn((id, cb) => {
-        const result = id === null ? store : resolveKey(id)
+        const result = id === null ? store : getStorageValueByKey(id)
         return cb ? cb(result) : Promise.resolve(result)
       }),
 

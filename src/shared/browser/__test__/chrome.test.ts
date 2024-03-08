@@ -15,24 +15,18 @@ describe('browser', () => {
     const invalidJSONString = `{"name": "Joe", "age": null]`
 
     describe('local', () => {
-      describe('get', () => {
+      afterEach(async () => {
+        await chrome.storage.local.clear()
+      })
+
+      describe('get/set', () => {
         test('should get default value if storage is empty', async () => {
           const data = await chromeBrowser.storage.local.get(KEY, defaultValue)
 
           expect(data).toEqual(defaultValue)
         })
 
-        test('should get data', async () => {
-          await chromeBrowser.storage.local.set<StorageValue>(KEY, storedValue)
-
-          const data = await chromeBrowser.storage.local.get(KEY, defaultValue)
-
-          expect(data).toEqual(storedValue)
-        })
-      })
-
-      describe('set', () => {
-        test('should set data to the storage', async () => {
+        test('should get previously setted data', async () => {
           await chromeBrowser.storage.local.set<StorageValue>(KEY, storedValue)
 
           const data = await chromeBrowser.storage.local.get(KEY, defaultValue)
@@ -120,10 +114,6 @@ describe('browser', () => {
           expect(callback).toHaveBeenCalledTimes(0)
         })
       })
-    })
-
-    afterEach(async () => {
-      await chrome.storage.local.clear()
     })
   })
 
