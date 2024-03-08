@@ -19,7 +19,7 @@ function resolveKey(key: unknown) {
   throw new Error('Wrong key given')
 }
 
-export const chromeBrowser = {
+export const chromeBrowserMock = {
   storage: {
     local: {
       get: vi.fn((id, cb) => {
