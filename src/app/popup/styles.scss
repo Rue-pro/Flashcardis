@@ -11,17 +11,15 @@
 }
 
 :root {
-  --space-025: 0.125rem; // 2px
-  --space-050: 0.25rem; // 4px
-  --space-075: 0.375rem; // 6px
-  --space-100: 0.5rem; // 8px
-  --space-125: 0.625rem; // 10px
-  --space-200: 1rem; // 16px
-  --space-250: 1.25rem; // 20px
-  --space-300: 1.5rem; // 24px
-  --space-325: 1.625rem; // 28px
+  --spacing-1: 0.25rem; // 4px
+  --spacing-2: 0.5rem; // 8px
+  --spacing-3: 0.75rem; // 12px
+  --spacing-4: 1rem; // 16px
+  --spacing-5: 1.25rem; // 20px
+  --spacing-6: 1.5rem; // 24px
+  --spacing-7: 1.75rem; // 28px
 
-  --horizontal-space: var(--space-250);
+  --horizontal-space: var(--spacing-5);
 
   color-scheme: light dark;
 
