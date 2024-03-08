@@ -12,4 +12,8 @@ export interface IBrowser {
       ) => void
     }
   }
+
+  i18n: {
+    getMessage: (key: string, substitutions?: string | string[]) => string
+  }
 }

@@ -56,4 +56,10 @@ export const chromeBrowser: IBrowser = {
       },
     },
   },
+
+  i18n: {
+    getMessage: (key, substitutions) => {
+      return chrome.i18n.getMessage(key, substitutions)
+    },
+  },
 }
