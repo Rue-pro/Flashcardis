@@ -44,4 +44,8 @@ export const chromeBrowserMock = {
       }),
     },
   },
+
+  i18n: {
+    getMessage: vi.fn((key) => `Translated<${key}>`),
+  },
 } as unknown as MockedObject<IChrome>

@@ -1,11 +1,7 @@
 import { afterEach } from 'node:test'
 import { describe, expect, test, vi } from 'vitest'
 
-import { chromeBrowserMock } from '@shared/browser/__mocks__/chrome'
-
 import { chromeBrowser } from '../chrome'
-
-global.chrome = chromeBrowserMock
 
 describe('browser', () => {
   describe('storage', () => {
@@ -128,6 +124,16 @@ describe('browser', () => {
 
     afterEach(async () => {
       await chrome.storage.local.clear()
+    })
+  })
+
+  describe('i18n', () => {
+    test('should return the message for the given key', () => {
+      const KEY = 'testKey'
+
+      const message = chromeBrowser.i18n.getMessage(KEY)
+
+      expect(message).toEqual(`Translated<${KEY}>`)
     })
   })
 })
