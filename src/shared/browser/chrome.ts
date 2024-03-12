@@ -42,7 +42,7 @@ export const chromeBrowser: IBrowser = {
             try {
               oldValue = JSON.parse(changes[key].oldValue)
             } catch (error) {
-              Result.Error(`ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE`)
+              callback(Result.Error(`ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE`))
             }
 
             try {

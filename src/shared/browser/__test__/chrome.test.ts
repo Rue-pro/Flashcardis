@@ -1,5 +1,6 @@
-import { afterEach } from 'node:test'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
+
+import { Result } from '@shared/libs/operationResult'
 
 import { chromeBrowser } from '../chrome'
 
@@ -15,35 +16,79 @@ describe('browser', () => {
     const invalidJSONString = `{"name": "Joe", "age": null]`
 
     describe('local', () => {
-      afterEach(async () => {
-        await chrome.storage.local.clear()
-      })
-
       describe('get/set', () => {
-        test('should get default value if storage is empty', async () => {
-          const data = await chromeBrowser.storage.local.get(KEY, defaultValue)
+        afterEach(async () => {
+          await chrome.storage.local.clear()
+          vi.restoreAllMocks()
+        })
 
-          expect(data).toEqual(defaultValue)
+        test('should resolve with error when data in storage is invalid', async () => {
+          vi.spyOn(chrome.storage.local, 'get').mockImplementation(
+            (_key, callback) => {
+              callback({
+                [KEY]: invalidJSONString,
+              })
+            },
+          )
+
+          const getResult = await chromeBrowser.storage.local.get(
+            KEY,
+            defaultValue,
+          )
+
+          expect(getResult).toEqual(
+            Result.Error(`ERROR_CAN_NOT_GET_DATA_FROM_STORAGE`),
+          )
+        })
+
+        test('should get default value if storage is empty', async () => {
+          const getResult = await chromeBrowser.storage.local.get(
+            KEY,
+            defaultValue,
+          )
+
+          expect(getResult).toEqual(Result.Success(defaultValue))
         })
 
         test('should get previously setted data', async () => {
-          await chromeBrowser.storage.local.set<StorageValue>(KEY, storedValue)
+          const setResult = await chromeBrowser.storage.local.set<StorageValue>(
+            KEY,
+            storedValue,
+          )
 
-          const data = await chromeBrowser.storage.local.get(KEY, defaultValue)
+          expect(setResult).toEqual(Result.Success(true))
 
-          expect(data).toEqual(storedValue)
+          const getResult = await chromeBrowser.storage.local.get(
+            KEY,
+            defaultValue,
+          )
+
+          expect(getResult).toEqual(Result.Success(storedValue))
         })
 
         test('should not set data to the storage if data is not valid', async () => {
-          await chromeBrowser.storage.local.set<StorageValue>(KEY, storedValue)
-          await chromeBrowser.storage.local.set<StorageValue>(
+          let setResult = await chromeBrowser.storage.local.set<StorageValue>(
+            KEY,
+            storedValue,
+          )
+
+          expect(setResult).toEqual(Result.Success(true))
+
+          setResult = await chromeBrowser.storage.local.set<StorageValue>(
             KEY,
             circularValue,
           )
 
-          const data = await chromeBrowser.storage.local.get(KEY, defaultValue)
+          expect(setResult).toEqual(
+            Result.Error('ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE'),
+          )
 
-          expect(data).toEqual(storedValue)
+          const getResult = await chromeBrowser.storage.local.get(
+            KEY,
+            defaultValue,
+          )
+
+          expect(getResult).toEqual(Result.Success(storedValue))
         })
       })
 
@@ -68,10 +113,12 @@ describe('browser', () => {
 
           chromeBrowser.storage.local.onChanged(KEY, callback, defaultValue)
 
-          expect(callback).toHaveBeenCalledWith({ newValue, oldValue })
+          expect(callback).toHaveBeenCalledWith(
+            Result.Success({ newValue, oldValue }),
+          )
         })
 
-        test('should invoke callback when storage changed with invalid old value', () => {
+        test('should invoke callback with default old value and parsed new value when storage changed with invalid old value', () => {
           const callback = vi.fn()
 
           vi.spyOn(
@@ -88,13 +135,17 @@ describe('browser', () => {
 
           chromeBrowser.storage.local.onChanged(KEY, callback, defaultValue)
 
-          expect(callback).toHaveBeenCalledWith({
-            newValue,
-            oldValue: defaultValue,
-          })
+          expect(callback).toHaveBeenCalledTimes(2)
+
+          expect(callback).toHaveBeenCalledWith(
+            Result.Success({
+              newValue,
+              oldValue: defaultValue,
+            }),
+          )
         })
 
-        test('should not invoke callback when storage changed with invalid new value', () => {
+        test('should invoke callback with error when storage changed with invalid new value', () => {
           const callback = vi.fn()
 
           vi.spyOn(
@@ -111,7 +162,9 @@ describe('browser', () => {
 
           chromeBrowser.storage.local.onChanged(KEY, callback, defaultValue)
 
-          expect(callback).toHaveBeenCalledTimes(0)
+          expect(callback).toHaveBeenCalledWith(
+            Result.Error(`ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE`),
+          )
         })
       })
     })

@@ -1,3 +1,3 @@
-import { chromeBrowserMock } from '@shared/browser/__mocks__/chrome'
+import { chromeMock } from '@shared/browser/__mocks__/chrome'
 
-global.chrome = chromeBrowserMock
+global.chrome = chromeMock
