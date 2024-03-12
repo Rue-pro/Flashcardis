@@ -1,3 +1,5 @@
+import { Result } from '@shared/libs/operationResult'
+
 import { IBrowser } from './types'
 
 export const chromeBrowser: IBrowser = {
@@ -6,11 +8,12 @@ export const chromeBrowser: IBrowser = {
       get: (key, defaultValue) => {
         return new Promise((resolve) => {
           chrome.storage.local.get(key, (storage) => {
+            if (!storage[key]) resolve(Result.Success(defaultValue))
             try {
               const json = JSON.parse(storage[key])
-              resolve(json)
+              resolve(Result.Success(json))
             } catch (error) {
-              resolve(defaultValue)
+              resolve(Result.Error(`ERROR_CAN_NOT_GET_DATA_FROM_STORAGE`))
             }
           })
         })
@@ -25,9 +28,9 @@ export const chromeBrowser: IBrowser = {
               .set({
                 [key]: stringifiedValue,
               })
-              .then(resolve)
+              .then(() => resolve(Result.Success(true)))
           } catch (error) {
-            resolve()
+            resolve(Result.Error(`ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE`))
           }
         })
       },
@@ -39,17 +42,19 @@ export const chromeBrowser: IBrowser = {
             try {
               oldValue = JSON.parse(changes[key].oldValue)
             } catch (error) {
-              // ...
+              Result.Error(`ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE`)
             }
 
             try {
               const newValue = JSON.parse(changes[key].newValue)
-              callback({
-                newValue: newValue,
-                oldValue: oldValue,
-              })
+              callback(
+                Result.Success({
+                  newValue: newValue,
+                  oldValue: oldValue,
+                }),
+              )
             } catch (error) {
-              // ...
+              callback(Result.Error(`ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE`))
             }
           }
         })
