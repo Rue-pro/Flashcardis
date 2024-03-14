@@ -3,5 +3,6 @@
     "eslint --quiet --fix",
     "prettier --write --ignore-unknown"
   ],
+  "*.{css,scss}": "stylelint --fix",
   "*.{json,html}": ["prettier --write --ignore-unknown"]
 }
