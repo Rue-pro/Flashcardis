@@ -4,13 +4,13 @@ import { ComponentChild } from 'preact'
 
 import styles from './styles.module.scss'
 
-export type IButtonColors = 'accent' | 'success' | 'error' | 'info'
+export type TButtonColor = 'accent' | 'success' | 'error' | 'info'
 
 export interface Props extends JSXInternal.HTMLAttributes<HTMLButtonElement> {
   startIcon?: ComponentChild
   endIcon?: ComponentChild
   variant?: 'primary' | 'secondary'
-  color?: IButtonColors
+  color?: TButtonColor
 }
 
 export const Button = ({

@@ -22,6 +22,7 @@ export const useToastsStore = () => {
 
   const removeToast = useCallback((id: string) => {
     setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id))
+    clearTimeout(timersRef.current[id])
     delete timersRef.current[id]
   }, [])
 
