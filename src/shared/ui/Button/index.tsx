@@ -4,11 +4,13 @@ import { ComponentChild } from 'preact'
 
 import styles from './styles.module.scss'
 
-interface Props extends JSXInternal.HTMLAttributes<HTMLButtonElement> {
+export type TButtonColor = 'accent' | 'success' | 'error' | 'info'
+
+export interface Props extends JSXInternal.HTMLAttributes<HTMLButtonElement> {
   startIcon?: ComponentChild
   endIcon?: ComponentChild
   variant?: 'primary' | 'secondary'
-  color?: 'accent' | 'success' | 'error' | 'info'
+  color?: TButtonColor
 }
 
 export const Button = ({
@@ -17,12 +19,14 @@ export const Button = ({
   endIcon,
   variant = 'primary',
   color = 'accent',
+  className,
   ...rest
 }: Props) => {
   const buttonClass = cn(
     styles.button,
     styles[`button--variant-${variant}`],
     styles[`button--color-${color}`],
+    className ?? '',
   )
 
   return (
