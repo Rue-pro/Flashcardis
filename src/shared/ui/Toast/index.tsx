@@ -1,6 +1,12 @@
 import cn from 'classnames'
 import { ComponentChildren, createContext } from 'preact'
-import { useContext, useEffect, useState } from 'preact/hooks'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'preact/hooks'
 
 import { browser } from '@shared/browser'
 
@@ -35,7 +41,7 @@ export const ToastProvider = ({
   const [details, setDetails] = useState<ComponentChildren | null>(null)
   const [toasts, setToasts] = useState<IToast[]>([])
 
-  function addToast(toast: IAddToastProps) {
+  const addToast = (toast: IAddToastProps) => {
     setToasts((prevToasts) => [
       {
         id: new Date().toISOString(),
@@ -45,9 +51,9 @@ export const ToastProvider = ({
     ])
   }
 
-  function removeToast(id: string) {
-    setToasts(toasts.filter((toast) => toast.id !== id))
-  }
+  const removeToast = useCallback((id: string) => {
+    setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id))
+  }, [])
 
   return (
     <ToastDispatchContext.Provider value={{ addToast }}>
@@ -86,12 +92,13 @@ const mapToastTypeToButtonColor: Record<IToast['type'], IButtonColors> = {
 }
 
 export const Toast = ({ toast, removeToast, openDetails }: ToastProps) => {
+  const timerRef = useRef<NodeJS.Timeout>()
   useEffect(() => {
-    const timer = setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       removeToast()
-    }, 2000)
+    }, 3000)
 
-    return () => clearTimeout(timer)
+    return () => clearTimeout(timerRef.current)
   }, [])
 
   const { title, message, details, type } = toast
