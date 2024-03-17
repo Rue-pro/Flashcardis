@@ -1,0 +1,1 @@
+export { AbstractStorage } from './AbstractStorage'
