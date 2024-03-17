@@ -56,7 +56,7 @@ export const Toast = ({ toast, removeToast, openDetails }: Props) => {
         color={mapToastTypeToButtonColor[type]}
         endIcon={<ClearIcon />}
         onClick={removeToast}
-        aria-label={browser.i18n.getMessage('closeToast')}
+        aria-label={browser.i18n.getMessage('CLOSE')}
       />
     </li>
   )

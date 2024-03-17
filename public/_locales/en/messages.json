@@ -7,8 +7,14 @@
     "message": "Chrome extension for filling anki cards automatically",
     "description": "Extension description"
   },
-  "close": {
+  "CLOSE": {
     "message": "Close"
+  },
+  "CANCEL": {
+    "message": "Cancel"
+  },
+  "SAVE": {
+    "message": "Save"
   },
   "ERROR_CAN_NOT_GET_DATA_FROM_STORAGE": {
     "message": "Can't get data from storage"
@@ -24,5 +30,8 @@
   },
   "SELECTED_LANGUAGES_SAVED": {
     "message": "Selected languages succesfully saved"
+  },
+  "SELECT_LANGUAGES_FORM_TITLE": {
+    "message": "Select languages to learn"
   }
 }
