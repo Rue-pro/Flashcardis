@@ -1,25 +1,19 @@
-import type { IResult } from '@shared/libs/operationResult'
+import type { TResult } from '@shared/libs/operationResult'
 
 export interface IBrowser {
   storage: {
     local: {
-      get: <Data>(
-        key: string,
-        defaultValue: Data,
-      ) => Promise<IResult<Data, string>>
+      get: <Data>(key: string, defaultValue: Data) => Promise<TResult<Data>>
 
-      set: <Data>(key: string, value: Data) => Promise<IResult<true, string>>
+      set: <Data>(key: string, value: Data) => Promise<TResult<true>>
 
       onChanged: <Data>(
         key: string,
         callback: (
-          changes: IResult<
-            {
-              newValue: Data
-              oldValue: Data
-            },
-            string
-          >,
+          changes: TResult<{
+            newValue: Data
+            oldValue: Data
+          }>,
         ) => void,
         defaultValue: Data,
       ) => void

@@ -13,7 +13,12 @@ export const chromeBrowser: IBrowser = {
               const json = JSON.parse(storage[key])
               resolve(Result.Success(json))
             } catch (error) {
-              resolve(Result.Error(`ERROR_CAN_NOT_GET_DATA_FROM_STORAGE`))
+              resolve(
+                Result.Error({
+                  type: 'ERROR_CAN_NOT_GET_DATA_FROM_STORAGE',
+                  error: error instanceof Error ? error : null,
+                }),
+              )
             }
           })
         })
@@ -30,7 +35,12 @@ export const chromeBrowser: IBrowser = {
               })
               .then(() => resolve(Result.Success(true)))
           } catch (error) {
-            resolve(Result.Error(`ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE`))
+            resolve(
+              Result.Error({
+                type: `ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE`,
+                error: error instanceof Error ? error : null,
+              }),
+            )
           }
         })
       },
@@ -42,7 +52,12 @@ export const chromeBrowser: IBrowser = {
             try {
               oldValue = JSON.parse(changes[key].oldValue)
             } catch (error) {
-              callback(Result.Error(`ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE`))
+              callback(
+                Result.Error({
+                  type: `ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE`,
+                  error: error instanceof Error ? error : null,
+                }),
+              )
             }
 
             try {
@@ -54,7 +69,12 @@ export const chromeBrowser: IBrowser = {
                 }),
               )
             } catch (error) {
-              callback(Result.Error(`ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE`))
+              callback(
+                Result.Error({
+                  type: `ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE`,
+                  error: error instanceof Error ? error : null,
+                }),
+              )
             }
           }
         })

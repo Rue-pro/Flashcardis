@@ -9,5 +9,20 @@
   },
   "close": {
     "message": "Close"
+  },
+  "ERROR_CAN_NOT_GET_DATA_FROM_STORAGE": {
+    "message": "Can't get data from storage"
+  },
+  "ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE": {
+    "message": "Can't update data in storage"
+  },
+  "ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE": {
+    "message": "Data in storage changed, but can't get old data"
+  },
+  "ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE": {
+    "message": "Data in storage changed, can't get new data"
+  },
+  "SELECTED_LANGUAGES_SAVED": {
+    "message": "Selected languages succesfully saved"
   }
 }
