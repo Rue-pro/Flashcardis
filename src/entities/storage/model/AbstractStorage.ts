@@ -10,11 +10,11 @@ export class AbstractStorage<StorageValue> {
     this.defaultValue = defaultValue
   }
 
-  async get() {
+  get() {
     return browser.storage.local.get<StorageValue>(this.key, this.defaultValue)
   }
 
-  async set(value: StorageValue) {
+  set(value: StorageValue) {
     return browser.storage.local.set<StorageValue>(this.key, value)
   }
 
