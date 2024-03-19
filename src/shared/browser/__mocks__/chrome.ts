@@ -1,12 +1,12 @@
 import { MockedObject, vi } from 'vitest'
 
-type IChrome = typeof chrome
-type StoreValue = Record<string, unknown>
+type TChrome = typeof chrome
+type TStorageValue = Record<string, unknown>
 
-let store: StoreValue = {}
+let store: TStorageValue = {}
 
 function getStorageValueByKey(key: string) {
-  const result: StoreValue = {}
+  const result: TStorageValue = {}
   result[key] = store[key]
   return result
 }
@@ -40,4 +40,4 @@ export const chromeMock = {
   i18n: {
     getMessage: vi.fn((key) => `Translated<${key}>`),
   },
-} as unknown as MockedObject<IChrome>
+} as unknown as MockedObject<TChrome>

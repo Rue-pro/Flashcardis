@@ -2,13 +2,13 @@ import { useCallback, useRef, useState } from 'preact/hooks'
 
 import { IToast } from './Toast'
 
-export type IAddToastProps = Omit<IToast, 'id'>
+export type TAddToastProps = Omit<IToast, 'id'>
 
 export const useToastsStore = () => {
   const timersRef = useRef<Record<string, NodeJS.Timeout>>({})
   const [toasts, setToasts] = useState<IToast[]>([])
 
-  const addToast = useCallback((toast: IAddToastProps) => {
+  const addToast = useCallback((toast: TAddToastProps) => {
     const toastId = new Date().toISOString()
     setToasts((prevToasts) => [
       {

@@ -6,11 +6,11 @@ import { chromeBrowser } from '../chrome'
 
 describe('browser', () => {
   describe('storage', () => {
-    type StorageValue = object
+    type TStorageValue = object
 
     const KEY = 'testKey'
-    const storedValue: StorageValue = { someData: 'value' }
-    const defaultValue: StorageValue = { defaultData: 'defaultValue' }
+    const storedValue: TStorageValue = { someData: 'value' }
+    const defaultValue: TStorageValue = { defaultData: 'defaultValue' }
     const circularValue = { prop: 'value', circularRef: {} }
     circularValue.circularRef = circularValue
     const invalidJSONString = `{"name": "Joe", "age": null]`
@@ -52,10 +52,11 @@ describe('browser', () => {
         })
 
         test('should get previously setted data', async () => {
-          const setResult = await chromeBrowser.storage.local.set<StorageValue>(
-            KEY,
-            storedValue,
-          )
+          const setResult =
+            await chromeBrowser.storage.local.set<TStorageValue>(
+              KEY,
+              storedValue,
+            )
 
           expect(setResult).toEqual(Result.Success(true))
 
@@ -68,14 +69,14 @@ describe('browser', () => {
         })
 
         test('should not set data to the storage if data is not valid', async () => {
-          let setResult = await chromeBrowser.storage.local.set<StorageValue>(
+          let setResult = await chromeBrowser.storage.local.set<TStorageValue>(
             KEY,
             storedValue,
           )
 
           expect(setResult).toEqual(Result.Success(true))
 
-          setResult = await chromeBrowser.storage.local.set<StorageValue>(
+          setResult = await chromeBrowser.storage.local.set<TStorageValue>(
             KEY,
             circularValue,
           )
