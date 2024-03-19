@@ -1,7 +1,7 @@
 import { browser } from '@shared/browser'
 import { TResult } from '@shared/libs/operationResult'
 
-export class AbstractStorage<StorageValue> {
+export class Storage<StorageValue> {
   key: string
   defaultValue: StorageValue
 

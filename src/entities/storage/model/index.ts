@@ -1,1 +1,1 @@
-export { AbstractStorage } from './AbstractStorage'
+export { Storage } from './Storage'
