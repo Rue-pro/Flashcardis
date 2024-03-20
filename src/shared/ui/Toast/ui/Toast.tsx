@@ -3,18 +3,10 @@ import { ComponentChildren } from 'preact'
 
 import { browser } from '@shared/browser'
 
-import { Button, TButtonColor } from '../Button'
-import { ClearIcon } from '../icons/ClearIcon'
+import { Button, TButtonColor } from '../../Button'
+import { ClearIcon } from '../../icons/ClearIcon'
+import { IToast, TToastType } from '../model/types'
 import styles from './styles.module.scss'
-
-export type TToastType = 'error' | 'info' | 'success'
-export interface IToast {
-  title: string
-  message?: ComponentChildren
-  details?: ComponentChildren
-  id: string
-  type: TToastType
-}
 
 interface Props {
   toast: IToast
@@ -56,7 +48,7 @@ export const Toast = ({ toast, removeToast, openDetails }: Props) => {
         color={mapToastTypeToButtonColor[type]}
         endIcon={<ClearIcon />}
         onClick={removeToast}
-        aria-label={browser.i18n.getMessage('closeToast')}
+        aria-label={browser.i18n.getMessage('CLOSE')}
       />
     </li>
   )

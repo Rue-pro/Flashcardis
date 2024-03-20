@@ -7,7 +7,7 @@
     "message": "Chrome extension for filling anki cards automatically",
     "description": "Extension description"
   },
-  "close": {
+  "CLOSE": {
     "message": "Close"
   }
 }

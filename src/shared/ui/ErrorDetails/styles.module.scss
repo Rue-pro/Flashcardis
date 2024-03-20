@@ -1,0 +1,9 @@
+.error {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+
+  &__copy-btn {
+    align-self: flex-end;
+  }
+}
