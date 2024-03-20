@@ -2,11 +2,10 @@ import { vi } from 'vitest'
 
 import { chromeMock } from '@shared/browser/__mocks__/chrome'
 import * as toastModule from '@shared/ui/Toast'
-import { useAddErrorToastMock } from '@shared/ui/Toast/__mocks__/useAddErrorToast'
-import { useToastMock } from '@shared/ui/Toast/__mocks__/useToast'
+import { getErrorToastMock } from '@shared/ui/Toast/helpers/__mock__/getErrorToast'
+import { addToastMock } from '@shared/ui/Toast/model/__mock__/store'
 
 global.chrome = chromeMock
-vi.spyOn(toastModule, 'useToast').mockImplementation(useToastMock)
-vi.spyOn(toastModule, 'useAddErrorToast').mockImplementation(
-  useAddErrorToastMock,
-)
+
+vi.spyOn(toastModule, 'getErrorToast').mockImplementation(getErrorToastMock)
+vi.spyOn(toastModule, 'addToast').mockImplementation(addToastMock)
