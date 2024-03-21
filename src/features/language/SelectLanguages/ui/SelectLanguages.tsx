@@ -5,23 +5,16 @@ import { ILanguage } from '@entities/language/model'
 import { browser } from '@shared/browser'
 import { Button } from '@shared/ui/Button'
 
-import { useSelectLanguages } from '../hooks/useSelectLanguages'
+import { checkIsSelected, commit, reset, toggle } from '../model/store'
 
 interface Props {
   languages: ILanguage[]
 }
 
 export const SelectLanguages = ({ languages }: Props) => {
-  const {
-    toggleSelectedLanguage,
-    checkIsSelectedLanguage,
-    updateSelectedLanguages,
-    reset,
-  } = useSelectLanguages()
-
   const onSubmit: JSXInternal.SubmitEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
-    updateSelectedLanguages()
+    commit()
   }
 
   return (
@@ -43,8 +36,8 @@ export const SelectLanguages = ({ languages }: Props) => {
                 type="checkbox"
                 multiple
                 value={language.value}
-                checked={checkIsSelectedLanguage(language.value)}
-                onChange={toggleSelectedLanguage(language.value)}
+                checked={checkIsSelected(language.value)}
+                onChange={() => toggle(language.value)}
               />
 
               {language.label}

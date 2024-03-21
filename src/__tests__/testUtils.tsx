@@ -5,10 +5,8 @@ import {
 } from '@testing-library/preact'
 import { ComponentChildren } from 'preact'
 
-import { ToastProvider } from '@shared/ui/Toast'
-
 const AllTheProviders = ({ children }: { children: ComponentChildren }) => {
-  return <ToastProvider>{children}</ToastProvider>
+  return <>{children}</>
 }
 
 const customRender = (

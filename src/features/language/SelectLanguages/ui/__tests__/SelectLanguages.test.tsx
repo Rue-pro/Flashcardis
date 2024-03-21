@@ -5,16 +5,19 @@ import { LANGUAGES } from '@entities/language'
 import { cleanup, fireEvent, render, screen } from '@tests/testUtils'
 
 import {
-  useSelectLanguagesMock,
-  useSelectLanguagesMockReturnValues,
-} from '../../hooks/__mock__/useSelectLanguages'
-import * as selectLanguagesModule from '../../hooks/useSelectLanguages'
+  checkIsSelectedMock,
+  commitMock,
+  resetMock,
+  toggleMock,
+} from '../../model/__mock__/store'
+import * as store from '../../model/store'
 import { SelectLanguages } from '../SelectLanguages'
 
 describe('SelectLanguages component', () => {
-  vi.spyOn(selectLanguagesModule, 'useSelectLanguages').mockImplementation(
-    useSelectLanguagesMock,
-  )
+  vi.spyOn(store, 'checkIsSelected').mockImplementation(checkIsSelectedMock)
+  vi.spyOn(store, 'commit').mockImplementation(commitMock)
+  vi.spyOn(store, 'reset').mockImplementation(resetMock)
+  vi.spyOn(store, 'toggle').mockImplementation(toggleMock)
 
   afterEach(() => {
     cleanup()
@@ -36,9 +39,7 @@ describe('SelectLanguages component', () => {
 
     fireEvent.submit(form)
 
-    expect(
-      useSelectLanguagesMockReturnValues.updateSelectedLanguages,
-    ).toHaveBeenCalled()
+    expect(commitMock).toHaveBeenCalled()
   })
 
   test('calls updateSelectedLanguages when form submit button is clicked', () => {
@@ -50,9 +51,7 @@ describe('SelectLanguages component', () => {
 
     fireEvent.submit(saveButton)
 
-    expect(
-      useSelectLanguagesMockReturnValues.updateSelectedLanguages,
-    ).toHaveBeenCalled()
+    expect(commitMock).toHaveBeenCalled()
   })
 
   test('calls reset when form cancel button is clicked', () => {
@@ -64,7 +63,7 @@ describe('SelectLanguages component', () => {
 
     fireEvent.click(cancelButton)
 
-    expect(useSelectLanguagesMockReturnValues.reset).toHaveBeenCalled()
+    expect(resetMock).toHaveBeenCalled()
   })
 
   test('calls toggleSelectedLanguage with "en" value when language English is clicked', () => {
@@ -76,15 +75,11 @@ describe('SelectLanguages component', () => {
 
     fireEvent.click(englishLanguageCheckbox)
 
-    expect(
-      useSelectLanguagesMockReturnValues.toggleSelectedLanguage,
-    ).toHaveBeenCalledWith('en')
+    expect(toggleMock).toHaveBeenCalledWith('en')
   })
 
   test('checkbox is checked, when checkIsSelectedLanguage returns true', () => {
-    useSelectLanguagesMockReturnValues.checkIsSelectedLanguage.mockReturnValue(
-      true,
-    )
+    checkIsSelectedMock.mockReturnValue(true)
     render(<SelectLanguages languages={LANGUAGES} />)
     const englishLanguageCheckbox = screen.getByRole<HTMLInputElement>(
       'checkbox',
@@ -97,9 +92,7 @@ describe('SelectLanguages component', () => {
   })
 
   test('checkbox is not checked, when checkIsSelectedLanguage returns false', () => {
-    useSelectLanguagesMockReturnValues.checkIsSelectedLanguage.mockReturnValue(
-      false,
-    )
+    checkIsSelectedMock.mockReturnValue(false)
 
     render(<SelectLanguages languages={LANGUAGES} />)
     const englishLanguageCheckbox = screen.getByRole<HTMLInputElement>(
