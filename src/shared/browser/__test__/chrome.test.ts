@@ -6,11 +6,11 @@ import { chromeBrowser } from '../chrome'
 
 describe('browser', () => {
   describe('storage', () => {
-    type StorageValue = object
+    type TStorageValue = object
 
     const KEY = 'testKey'
-    const storedValue: StorageValue = { someData: 'value' }
-    const defaultValue: StorageValue = { defaultData: 'defaultValue' }
+    const storedValue: TStorageValue = { someData: 'value' }
+    const defaultValue: TStorageValue = { defaultData: 'defaultValue' }
     const circularValue = { prop: 'value', circularRef: {} }
     circularValue.circularRef = circularValue
     const invalidJSONString = `{"name": "Joe", "age": null]`
@@ -36,9 +36,10 @@ describe('browser', () => {
             defaultValue,
           )
 
-          expect(getResult).toEqual(
-            Result.Error(`ERROR_CAN_NOT_GET_DATA_FROM_STORAGE`),
-          )
+          expect(getResult.data).toBeNull()
+          expect(getResult.error).toMatchObject({
+            type: 'ERROR_CAN_NOT_GET_DATA_FROM_STORAGE',
+          })
         })
 
         test('should get default value if storage is empty', async () => {
@@ -51,10 +52,11 @@ describe('browser', () => {
         })
 
         test('should get previously setted data', async () => {
-          const setResult = await chromeBrowser.storage.local.set<StorageValue>(
-            KEY,
-            storedValue,
-          )
+          const setResult =
+            await chromeBrowser.storage.local.set<TStorageValue>(
+              KEY,
+              storedValue,
+            )
 
           expect(setResult).toEqual(Result.Success(true))
 
@@ -67,21 +69,22 @@ describe('browser', () => {
         })
 
         test('should not set data to the storage if data is not valid', async () => {
-          let setResult = await chromeBrowser.storage.local.set<StorageValue>(
+          let setResult = await chromeBrowser.storage.local.set<TStorageValue>(
             KEY,
             storedValue,
           )
 
           expect(setResult).toEqual(Result.Success(true))
 
-          setResult = await chromeBrowser.storage.local.set<StorageValue>(
+          setResult = await chromeBrowser.storage.local.set<TStorageValue>(
             KEY,
             circularValue,
           )
 
-          expect(setResult).toEqual(
-            Result.Error('ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE'),
-          )
+          expect(setResult.data).toBeNull()
+          expect(setResult.error).toMatchObject({
+            type: 'ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE',
+          })
 
           const getResult = await chromeBrowser.storage.local.get(
             KEY,
@@ -137,7 +140,14 @@ describe('browser', () => {
 
           expect(callback).toHaveBeenCalledTimes(2)
 
-          expect(callback).toHaveBeenCalledWith(
+          const call1 = callback.mock.calls[0]
+          expect(call1[0].data).toBeNull()
+          expect(call1[0].error).toMatchObject({
+            type: 'ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE',
+          })
+
+          const call2 = callback.mock.calls[1]
+          expect(call2[0]).toEqual(
             Result.Success({
               newValue,
               oldValue: defaultValue,
@@ -162,9 +172,11 @@ describe('browser', () => {
 
           chromeBrowser.storage.local.onChanged(KEY, callback, defaultValue)
 
-          expect(callback).toHaveBeenCalledWith(
-            Result.Error(`ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE`),
-          )
+          const call = callback.mock.calls[0]
+          expect(call[0].data).toBeNull()
+          expect(call[0].error).toMatchObject({
+            type: 'ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE',
+          })
         })
       })
     })

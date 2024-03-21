@@ -1,8 +1,12 @@
-import { RenderOptions, render } from '@testing-library/preact'
+import {
+  RenderOptions,
+  renderHook as baseRenderHook,
+  render,
+} from '@testing-library/preact'
 import { ComponentChildren } from 'preact'
 
 const AllTheProviders = ({ children }: { children: ComponentChildren }) => {
-  return children
+  return <>{children}</>
 }
 
 const customRender = (
@@ -10,8 +14,14 @@ const customRender = (
   options?: Omit<RenderOptions, 'queries'>,
 ) => render(ui, { wrapper: AllTheProviders, ...options })
 
-// re-export everything
 export * from '@testing-library/preact'
 
-// override render method
 export { customRender as render }
+
+export const renderHook = <Result, Props>(
+  hook: (initialProps: Props) => Result,
+) => baseRenderHook(hook, { wrapper: AllTheProviders })
+
+export const INVALID_JSON_STRING = `{"name": "Joe", "age": null]`
+export const CIRCULAR_VALUE = { prop: 'value', circularRef: {} }
+CIRCULAR_VALUE.circularRef = CIRCULAR_VALUE
