@@ -8,7 +8,9 @@
   user-select: none;
   border: 1px solid;
   border-radius: var(--radius-1);
-  transition: border-color 0.25s;
+  transition:
+    border-color 0.25s,
+    outline 0.25s;
 
   &:disabled {
     cursor: not-allowed;
