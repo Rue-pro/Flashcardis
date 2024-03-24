@@ -16,6 +16,6 @@ export const DeleteNote = ({ noteId, noteText }: Props) => (
     variant="secondary"
     startIcon={<DeleteIcon />}
     onClick={() => noteStore.deleteNote(noteId)}
-    aria-label={browser.i18n.getMessage('noteDeleteButtonCaption', noteText)}
+    aria-label={browser.i18n.getMessage('DELETE_NOTE', noteText)}
   />
 )

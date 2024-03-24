@@ -69,5 +69,26 @@
   },
   "EDIT_NOTE_FORM_FIELD_PLACEHOLDER_FOR_TRANSCRIPTION": {
     "message": "Transcription"
+  },
+  "DELETE_NOTE": {
+    "message": "Delete note $noteText$",
+    "placeholders": {
+      "noteText": {
+        "content": "$1",
+        "example": "carpel"
+      }
+    }
+  },
+  "COPY_TEXT": {
+    "message": "Copy text $text$",
+    "placeholders": {
+      "text": {
+        "content": "$1",
+        "example": "carpel"
+      }
+    }
+  },
+  "COPY_TEXT_COPIED": {
+    "message": "Text copied to clipboard"
   }
 }
