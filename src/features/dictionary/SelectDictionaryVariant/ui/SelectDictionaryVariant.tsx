@@ -1,4 +1,8 @@
-import { DictionaryCard, IDictionaryWithVariants } from '@entities/dictionary'
+import {
+  DictionaryCard,
+  IDictionaryWithVariants,
+  dictionaryStore,
+} from '@entities/dictionary'
 
 import { Button } from '@shared/ui/Button'
 
@@ -21,7 +25,13 @@ export const SelectDictionaryVariant = ({ dictionary }: GroupProps) => {
             actions={
               <Button
                 disabled={isActive}
-                onClick={() => console.log('select variant')}
+                onClick={() =>
+                  dictionaryStore.selectVariant(
+                    'en',
+                    dictionary.id,
+                    variant.value,
+                  )
+                }
               >
                 {isActive
                   ? `${variant.label} version is used`
