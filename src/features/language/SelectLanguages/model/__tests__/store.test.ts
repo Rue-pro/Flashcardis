@@ -1,70 +1,52 @@
 import { allTasks, cleanStores, keepMount } from 'nanostores'
-import { afterEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test } from 'vitest'
 
-import { Result } from '@shared/libs/operationResult'
+import { languageStore } from '@entities/language'
+
 import { getErrorToastMock } from '@shared/ui/Toast/helpers/__mock__/getErrorToast'
 import { addToastMock } from '@shared/ui/Toast/model/__mock__/store'
 
 import { waitFor } from '@tests/testUtils'
 
 import {
-  $selectedLanguages,
-  SelectedLanguagesStorage,
+  $languageCodes,
   checkIsSelected,
   commit,
   reset,
   toggle,
 } from '../store'
 
-describe('selectedLanguages store', () => {
-  const error = {
-    type: `ERROR`,
-    error: null,
-  }
-
+describe('selectedLanguageCodes store', () => {
   afterEach(async () => {
     await chrome.storage.local.clear()
-    cleanStores($selectedLanguages)
-    $selectedLanguages.set([])
-  })
-
-  test('should initialize with empty array', () => {
-    keepMount($selectedLanguages)
-
-    expect($selectedLanguages.get()).toEqual([])
-    expect(getErrorToastMock).toBeCalledTimes(0)
+    cleanStores($languageCodes)
+    $languageCodes.set([])
   })
 
   describe('commmon', () => {
-    test('should set value from SelectedLanguagesStorage', async () => {
-      await SelectedLanguagesStorage.set(['en'])
+    test('should initialize with empty array', () => {
+      keepMount($languageCodes)
 
-      keepMount($selectedLanguages)
-      await allTasks()
-
-      expect($selectedLanguages.get()).toEqual(['en'])
+      expect($languageCodes.get()).toEqual([])
       expect(getErrorToastMock).toBeCalledTimes(0)
     })
 
-    test('should set empty array and show toast with error when SelectedLanguagesStorage returns error', async () => {
-      vi.spyOn(SelectedLanguagesStorage, 'get').mockResolvedValueOnce(
-        Result.Error(error),
-      )
+    test('should set value from languages', async () => {
+      languageStore.$languages.set([{ label: 'English', value: 'en' }])
 
-      keepMount($selectedLanguages)
+      keepMount($languageCodes)
       await allTasks()
 
-      expect($selectedLanguages.get()).toEqual([])
-      expect(getErrorToastMock).toBeCalledWith(error)
+      expect($languageCodes.get()).toEqual(['en'])
+      expect(getErrorToastMock).toBeCalledTimes(0)
     })
   })
 
   describe('toggle', () => {
     test('should select language if not selected and reset', async () => {
-      await SelectedLanguagesStorage.set([])
+      languageStore.$languages.set([])
 
-      keepMount($selectedLanguages)
-      await allTasks()
+      keepMount($languageCodes)
 
       toggle('en')
       expect(checkIsSelected('en')).toBeTruthy()
@@ -74,10 +56,9 @@ describe('selectedLanguages store', () => {
     })
 
     test('should unselect language if selected and reset', async () => {
-      await SelectedLanguagesStorage.set(['en'])
+      languageStore.$languages.set([{ label: 'English', value: 'en' }])
 
-      keepMount($selectedLanguages)
-      await allTasks()
+      keepMount($languageCodes)
 
       toggle('en')
       expect(checkIsSelected('en')).toBeFalsy()
@@ -89,32 +70,17 @@ describe('selectedLanguages store', () => {
 
   describe('commit', () => {
     test('should set to selected languages store selected values and show opration success information', async () => {
-      $selectedLanguages.set(['en'])
+      $languageCodes.set(['en'])
 
-      keepMount($selectedLanguages)
+      keepMount($languageCodes)
       await allTasks()
 
       waitFor(async () => {
-        await commit()
+        commit()
 
         const call = addToastMock.mock.calls[0]
         expect(call[0].type).toBe('success')
         expect(call[0].title).toBeDefined()
-      })
-    })
-
-    test('should show error when can not update languages', async () => {
-      vi.spyOn(SelectedLanguagesStorage, 'set').mockResolvedValue(
-        Result.Error(error),
-      )
-
-      keepMount($selectedLanguages)
-      await allTasks()
-
-      waitFor(async () => {
-        await commit()
-
-        expect(getErrorToastMock).toBeCalledWith(error)
       })
     })
   })

@@ -1,17 +1,25 @@
+import { useStore } from '@nanostores/preact'
 import { JSXInternal } from 'node_modules/preact/src/jsx'
 
-import { ILanguage } from '@entities/language/model'
+import { ILanguage } from '@entities/language'
 
 import { browser } from '@shared/browser'
 import { Button } from '@shared/ui/Button'
 
-import { checkIsSelected, commit, reset, toggle } from '../model/store'
+import {
+  $languageCodes,
+  checkIsSelected,
+  commit,
+  reset,
+  toggle,
+} from '../model/store'
 
 interface Props {
   languages: ILanguage[]
 }
 
 export const SelectLanguages = ({ languages }: Props) => {
+  useStore($languageCodes)
   const onSubmit: JSXInternal.SubmitEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     commit()
