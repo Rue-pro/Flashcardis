@@ -113,7 +113,7 @@ const defaultDictionaries: Dictionaries = {
   },
 }
 
-export const DictionariesStorage = new Storage<Dictionaries>(
+export const DictionaryStorage = new Storage<Dictionaries>(
   'dictionaries',
   defaultDictionaries,
 )
@@ -122,7 +122,7 @@ export const $dictionaries = atom<Dictionaries>(defaultDictionaries)
 
 onMount($dictionaries, () => {
   task(async () => {
-    const getResult = await DictionariesStorage.get()
+    const getResult = await DictionaryStorage.get()
     if (getResult.data) {
       $dictionaries.set(getResult.data)
     } else {
@@ -146,7 +146,7 @@ export const selectVariant = async (
     dictionary.activeVariant = variant
   }
 
-  const setResult = await DictionariesStorage.set(dictionaries)
+  const setResult = await DictionaryStorage.set(dictionaries)
   if (setResult.data) {
     $dictionaries.set({ ...dictionaries })
   } else {
