@@ -8,9 +8,9 @@ import { addToastMock } from '@shared/ui/Toast/model/__mock__/store'
 import { waitFor } from '@tests/testUtils'
 
 import { ILanguage } from '..'
-import { $languages, LanguagesStorage, select } from '../store'
+import { $languages, LanguageStorage, select } from '../store'
 
-describe('selectedLanguageCodes store', () => {
+describe('languages store', () => {
   const language: ILanguage = { label: 'English', value: 'en' }
   const error = {
     type: `ERROR`,
@@ -24,8 +24,8 @@ describe('selectedLanguageCodes store', () => {
   })
 
   describe('commmon', () => {
-    test('should set value from languages', async () => {
-      await LanguagesStorage.set([language])
+    test('should set value from LanguagesStorage', async () => {
+      await LanguageStorage.set([language])
 
       keepMount($languages)
       await allTasks()
@@ -34,8 +34,8 @@ describe('selectedLanguageCodes store', () => {
       expect(getErrorToastMock).toBeCalledTimes(0)
     })
 
-    test('should set empty array and show toast with error when SelectedLanguagesStorage returns error', async () => {
-      vi.spyOn(LanguagesStorage, 'get').mockResolvedValueOnce(
+    test('should set empty array and show toast with error when LanguagesStorage returns error', async () => {
+      vi.spyOn(LanguageStorage, 'get').mockResolvedValueOnce(
         Result.Error(error),
       )
 
@@ -64,7 +64,7 @@ describe('selectedLanguageCodes store', () => {
     })
 
     test('should show error when can not update languages', async () => {
-      vi.spyOn(LanguagesStorage, 'set').mockResolvedValue(Result.Error(error))
+      vi.spyOn(LanguageStorage, 'set').mockResolvedValue(Result.Error(error))
 
       keepMount($languages)
       await allTasks()

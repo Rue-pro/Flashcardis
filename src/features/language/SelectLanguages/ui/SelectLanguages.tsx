@@ -7,9 +7,9 @@ import { browser } from '@shared/browser'
 import { Button } from '@shared/ui/Button'
 
 import {
-  $languageCodes,
   checkIsSelected,
   commit,
+  localStore,
   reset,
   toggle,
 } from '../model/store'
@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const SelectLanguages = ({ languages }: Props) => {
-  useStore($languageCodes)
+  useStore(localStore.languageCodes)
   const onSubmit: JSXInternal.SubmitEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     commit()

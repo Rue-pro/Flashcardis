@@ -8,36 +8,30 @@ import { addToastMock } from '@shared/ui/Toast/model/__mock__/store'
 
 import { waitFor } from '@tests/testUtils'
 
-import {
-  $languageCodes,
-  checkIsSelected,
-  commit,
-  reset,
-  toggle,
-} from '../store'
+import { checkIsSelected, commit, localStore, reset, toggle } from '../store'
 
 describe('selectedLanguageCodes store', () => {
   afterEach(async () => {
     await chrome.storage.local.clear()
-    cleanStores($languageCodes)
-    $languageCodes.set([])
+    cleanStores(localStore.languageCodes)
+    localStore.languageCodes.set([])
   })
 
   describe('commmon', () => {
     test('should initialize with empty array', () => {
-      keepMount($languageCodes)
+      keepMount(localStore.languageCodes)
 
-      expect($languageCodes.get()).toEqual([])
+      expect(localStore.languageCodes.get()).toEqual([])
       expect(getErrorToastMock).toBeCalledTimes(0)
     })
 
     test('should set value from languages', async () => {
       languageStore.$languages.set([{ label: 'English', value: 'en' }])
 
-      keepMount($languageCodes)
+      keepMount(localStore.languageCodes)
       await allTasks()
 
-      expect($languageCodes.get()).toEqual(['en'])
+      expect(localStore.languageCodes.get()).toEqual(['en'])
       expect(getErrorToastMock).toBeCalledTimes(0)
     })
   })
@@ -46,7 +40,7 @@ describe('selectedLanguageCodes store', () => {
     test('should select language if not selected and reset', async () => {
       languageStore.$languages.set([])
 
-      keepMount($languageCodes)
+      keepMount(localStore.languageCodes)
 
       toggle('en')
       expect(checkIsSelected('en')).toBeTruthy()
@@ -58,7 +52,7 @@ describe('selectedLanguageCodes store', () => {
     test('should unselect language if selected and reset', async () => {
       languageStore.$languages.set([{ label: 'English', value: 'en' }])
 
-      keepMount($languageCodes)
+      keepMount(localStore.languageCodes)
 
       toggle('en')
       expect(checkIsSelected('en')).toBeFalsy()
@@ -70,9 +64,9 @@ describe('selectedLanguageCodes store', () => {
 
   describe('commit', () => {
     test('should set to selected languages store selected values and show opration success information', async () => {
-      $languageCodes.set(['en'])
+      localStore.languageCodes.set(['en'])
 
-      keepMount($languageCodes)
+      keepMount(localStore.languageCodes)
       await allTasks()
 
       waitFor(async () => {

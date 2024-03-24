@@ -3,36 +3,41 @@ import { atom } from 'nanostores'
 import { TLanguageCode, languageStore } from '@entities/language'
 
 let defaultValue: TLanguageCode[] = []
-export const $languageCodes = atom<TLanguageCode[]>([])
-export const $islanguageCodesDirty = atom(true)
+
+export const localStore = {
+  languageCodes: atom<TLanguageCode[]>([]),
+  islanguageCodesDirty: atom(true),
+}
 
 languageStore.$languages.listen((newValue) => {
-  if ($islanguageCodesDirty.get()) {
+  if (localStore.islanguageCodesDirty.get()) {
     const languageCodes = newValue.map((language) => language.value)
     defaultValue = languageCodes
-    $languageCodes.set(languageCodes)
+    localStore.languageCodes.set(languageCodes)
   }
 })
 
 export const toggle = async (languageCode: TLanguageCode) => {
-  $islanguageCodesDirty.set(true)
-  const isSelected = $languageCodes.get().includes(languageCode)
+  localStore.islanguageCodesDirty.set(true)
+
+  const languageCodes = localStore.languageCodes.get()
+  const isSelected = languageCodes.includes(languageCode)
 
   const newSelectedLanguages = isSelected
-    ? $languageCodes.get().filter((lang) => lang !== languageCode)
-    : [...$languageCodes.get(), languageCode]
+    ? languageCodes.filter((lang) => lang !== languageCode)
+    : [...languageCodes, languageCode]
 
-  $languageCodes.set(newSelectedLanguages)
+  localStore.languageCodes.set(newSelectedLanguages)
 }
 
 export const checkIsSelected = (languageCode: TLanguageCode): boolean => {
-  return $languageCodes.get().includes(languageCode)
+  return localStore.languageCodes.get().includes(languageCode)
 }
 
 export const reset = () => {
-  $languageCodes.set(defaultValue)
+  localStore.languageCodes.set(defaultValue)
 }
 
 export const commit = () => {
-  languageStore.select($languageCodes.get())
+  languageStore.select(localStore.languageCodes.get())
 }

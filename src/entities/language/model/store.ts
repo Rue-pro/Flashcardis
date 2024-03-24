@@ -10,13 +10,13 @@ import { LANGUAGES } from './languages'
 
 type Languages = ILanguage[]
 
-export const LanguagesStorage = new Storage<Languages>('languages', LANGUAGES)
+export const LanguageStorage = new Storage<Languages>('languages', LANGUAGES)
 
 export const $languages = atom<Languages>(LANGUAGES)
 
 onMount($languages, () => {
   task(async () => {
-    const getResult = await LanguagesStorage.get()
+    const getResult = await LanguageStorage.get()
     if (getResult.data) {
       $languages.set(getResult.data)
     } else {
@@ -30,7 +30,7 @@ export const select = async (languageCodes: TLanguageCode[]) => {
     languageCodes.includes(language.value),
   )
 
-  const setResult = await LanguagesStorage.set(filteredLanguages)
+  const setResult = await LanguageStorage.set(filteredLanguages)
   if (setResult.data) {
     $languages.set(filteredLanguages)
     addToast({
