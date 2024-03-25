@@ -29,9 +29,15 @@
     "message": "Data in storage changed, can't get new data"
   },
   "SELECTED_LANGUAGES_SAVED": {
-    "message": "Selected languages succesfully saved"
+    "message": "Selected languages were succesfully saved"
   },
   "SELECT_LANGUAGES_FORM_TITLE": {
     "message": "Select languages to learn"
+  },
+  "SELECT_DICTIONARY_VARIANT_SAVED": {
+    "message": "Your choice was succesfully saved"
+  },
+  "ERROR_CAN_NOT_FIND_DICTIONARY_TO_SELECT_VARIANT": {
+    "message": "Can't find dictionary"
   }
 }
