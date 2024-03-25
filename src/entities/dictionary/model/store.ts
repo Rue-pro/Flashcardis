@@ -1,124 +1,21 @@
 import { atom, onMount, task } from 'nanostores'
 
-import { ILanguage, TLanguageCode } from '@entities/language'
+import { TLanguageCode } from '@entities/language'
 import { Storage } from '@entities/storage'
 
+import { browser } from '@shared/browser'
+import { Result } from '@shared/libs/operationResult'
 import { addToast, getErrorToast } from '@shared/ui/Toast'
 
-import { IDictionary } from './types'
+import { DICTIONARIES } from './dictionaries'
+import { TDictionaries } from './types'
 
-type Dictionaries = Record<
-  TLanguageCode,
-  ILanguage & {
-    dictionaries: Array<IDictionary>
-  }
->
-const defaultDictionaries: Dictionaries = {
-  en: {
-    label: 'English',
-    value: 'en',
-    dictionaries: [
-      {
-        id: 'en_CambridgeDictionary',
-        name: 'Cambridge Dictionary',
-        url: 'https://dictionary.cambridge.org/',
-        variants: [
-          {
-            label: 'American',
-            value: 'us',
-          },
-          {
-            label: 'British',
-            value: 'uk',
-          },
-        ],
-        activeVariant: 'uk',
-      },
-      {
-        id: 'en_MerriamWebster',
-        name: 'Merriam-Webster',
-        url: 'https://www.merriam-webster.com/dictionary',
-      },
-      {
-        id: 'en_Collins',
-        name: 'Collins',
-        url: 'https://www.collinsdictionary.com/dictionary/english',
-        variants: [
-          {
-            label: 'American',
-            value: 'us',
-          },
-          {
-            label: 'British',
-            value: 'uk',
-          },
-        ],
-        activeVariant: 'uk',
-      },
-      {
-        id: 'en_Wordreference',
-        name: 'Wordreference',
-        url: 'https://www.wordreference.com/definition',
-        variants: [
-          {
-            label: 'American',
-            value: 'us',
-          },
-          {
-            label: 'British',
-            value: 'uk',
-          },
-        ],
-        activeVariant: 'uk',
-      },
-      {
-        id: 'en_GoogleTranslate',
-        name: 'Google Translate',
-        url: 'https://translate.google.com/',
-      },
-    ],
-  },
-  jp: {
-    label: 'Japanese',
-    value: 'jp',
-    dictionaries: [
-      {
-        id: 'jp_Jisho',
-        name: 'Jisho',
-        url: 'https://jisho.org/',
-      },
-    ],
-  },
-  pt: {
-    label: 'Portuguese',
-    value: 'pt',
-    dictionaries: [
-      {
-        id: 'jp_Jisho',
-        name: 'Jisho',
-        url: 'https://jisho.org/',
-      },
-    ],
-  },
-  ko: {
-    label: 'Korean',
-    value: 'ko',
-    dictionaries: [
-      {
-        id: 'jp_Jisho',
-        name: 'Jisho',
-        url: 'https://jisho.org/',
-      },
-    ],
-  },
-}
-
-export const DictionaryStorage = new Storage<Dictionaries>(
+export const DictionaryStorage = new Storage<TDictionaries>(
   'dictionaries',
-  defaultDictionaries,
+  DICTIONARIES,
 )
 
-export const $dictionaries = atom<Dictionaries>(defaultDictionaries)
+export const $dictionaries = atom<TDictionaries>(DICTIONARIES)
 
 onMount($dictionaries, () => {
   task(async () => {
@@ -143,13 +40,40 @@ export const selectVariant = async (
   )
 
   if (dictionary && 'variants' in dictionary) {
-    dictionary.activeVariant = variant
-  }
-
-  const setResult = await DictionaryStorage.set(dictionaries)
-  if (setResult.data) {
-    $dictionaries.set({ ...dictionaries })
+    const newDictionaries = {
+      ...dictionaries,
+      [languageCode]: {
+        ...dictionaries[languageCode],
+        dictionaries: dictionaries[languageCode].dictionaries.map(
+          (dictionary) => {
+            if (dictionary.id === dictionaryId && 'variants' in dictionary) {
+              return { ...dictionary, activeVariant: variant }
+            } else {
+              return { ...dictionary }
+            }
+          },
+        ),
+      },
+    }
+    const setResult = await DictionaryStorage.set(newDictionaries)
+    if (setResult.data) {
+      $dictionaries.set(newDictionaries)
+      addToast({
+        type: 'success',
+        title: browser.i18n.getMessage('SELECT_DICTIONARY_VARIANT_SAVED'),
+      })
+    } else {
+      addToast(getErrorToast(setResult.error))
+    }
   } else {
-    addToast(getErrorToast(setResult.error))
+    const resultError = Result.Error({
+      type: 'ERROR_CAN_NOT_FIND_DICTIONARY_TO_SELECT_VARIANT',
+      error: new Error(
+        `Dictionary with id ${dictionaryId} and variants option not found, available dictionaries: /n ${JSON.stringify(dictionaries)}`,
+      ),
+    })
+    if (resultError.error) {
+      addToast(getErrorToast(resultError.error))
+    }
   }
 }
