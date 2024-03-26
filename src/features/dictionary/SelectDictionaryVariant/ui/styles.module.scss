@@ -1,0 +1,11 @@
+.dictionaries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.variants {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-2);
+}

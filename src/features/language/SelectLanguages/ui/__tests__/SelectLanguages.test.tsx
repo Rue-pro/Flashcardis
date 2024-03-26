@@ -6,8 +6,8 @@ import { cleanup, fireEvent, render, screen } from '@tests/testUtils'
 
 import {
   checkIsSelectedMock,
-  commitMock,
   resetMock,
+  syncLocalStoreWithLanguageStoreMock,
   toggleMock,
 } from '../../model/__mock__/store'
 import * as store from '../../model/store'
@@ -15,7 +15,9 @@ import { SelectLanguages } from '../SelectLanguages'
 
 describe('SelectLanguages component', () => {
   vi.spyOn(store, 'checkIsSelected').mockImplementation(checkIsSelectedMock)
-  vi.spyOn(store, 'commit').mockImplementation(commitMock)
+  vi.spyOn(store, 'syncLocalStoreWithLanguageStore').mockImplementation(
+    syncLocalStoreWithLanguageStoreMock,
+  )
   vi.spyOn(store, 'reset').mockImplementation(resetMock)
   vi.spyOn(store, 'toggle').mockImplementation(toggleMock)
 
@@ -39,7 +41,7 @@ describe('SelectLanguages component', () => {
 
     fireEvent.submit(form)
 
-    expect(commitMock).toHaveBeenCalled()
+    expect(syncLocalStoreWithLanguageStoreMock).toHaveBeenCalled()
   })
 
   test('calls updateSelectedLanguages when form submit button is clicked', () => {
@@ -51,7 +53,7 @@ describe('SelectLanguages component', () => {
 
     fireEvent.submit(saveButton)
 
-    expect(commitMock).toHaveBeenCalled()
+    expect(syncLocalStoreWithLanguageStoreMock).toHaveBeenCalled()
   })
 
   test('calls reset when form cancel button is clicked', () => {
