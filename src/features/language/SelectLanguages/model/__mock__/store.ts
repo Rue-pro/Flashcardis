@@ -1,8 +1,15 @@
 import { MockedFunction, vi } from 'vitest'
 
-import { checkIsSelected, commit, reset, toggle } from '../store'
+import {
+  checkIsSelected,
+  reset,
+  syncLocalStoreWithLanguageStore,
+  toggle,
+} from '../store'
 
-export const commitMock: MockedFunction<typeof commit> = vi.fn()
+export const syncLocalStoreWithLanguageStoreMock: MockedFunction<
+  typeof syncLocalStoreWithLanguageStore
+> = vi.fn()
 
 export const resetMock: MockedFunction<typeof reset> = vi.fn()
 

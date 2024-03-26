@@ -38,6 +38,6 @@ export const reset = () => {
   localStore.languageCodes.set(defaultValue)
 }
 
-export const commit = () => {
+export const syncLocalStoreWithLanguageStore = () => {
   languageStore.select(localStore.languageCodes.get())
 }

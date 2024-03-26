@@ -55,7 +55,7 @@ describe('dictionary store', () => {
   describe('selectVariant', () => {
     const dictionaryId = 'en_CambridgeDictionary'
 
-    test('should set to DictionaryStore selected variants and show opration success information', async () => {
+    test('should set selected variants to DictionaryStorage and show operation success information', async () => {
       keepMount($dictionaries)
       await allTasks()
 
@@ -79,7 +79,7 @@ describe('dictionary store', () => {
       })
     })
 
-    test('should show error if can not set to DictionaryStore and keep previous variant', async () => {
+    test('should show error if can not set to DictionaryStorage and keep previous variant', async () => {
       vi.spyOn(DictionaryStorage, 'set').mockResolvedValue(Result.Error(error))
 
       keepMount($dictionaries)

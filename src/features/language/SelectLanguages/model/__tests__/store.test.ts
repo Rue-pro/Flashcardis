@@ -8,7 +8,13 @@ import { addToastMock } from '@shared/ui/Toast/model/__mock__/store'
 
 import { waitFor } from '@tests/testUtils'
 
-import { checkIsSelected, commit, localStore, reset, toggle } from '../store'
+import {
+  checkIsSelected,
+  localStore,
+  reset,
+  syncLocalStoreWithLanguageStore,
+  toggle,
+} from '../store'
 
 describe('selectedLanguageCodes store', () => {
   afterEach(async () => {
@@ -70,7 +76,7 @@ describe('selectedLanguageCodes store', () => {
       await allTasks()
 
       waitFor(async () => {
-        commit()
+        syncLocalStoreWithLanguageStore()
 
         const call = addToastMock.mock.calls[0]
         expect(call[0].type).toBe('success')
