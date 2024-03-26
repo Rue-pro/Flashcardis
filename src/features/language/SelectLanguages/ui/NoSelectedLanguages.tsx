@@ -1,5 +1,3 @@
 export const NoSelectedLanguages = () => (
-  <span>
-    No languages to learn are selected. Select some languages to learn
-  </span>
+  <span>No languages are selected. Select some languages to learn</span>
 )
