@@ -18,6 +18,7 @@ interface Props {
 }
 
 export const EditNote = ({
+  lang,
   note,
   onCancel,
   onSubmit: outerOnSubmit,
@@ -35,7 +36,7 @@ export const EditNote = ({
 
   const onSubmit: JSXInternal.SubmitEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
-    noteStore.editNote(fields)
+    noteStore.editNote(lang, fields)
     outerOnSubmit()
   }
 

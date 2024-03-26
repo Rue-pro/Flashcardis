@@ -6,7 +6,7 @@ import { DeleteNote } from '@features/note/DeleteNote'
 import { EditNote } from '@features/note/EditNote'
 
 import { languageStore } from '@entities/language'
-import { INote, NoteCard, noteStore } from '@entities/note'
+import { INote, NoNotes, NoteCard, noteStore } from '@entities/note'
 
 import { browser } from '@shared/browser'
 import { Button } from '@shared/ui/Button'
@@ -42,35 +42,39 @@ export const NoteList = () => {
                   {...a11yProps('language_navigation', language.value)}
                   value={language.value}
                 >
-                  <ul>
-                    {notes.map((note) => {
-                      return (
-                        <NoteCard
-                          note={note}
-                          actions={
-                            <>
-                              <Button
-                                variant="secondary"
-                                startIcon={<EditIcon />}
-                                aria-label={browser.i18n.getMessage(
-                                  'EDIT_NOTE_OPEN',
-                                  note.text,
-                                )}
-                                onClick={() => {
-                                  setEditNote(note)
-                                }}
-                              />
-                              <DeleteNote
-                                lang={language.value}
-                                noteId={note.id}
-                                noteText={note.text}
-                              />
-                            </>
-                          }
-                        />
-                      )
-                    })}
-                  </ul>
+                  {notes[language.value].length ? (
+                    <ul>
+                      {notes[language.value].map((note) => {
+                        return (
+                          <NoteCard
+                            note={note}
+                            actions={
+                              <>
+                                <Button
+                                  variant="secondary"
+                                  startIcon={<EditIcon />}
+                                  aria-label={browser.i18n.getMessage(
+                                    'EDIT_NOTE_OPEN',
+                                    note.text,
+                                  )}
+                                  onClick={() => {
+                                    setEditNote(note)
+                                  }}
+                                />
+                                <DeleteNote
+                                  lang={language.value}
+                                  noteId={note.id}
+                                  noteText={note.text}
+                                />
+                              </>
+                            }
+                          />
+                        )
+                      })}
+                    </ul>
+                  ) : (
+                    <NoNotes />
+                  )}
                 </TabPanel>
               )
             })}

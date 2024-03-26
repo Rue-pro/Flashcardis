@@ -11,11 +11,11 @@ interface Props {
   noteText: string
 }
 
-export const DeleteNote = ({ noteId, noteText }: Props) => (
+export const DeleteNote = ({ lang, noteId, noteText }: Props) => (
   <Button
     variant="secondary"
     startIcon={<DeleteIcon />}
-    onClick={() => noteStore.deleteNote(noteId)}
+    onClick={() => noteStore.deleteNote(lang, noteId)}
     aria-label={browser.i18n.getMessage('DELETE_NOTE', noteText)}
   />
 )
