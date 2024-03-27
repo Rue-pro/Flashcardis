@@ -33,8 +33,8 @@ export const CopyButton = ({ text, ...rest }: Props) => {
       startIcon={isCopied ? <DoneIcon /> : <CopyIcon />}
       aria-label={
         isCopied
-          ? browser.i18n.getMessage('copyTextCopiedButtonCaption')
-          : browser.i18n.getMessage('copyTextButtonCaption', text)
+          ? browser.i18n.getMessage('COPY_TEXT_COPIED')
+          : browser.i18n.getMessage('COPY_TEXT', text)
       }
       onClick={() => onCopy(text)}
     />
