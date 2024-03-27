@@ -44,7 +44,6 @@ export const EditNote = ({
     <form
       name="edit_note"
       aria-labelledby="editNoteFormTitle"
-      className="container"
       onSubmit={onSubmit}
     >
       <h1 id="editNoteFormTitle" className="form__title">
