@@ -1,4 +1,5 @@
 import { TLanguageCode } from '@entities/language'
+import { INoteSelectors } from '@entities/note'
 
 import { DICTIONARIES } from '.'
 import { IDictionary } from './types'
@@ -28,4 +29,16 @@ export const getDictionaryByPageUrl = (
   }
 
   return null
+}
+
+export const getSelectorsFromDictionary = (
+  dictionary: IDictionary,
+): INoteSelectors => {
+  if ('variants' in dictionary) {
+    return dictionary.variants.find(
+      (variant) => variant.value === dictionary.activeVariant,
+    )!.selectors
+  }
+
+  return dictionary.selectors
 }
