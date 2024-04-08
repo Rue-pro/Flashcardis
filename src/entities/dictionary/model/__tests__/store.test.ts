@@ -1,9 +1,10 @@
 import { allTasks, cleanStores, keepMount } from 'nanostores'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
+import { $errors } from '@entities/error/model/store'
+
+import { chromeMockClearListeners } from '@shared/browser/__mocks__/chrome'
 import { Result } from '@shared/libs/operationResult'
-import { getErrorToastMock } from '@shared/ui/Toast/helpers/__mock__/getErrorToast'
-import { addToastMock } from '@shared/ui/Toast/model/__mock__/store'
 
 import { waitFor } from '@tests/testUtils'
 
@@ -21,6 +22,8 @@ describe('dictionary store', () => {
     await chrome.storage.local.clear()
     cleanStores($dictionaries)
     $dictionaries.set(DICTIONARIES)
+    $errors.set([])
+    chromeMockClearListeners()
     vi.clearAllMocks()
   })
 
@@ -36,10 +39,10 @@ describe('dictionary store', () => {
       await allTasks()
 
       expect($dictionaries.get()).toEqual(newDictionaries)
-      expect(getErrorToastMock).toBeCalledTimes(0)
+      expect($errors.get().length).toEqual(0)
     })
 
-    test('should set empty array and show toast with error when DictionaryStorage returns error', async () => {
+    test('should set empty array and set error when can not get data from DictionaryStorage', async () => {
       vi.spyOn(DictionaryStorage, 'get').mockResolvedValueOnce(
         Result.Error(error),
       )
@@ -48,54 +51,29 @@ describe('dictionary store', () => {
       await allTasks()
 
       expect($dictionaries.get()).toEqual(DICTIONARIES)
-      expect(getErrorToastMock).toBeCalledWith(error)
+      expect($errors.get().length).toEqual(1)
     })
   })
 
   describe('selectVariant', () => {
     const dictionaryId = 'en_CambridgeDictionary'
 
-    test('should set selected variants to DictionaryStorage and show operation success information', async () => {
+    test('should set selected variants to DictionaryStorage and return operation success information', async () => {
       keepMount($dictionaries)
       await allTasks()
 
       await waitFor(async () => {
-        await selectVariant('en', dictionaryId, 'us')
+        const result = await selectVariant('en', dictionaryId, 'us')
 
-        const call = addToastMock.mock.calls[0]
-        expect(call[0].type).toBe('success')
-        expect(call[0].title).toBeDefined()
-        expect(getErrorToastMock).toBeCalledTimes(0)
-
-        const dictionary = $dictionaries
-          .get()
-          .en.dictionaries.find((dictionary) => {
-            dictionary.id === dictionaryId
-          })
-
-        if (dictionary && 'variants' in dictionary) {
-          expect(dictionary.activeVariant).toBe('us')
-        }
-      })
-    })
-
-    test('should show error if can not set to DictionaryStorage and keep previous variant', async () => {
-      vi.spyOn(DictionaryStorage, 'set').mockResolvedValue(Result.Error(error))
-
-      keepMount($dictionaries)
-      await allTasks()
-
-      await waitFor(async () => {
-        await selectVariant('en', dictionaryId, 'us')
-
-        expect(getErrorToastMock).toBeCalledWith(error)
+        expect(result.data).toBeDefined()
+        expect(result.error).toBeNull()
 
         const dictionary = $dictionaries
           .get()
           .en.dictionaries.find((dictionary) => dictionary.id === dictionaryId)
 
         if (dictionary && 'variants' in dictionary) {
-          expect(dictionary.activeVariant).toEqual('uk')
+          expect(dictionary.activeVariant).toBe('us')
         } else {
           throw Error(
             `Dictionary with id ${dictionaryId} and variants option not found`,
@@ -104,18 +82,41 @@ describe('dictionary store', () => {
       })
     })
 
-    test('should show error if dictionary not found', async () => {
+    test('should return error if can not set to DictionaryStorage and keep previous variant', async () => {
+      vi.spyOn(DictionaryStorage, 'set').mockResolvedValue(Result.Error(error))
+
       keepMount($dictionaries)
       await allTasks()
 
       await waitFor(async () => {
-        await selectVariant('en', 'NOT_EXISTING_ID', 'us')
+        const result = await selectVariant('en', dictionaryId, 'us')
 
-        const call = getErrorToastMock.mock.calls[0]
-        expect(call[0].type).toBe(
-          'ERROR_CAN_NOT_FIND_DICTIONARY_TO_SELECT_VARIANT',
-        )
-        expect(call[0].error).toBeDefined()
+        expect(result.data).toBeNull()
+        expect(result.error).toEqual(error)
+
+        const dictionary = $dictionaries
+          .get()
+          .en.dictionaries.find((dictionary) => dictionary.id === dictionaryId)
+
+        if (dictionary && 'variants' in dictionary) {
+          expect(dictionary?.activeVariant).toEqual('uk')
+        } else {
+          throw Error(
+            `Dictionary with id ${dictionaryId} and variants option not found`,
+          )
+        }
+      })
+    })
+
+    test('should return error if dictionary not found', async () => {
+      keepMount($dictionaries)
+      await allTasks()
+
+      await waitFor(async () => {
+        const result = await selectVariant('en', 'NOT_EXISTING_ID', 'us')
+
+        expect(result.data).toBeNull()
+        expect(result.error).toBeDefined()
       })
     })
   })

@@ -3,9 +3,6 @@ import { afterEach, describe, expect, test } from 'vitest'
 
 import { languageStore } from '@entities/language'
 
-import { getErrorToastMock } from '@shared/ui/Toast/helpers/__mock__/getErrorToast'
-import { addToastMock } from '@shared/ui/Toast/model/__mock__/store'
-
 import { waitFor } from '@tests/testUtils'
 
 import {
@@ -28,7 +25,6 @@ describe('selectedLanguageCodes store', () => {
       keepMount(localStore.languageCodes)
 
       expect(localStore.languageCodes.get()).toEqual([])
-      expect(getErrorToastMock).toBeCalledTimes(0)
     })
 
     test('should set value from languages', async () => {
@@ -38,7 +34,6 @@ describe('selectedLanguageCodes store', () => {
       await allTasks()
 
       expect(localStore.languageCodes.get()).toEqual(['en'])
-      expect(getErrorToastMock).toBeCalledTimes(0)
     })
   })
 
@@ -76,11 +71,8 @@ describe('selectedLanguageCodes store', () => {
       await allTasks()
 
       waitFor(async () => {
-        syncLocalStoreWithLanguageStore()
-
-        const call = addToastMock.mock.calls[0]
-        expect(call[0].type).toBe('success')
-        expect(call[0].title).toBeDefined()
+        const result = await syncLocalStoreWithLanguageStore()
+        expect(result.data).toBeDefined()
       })
     })
   })

@@ -58,19 +58,14 @@ export const DICTIONARIES: TDictionaries = {
         ],
         activeVariant: 'uk',
       },
-      {
-        id: 'en_GoogleTranslate',
-        name: 'Google Translate',
-        url: 'https://translate.google.com/',
-      },
     ],
   },
-  jp: {
+  ja: {
     label: 'Japanese',
-    value: 'jp',
+    value: 'ja',
     dictionaries: [
       {
-        id: 'jp_Jisho',
+        id: 'ja_Jisho',
         name: 'Jisho',
         url: 'https://jisho.org/',
       },
