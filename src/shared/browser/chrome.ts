@@ -1,3 +1,5 @@
+import { TLanguageCode } from '@entities/language'
+
 import { Result } from '@shared/libs/operationResult'
 
 import { PortReceiver } from './port'
@@ -93,6 +95,15 @@ export const chromeBrowser: IBrowser = {
   i18n: {
     getMessage: (key, substitutions) => {
       return chrome.i18n.getMessage(key, substitutions)
+    },
+
+    detectLanguage: async (text: string) => {
+      if (!text) return 'other'
+
+      const detectLanguageResult = await chrome.i18n.detectLanguage(text)
+
+      return (detectLanguageResult.languages[0].language ??
+        'other') as TLanguageCode
     },
   },
 

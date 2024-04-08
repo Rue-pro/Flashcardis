@@ -1,3 +1,5 @@
+import { TLanguageCode } from '@entities/language'
+
 import type { TResult } from '@shared/libs/operationResult'
 
 import { PortReceiver } from '.'
@@ -33,6 +35,8 @@ export interface IBrowser {
 
   i18n: {
     getMessage: (key: string, substitutions?: string | string[]) => string
+
+    detectLanguage: (text: string) => Promise<TLanguageCode>
   }
 
   runtime: {
