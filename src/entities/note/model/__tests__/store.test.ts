@@ -2,16 +2,22 @@ import { allTasks, cleanStores, keepMount } from 'nanostores'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import { Result } from '@shared/libs/operationResult'
-import { getErrorToastMock } from '@shared/ui/Toast/helpers/__mock__/getErrorToast'
-import { addToastMock } from '@shared/ui/Toast/model/__mock__/store'
 
 import { waitFor } from '@tests/testUtils'
 
-import { $notes, NoteStorage, deleteNote, editNote } from '../store'
+import {
+  $notes,
+  NoteStorage,
+  StorageValue,
+  defaultNotes,
+  deleteNote,
+  editNote,
+} from '../store'
 
 describe('note store', () => {
   const languageCode = 'en'
-  const notes = {
+  const notes: StorageValue = {
+    ...defaultNotes,
     en: [
       {
         id: '1',
@@ -30,8 +36,6 @@ describe('note store', () => {
         transcription: 'text',
       },
     ],
-    pt: [],
-    ko: [],
   }
 
   vi.spyOn(NoteStorage, 'get').mockResolvedValue(Result.Success(notes))
@@ -51,20 +55,14 @@ describe('note store', () => {
   describe('deleteNote', () => {
     const noteId = '1'
 
-    test('should set new notes to NoteStorage and show opration success information', async () => {
+    test('should set new notes note to NoteStorage and show operation success information', async () => {
       keepMount($notes)
       await allTasks()
 
       await waitFor(async () => {
-        await deleteNote(languageCode, noteId)
-
+        const result = await deleteNote(languageCode, noteId)
+        expect(result.data).toBeDefined()
         expect($notes.get()[languageCode]).toEqual([])
-
-        const call = addToastMock.mock.calls[0]
-        expect(call[0].type).toBe('success')
-        expect(call[0].title).toBeDefined()
-
-        expect(getErrorToastMock).toBeCalledTimes(0)
       })
     })
 
@@ -73,45 +71,33 @@ describe('note store', () => {
       await allTasks()
 
       await waitFor(async () => {
-        await deleteNote('jp', noteId)
-
+        const result = await deleteNote('jp', noteId)
+        expect(result.data).toBeDefined()
         expect($notes.get()['jp']).toEqual([])
-
-        const call = addToastMock.mock.calls[0]
-        expect(call[0].type).toBe('success')
-        expect(call[0].title).toBeDefined()
-
-        expect(getErrorToastMock).toBeCalledTimes(0)
       })
     })
 
-    test('should show error if can not set to NoteStorage and keep note', async () => {
+    test('should return error if can not set to NoteStorage and keep note', async () => {
       vi.spyOn(NoteStorage, 'set').mockResolvedValueOnce(Result.Error(error))
 
       keepMount($notes)
       await allTasks()
 
       await waitFor(async () => {
-        await deleteNote(languageCode, noteId)
-
+        const result = await deleteNote(languageCode, noteId)
+        expect(result.error).toBeDefined()
         expect($notes.get()[languageCode]).toEqual(notes[languageCode])
-
-        expect(getErrorToastMock).toBeCalledWith(error)
       })
     })
 
-    test('should show error if note not found', async () => {
+    test('should return error if note not found', async () => {
       keepMount($notes)
       await allTasks()
 
       await waitFor(async () => {
-        await deleteNote(languageCode, 'NOT_EXISTING_ID')
-
+        const result = await deleteNote(languageCode, 'NOT_EXISTING_ID')
+        expect(result.error).toBeDefined()
         expect($notes.get()[languageCode]).toEqual(notes[languageCode])
-
-        const call = getErrorToastMock.mock.calls[0]
-        expect(call[0].type).toBe('ERROR_CAN_NOT_FIND_NOTE_TO_DELETE')
-        expect(call[0].error).toBeDefined()
       })
     })
   })
@@ -130,15 +116,9 @@ describe('note store', () => {
       await allTasks()
 
       await waitFor(async () => {
-        await editNote(languageCode, newNote)
-
+        const result = await editNote(languageCode, newNote)
+        expect(result.data).toBeDefined()
         expect($notes.get()[languageCode]).toEqual([newNote])
-
-        const call = addToastMock.mock.calls[0]
-        expect(call[0].type).toBe('success')
-        expect(call[0].title).toBeDefined()
-
-        expect(getErrorToastMock).toBeCalledTimes(0)
       })
     })
 
@@ -147,30 +127,22 @@ describe('note store', () => {
       await allTasks()
 
       await waitFor(async () => {
-        await editNote('jp', newNote)
-
+        const result = await editNote('jp', newNote)
+        expect(result.data).toBeDefined()
         expect($notes.get()['jp']).toEqual([newNote])
-
-        const call = addToastMock.mock.calls[0]
-        expect(call[0].type).toBe('success')
-        expect(call[0].title).toBeDefined()
-
-        expect(getErrorToastMock).toBeCalledTimes(0)
       })
     })
 
-    test('should show error if can not set to NoteStorage and keep previous note', async () => {
+    test('should return error if can not set to NoteStorage and keep previous note', async () => {
       vi.spyOn(NoteStorage, 'set').mockResolvedValueOnce(Result.Error(error))
 
       keepMount($notes)
       await allTasks()
 
       await waitFor(async () => {
-        await editNote(languageCode, newNote)
-
+        const result = await editNote(languageCode, newNote)
+        expect(result.error).toBeDefined()
         expect($notes.get()[languageCode]).toEqual(notes[languageCode])
-
-        expect(getErrorToastMock).toBeCalledWith(error)
       })
     })
 
@@ -179,13 +151,12 @@ describe('note store', () => {
       await allTasks()
 
       await waitFor(async () => {
-        await editNote(languageCode, { ...newNote, id: 'NOT_EXISTING_ID' })
-
+        const result = await editNote(languageCode, {
+          ...newNote,
+          id: 'NOT_EXISTING_ID',
+        })
+        expect(result.error).toBeDefined()
         expect($notes.get()[languageCode]).toEqual(notes[languageCode])
-
-        const call = getErrorToastMock.mock.calls[0]
-        expect(call[0].type).toBe('ERROR_CAN_NOT_FIND_NOTE_TO_EDIT')
-        expect(call[0].error).toBeDefined()
       })
     })
   })

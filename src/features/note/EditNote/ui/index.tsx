@@ -7,6 +7,7 @@ import { INote, noteStore } from '@entities/note'
 import { browser } from '@shared/browser'
 import { Button } from '@shared/ui/Button'
 import { Textarea } from '@shared/ui/Textarea'
+import { addToast, getErrorToast } from '@shared/ui/Toast'
 
 import styles from './styles.module.scss'
 
@@ -34,10 +35,20 @@ export const EditNote = ({
       }))
     }
 
-  const onSubmit: JSXInternal.SubmitEventHandler<HTMLFormElement> = (e) => {
+  const onSubmit: JSXInternal.SubmitEventHandler<HTMLFormElement> = async (
+    e,
+  ) => {
     e.preventDefault()
-    noteStore.editNote(lang, fields)
-    outerOnSubmit()
+
+    const result = await noteStore.editNote(lang, fields)
+    if (result.data) {
+      addToast({
+        type: 'success',
+        title: result.data,
+      })
+      outerOnSubmit()
+    }
+    result.error && addToast(getErrorToast(result.error))
   }
 
   return (

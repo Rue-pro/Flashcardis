@@ -3,6 +3,7 @@ import { noteStore } from '@entities/note'
 
 import { browser } from '@shared/browser'
 import { Button } from '@shared/ui/Button'
+import { addToast, getErrorToast } from '@shared/ui/Toast'
 import { DeleteIcon } from '@shared/ui/icons/DeleteIcon'
 
 interface Props {
@@ -11,11 +12,18 @@ interface Props {
   noteText: string
 }
 
-export const DeleteNote = ({ lang, noteId, noteText }: Props) => (
-  <Button
-    variant="secondary"
-    startIcon={<DeleteIcon />}
-    onClick={() => noteStore.deleteNote(lang, noteId)}
-    aria-label={browser.i18n.getMessage('DELETE_NOTE', noteText)}
-  />
-)
+export const DeleteNote = ({ lang, noteId, noteText }: Props) => {
+  const onDelete = async (lang: TLanguageCode, noteId: string) => {
+    const result = await noteStore.deleteNote(lang, noteId)
+    result.error && addToast(getErrorToast(result.error))
+  }
+
+  return (
+    <Button
+      variant="secondary"
+      startIcon={<DeleteIcon />}
+      onClick={() => onDelete(lang, noteId)}
+      aria-label={browser.i18n.getMessage('DELETE_NOTE', noteText)}
+    />
+  )
+}
