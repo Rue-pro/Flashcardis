@@ -4,6 +4,11 @@ import { useState } from 'preact/hooks'
 import { NoSelectedLanguages } from '@features/language/SelectLanguages'
 import { DeleteNote } from '@features/note/DeleteNote'
 import { EditNote } from '@features/note/EditNote'
+import {
+  $ankiPort,
+  FillFlashcardForm,
+  FillFlashcardFormNotAvailable,
+} from '@features/note/FillFlashcardForm'
 
 import { languageStore } from '@entities/language'
 import { INote, NoNotes, NoteCard, noteStore } from '@entities/note'
@@ -15,6 +20,7 @@ import { Tab, TabPanel, Tabs, TabsList, a11yProps } from '@shared/ui/Tabs'
 import { EditIcon } from '@shared/ui/icons/EditIcon'
 
 export const NoteList = () => {
+  const ankiPort = useStore($ankiPort)
   const languages = useStore(languageStore.$languages)
   const notes = useStore(noteStore.$notes)
 
@@ -23,6 +29,7 @@ export const NoteList = () => {
 
   return (
     <>
+      {!ankiPort && <FillFlashcardFormNotAvailable />}
       {languages.length ? (
         <>
           <Tabs>
@@ -66,6 +73,7 @@ export const NoteList = () => {
                                   noteId={note.id}
                                   noteText={note.text}
                                 />
+                                <FillFlashcardForm note={note} />
                               </>
                             }
                           />

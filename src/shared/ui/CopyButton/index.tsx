@@ -1,6 +1,7 @@
-import { useRef, useState } from 'preact/hooks'
+import { useState } from 'preact/hooks'
 
 import { browser } from '@shared/browser'
+import { useResetAfterDelay } from '@shared/libs/useResetAfterDelay'
 
 import { Button, Props as ButtonProps } from '../Button'
 import { CopyIcon } from '../icons/CopyIcon'
@@ -11,20 +12,15 @@ interface Props extends ButtonProps {
 }
 
 export const CopyButton = ({ text, ...rest }: Props) => {
-  const displayCopySuccessTimeout = useRef<NodeJS.Timeout>()
   const [isCopied, setIsCopied] = useState(false)
-
-  const resetIsCopiedAfterDelay = () => {
-    clearTimeout(displayCopySuccessTimeout.current)
-    displayCopySuccessTimeout.current = setTimeout(() => {
-      setIsCopied(false)
-    }, 1000)
-  }
+  const resetAfterDelay = useResetAfterDelay({
+    reset: () => setIsCopied(false),
+  })
 
   const onCopy = (text: string) => {
     navigator.clipboard.writeText(text)
     setIsCopied(true)
-    resetIsCopiedAfterDelay()
+    resetAfterDelay()
   }
 
   return (
