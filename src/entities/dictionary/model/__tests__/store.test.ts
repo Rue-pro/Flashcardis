@@ -8,7 +8,7 @@ import { Result } from '@shared/libs/operationResult'
 
 import { waitFor } from '@tests/testUtils'
 
-import { DICTIONARIES } from '..'
+import { DICTIONARIES } from '../dictionaries'
 import { $dictionaries, DictionaryStorage, selectVariant } from '../store'
 import { TDictionaries } from '../types'
 
