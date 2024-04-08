@@ -5,6 +5,7 @@ import {
 } from '@entities/dictionary'
 
 import { Button } from '@shared/ui/Button'
+import { addToast } from '@shared/ui/Toast'
 
 import styles from './styles.module.scss'
 
@@ -13,6 +14,16 @@ interface GroupProps {
 }
 
 export const SelectDictionaryVariant = ({ dictionary }: GroupProps) => {
+  const onSelectVariant = async (variant: string) => {
+    const result = await dictionaryStore.selectVariant(
+      'en',
+      dictionary.id,
+      variant,
+    )
+
+    result.error && addToast({ title: result.error.type, type: 'error' })
+  }
+
   return (
     <ul className={`${styles.variants}`}>
       {dictionary.variants.map((variant) => {
@@ -25,13 +36,7 @@ export const SelectDictionaryVariant = ({ dictionary }: GroupProps) => {
             actions={
               <Button
                 disabled={isActive}
-                onClick={() =>
-                  dictionaryStore.selectVariant(
-                    'en',
-                    dictionary.id,
-                    variant.value,
-                  )
-                }
+                onClick={() => onSelectVariant(variant.value)}
               >
                 {isActive
                   ? `${variant.label} version is used`
