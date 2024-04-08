@@ -2,6 +2,8 @@ import { atom } from 'nanostores'
 
 import { TLanguageCode, languageStore } from '@entities/language'
 
+import { TResult } from '@shared/libs/operationResult'
+
 let defaultValue: TLanguageCode[] = []
 
 export const localStore = {
@@ -38,6 +40,6 @@ export const reset = () => {
   localStore.languageCodes.set(defaultValue)
 }
 
-export const syncLocalStoreWithLanguageStore = () => {
-  languageStore.select(localStore.languageCodes.get())
+export const syncLocalStoreWithLanguageStore = (): Promise<TResult> => {
+  return languageStore.select(localStore.languageCodes.get())
 }

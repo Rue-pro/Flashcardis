@@ -4,7 +4,7 @@ import { ILanguage, TLanguageCode } from '@entities/language'
 import { getStorage } from '@entities/storage'
 
 import { browser } from '@shared/browser'
-import { addToast, getErrorToast } from '@shared/ui/Toast'
+import { Result, TResult } from '@shared/libs/operationResult'
 
 import { LANGUAGES } from './languages'
 
@@ -17,27 +17,28 @@ export const $languages = atom<StorageValue>(LANGUAGES)
 onMount($languages, () => {
   task(async () => {
     const getResult = await LanguageStorage.get()
-    if (getResult.data) {
-      $languages.set(getResult.data)
-    } else {
-      addToast(getErrorToast(getResult.error))
-    }
+    getResult.data && $languages.set(getResult.data)
   })
+
+  const listener = LanguageStorage.onChanged.addListener((changes) => {
+    changes.data && $languages.set(changes.data.newValue)
+  })
+
+  return () => {
+    LanguageStorage.onChanged.removeListener(listener)
+  }
 })
 
-export const select = async (languageCodes: TLanguageCode[]) => {
+export const select = async (
+  languageCodes: TLanguageCode[],
+): Promise<TResult> => {
   const filteredLanguages = LANGUAGES.filter((language) =>
     languageCodes.includes(language.value),
   )
 
   const setResult = await LanguageStorage.set(filteredLanguages)
-  if (setResult.data) {
-    $languages.set(filteredLanguages)
-    addToast({
-      type: 'success',
-      title: browser.i18n.getMessage('SELECTED_LANGUAGES_SAVED'),
-    })
-  } else {
-    addToast(getErrorToast(setResult.error))
-  }
+
+  return setResult.data
+    ? Result.Success(browser.i18n.getMessage('SELECTED_LANGUAGES_SAVED'))
+    : setResult
 }

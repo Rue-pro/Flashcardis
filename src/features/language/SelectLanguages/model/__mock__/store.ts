@@ -1,5 +1,7 @@
 import { MockedFunction, vi } from 'vitest'
 
+import { Result } from '@shared/libs/operationResult'
+
 import {
   checkIsSelected,
   reset,
@@ -9,7 +11,7 @@ import {
 
 export const syncLocalStoreWithLanguageStoreMock: MockedFunction<
   typeof syncLocalStoreWithLanguageStore
-> = vi.fn()
+> = vi.fn(() => Promise.resolve(Result.Success('success')))
 
 export const resetMock: MockedFunction<typeof reset> = vi.fn()
 

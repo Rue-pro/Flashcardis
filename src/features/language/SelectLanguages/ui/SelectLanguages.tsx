@@ -5,6 +5,7 @@ import { ILanguage } from '@entities/language'
 
 import { browser } from '@shared/browser'
 import { Button } from '@shared/ui/Button'
+import { addToast, getErrorToast } from '@shared/ui/Toast'
 
 import {
   checkIsSelected,
@@ -20,9 +21,18 @@ interface Props {
 
 export const SelectLanguages = ({ languages }: Props) => {
   useStore(localStore.languageCodes)
-  const onSubmit: JSXInternal.SubmitEventHandler<HTMLFormElement> = (e) => {
+
+  const onSubmit: JSXInternal.SubmitEventHandler<HTMLFormElement> = async (
+    e,
+  ) => {
     e.preventDefault()
-    syncLocalStoreWithLanguageStore()
+    const result = await syncLocalStoreWithLanguageStore()
+    result.data &&
+      addToast({
+        type: 'success',
+        title: result.data,
+      })
+    result.error && addToast(getErrorToast(result.error))
   }
 
   return (

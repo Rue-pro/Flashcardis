@@ -2,8 +2,6 @@ import { allTasks, cleanStores, keepMount } from 'nanostores'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import { Result } from '@shared/libs/operationResult'
-import { getErrorToastMock } from '@shared/ui/Toast/helpers/__mock__/getErrorToast'
-import { addToastMock } from '@shared/ui/Toast/model/__mock__/store'
 
 import { waitFor } from '@tests/testUtils'
 
@@ -31,7 +29,6 @@ describe('languages store', () => {
       await allTasks()
 
       expect($languages.get()).toEqual([language])
-      expect(getErrorToastMock).toBeCalledTimes(0)
     })
 
     test('should set empty array and show toast with error when LanguagesStorage returns error', async () => {
@@ -43,7 +40,6 @@ describe('languages store', () => {
       await allTasks()
 
       expect($languages.get()).toEqual([])
-      expect(getErrorToastMock).toBeCalledWith(error)
     })
   })
 
@@ -55,11 +51,8 @@ describe('languages store', () => {
       await allTasks()
 
       waitFor(async () => {
-        select([])
-
-        const call = addToastMock.mock.calls[0]
-        expect(call[0].type).toBe('success')
-        expect(call[0].title).toBeDefined()
+        const result = await select([])
+        expect(result.error).toBeDefined()
       })
     })
 
@@ -70,9 +63,8 @@ describe('languages store', () => {
       await allTasks()
 
       waitFor(async () => {
-        select([])
-
-        expect(getErrorToastMock).toBeCalledWith(error)
+        const result = await select([])
+        expect(result.error).toBeDefined()
       })
     })
   })
