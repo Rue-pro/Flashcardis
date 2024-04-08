@@ -32,7 +32,7 @@ export const Modal = ({ open, children, onClose }: Props) => {
         className={styles['modal__close-btn']}
         onClick={onClose}
         startIcon={<ClearIcon />}
-        capture={browser.i18n.getMessage('close')}
+        capture={browser.i18n.getMessage('CLOSE')}
       ></Button>
       {children}
     </dialog>,
