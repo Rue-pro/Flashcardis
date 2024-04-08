@@ -1,18 +1,18 @@
 import { atom, onMount, task } from 'nanostores'
 
 import { ILanguage, TLanguageCode } from '@entities/language'
-import { Storage } from '@entities/storage'
+import { getStorage } from '@entities/storage'
 
 import { browser } from '@shared/browser'
 import { addToast, getErrorToast } from '@shared/ui/Toast'
 
 import { LANGUAGES } from './languages'
 
-type Languages = ILanguage[]
+type StorageValue = ILanguage[]
 
-export const LanguageStorage = new Storage<Languages>('languages', LANGUAGES)
+export const LanguageStorage = getStorage<StorageValue>('languages', LANGUAGES)
 
-export const $languages = atom<Languages>(LANGUAGES)
+export const $languages = atom<StorageValue>(LANGUAGES)
 
 onMount($languages, () => {
   task(async () => {

@@ -1,7 +1,7 @@
 import { atom, onMount, task } from 'nanostores'
 
 import { TLanguageCode } from '@entities/language'
-import { Storage } from '@entities/storage'
+import { getStorage } from '@entities/storage'
 
 import { browser } from '@shared/browser'
 import { Result } from '@shared/libs/operationResult'
@@ -9,19 +9,18 @@ import { addToast, getErrorToast } from '@shared/ui/Toast'
 
 import { INote } from './types'
 
-const defaultNotes: Record<TLanguageCode, INote[]> = {
+export type StorageValue = Record<TLanguageCode, INote[]>
+
+const defaultNotes: StorageValue = {
   en: [],
   jp: [],
   pt: [],
   ko: [],
 }
 
-export const NoteStorage = new Storage<Record<TLanguageCode, INote[]>>(
-  `notes`,
-  defaultNotes,
-)
+export const NoteStorage = getStorage<StorageValue>(`notes`, defaultNotes)
 
-export const $notes = atom<Record<TLanguageCode, INote[]>>(defaultNotes)
+export const $notes = atom<StorageValue>(defaultNotes)
 
 onMount($notes, () => {
   task(async () => {
