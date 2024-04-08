@@ -114,7 +114,11 @@ describe('browser', () => {
             })
           })
 
-          chromeBrowser.storage.local.onChanged(KEY, callback, defaultValue)
+          chromeBrowser.storage.local.onChanged.addListener(
+            KEY,
+            callback,
+            defaultValue,
+          )
 
           expect(callback).toHaveBeenCalledWith(
             Result.Success({ newValue, oldValue }),
@@ -136,7 +140,11 @@ describe('browser', () => {
             })
           })
 
-          chromeBrowser.storage.local.onChanged(KEY, callback, defaultValue)
+          chromeBrowser.storage.local.onChanged.addListener(
+            KEY,
+            callback,
+            defaultValue,
+          )
 
           expect(callback).toHaveBeenCalledTimes(2)
 
@@ -170,7 +178,11 @@ describe('browser', () => {
             })
           })
 
-          chromeBrowser.storage.local.onChanged(KEY, callback, defaultValue)
+          chromeBrowser.storage.local.onChanged.addListener(
+            KEY,
+            callback,
+            defaultValue,
+          )
 
           const call = callback.mock.calls[0]
           expect(call[0].data).toBeNull()
