@@ -27,7 +27,6 @@ export const chromeMock = {
       onChanged: {
         addListener: vi.fn(),
         removeListener: vi.fn(),
-        hasListener: vi.fn(),
       },
 
       clear: vi.fn((cb) => {

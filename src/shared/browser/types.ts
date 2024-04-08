@@ -9,16 +9,25 @@ export interface IBrowser {
 
       set: <Data>(key: string, value: Data) => Promise<TResult<true>>
 
-      onChanged: <Data>(
-        key: string,
-        callback: (
-          changes: TResult<{
-            newValue: Data
-            oldValue: Data
-          }>,
-        ) => void,
-        defaultValue: Data,
-      ) => void
+      onChanged: {
+        addListener: <Data>(
+          key: string,
+          callback: (
+            changes: TResult<{
+              newValue: Data
+              oldValue: Data
+            }>,
+          ) => void,
+          defaultValue: Data,
+        ) => (changes: {
+          [key: string]: { newValue?: Data; oldValue?: Data }
+        }) => void
+        removeListener: <Data>(
+          callback: (changes: {
+            [key: string]: { newValue?: Data; oldValue?: Data }
+          }) => void,
+        ) => void
+      }
     }
   }
 
@@ -33,9 +42,15 @@ export interface IBrowser {
   }
 
   tabs: {
-    getActiveTab: () => Promise<TResult<ITab>>
+    getActiveTab: () => Promise<TResult<TTab>>
   }
 }
 
-export type ITab = { id: number; url: string }
-export type IActiveTabInfo = { tabId: number }
+export type TTab = { id: number; url: string }
+export type TActiveTabInfo = { tabId: number }
+export type TOnChangeListener<Value = unknown> = (changes: {
+  [key: string]: {
+    newValue?: Value
+    oldValue?: Value
+  }
+}) => void

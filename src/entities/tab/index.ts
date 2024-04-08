@@ -1,9 +1,9 @@
 import { atom, onMount, task } from 'nanostores'
 
-import { ITab, browser } from '@shared/browser'
+import { TTab, browser } from '@shared/browser'
 import { addToast, getErrorToast } from '@shared/ui/Toast'
 
-export const $activeTab = atom<ITab | null>(null)
+export const $activeTab = atom<TTab | null>(null)
 
 onMount($activeTab, () => {
   task(async () => {

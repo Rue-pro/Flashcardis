@@ -1,7 +1,7 @@
 import { Result } from '@shared/libs/operationResult'
 
 import { PortReceiver } from './port'
-import { IBrowser } from './types'
+import { IBrowser, TOnChangeListener } from './types'
 
 export const chromeBrowser: IBrowser = {
   storage: {
@@ -46,39 +46,46 @@ export const chromeBrowser: IBrowser = {
         })
       },
 
-      onChanged: (key, callback, defaultValue) => {
-        chrome.storage.local.onChanged.addListener((changes) => {
-          if (changes[key]) {
-            let oldValue = defaultValue
-            try {
-              oldValue = JSON.parse(changes[key].oldValue)
-            } catch (error) {
-              callback(
-                Result.Error({
-                  type: `ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE`,
-                  error: error instanceof Error ? error : null,
-                }),
-              )
-            }
+      onChanged: {
+        addListener: (key, callback, defaultValue) => {
+          const listener: TOnChangeListener = (changes) => {
+            if (changes[key]) {
+              let oldValue = defaultValue
+              try {
+                oldValue = JSON.parse(changes[key].oldValue as string)
+              } catch (error) {
+                callback(
+                  Result.Error({
+                    type: `ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE`,
+                    error: error instanceof Error ? error : null,
+                  }),
+                )
+              }
 
-            try {
-              const newValue = JSON.parse(changes[key].newValue)
-              callback(
-                Result.Success({
-                  newValue: newValue,
-                  oldValue: oldValue,
-                }),
-              )
-            } catch (error) {
-              callback(
-                Result.Error({
-                  type: `ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE`,
-                  error: error instanceof Error ? error : null,
-                }),
-              )
+              try {
+                const newValue = JSON.parse(changes[key].newValue as string)
+                callback(
+                  Result.Success({
+                    newValue: newValue,
+                    oldValue: oldValue,
+                  }),
+                )
+              } catch (error) {
+                callback(
+                  Result.Error({
+                    type: `ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE`,
+                    error: error instanceof Error ? error : null,
+                  }),
+                )
+              }
             }
           }
-        })
+          chrome.storage.local.onChanged.addListener(listener)
+          return listener
+        },
+        removeListener: (listener) => {
+          chrome.storage.local.onChanged.removeListener(listener)
+        },
       },
     },
   },
