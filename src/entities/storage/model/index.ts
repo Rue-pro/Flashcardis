@@ -1,1 +1,1 @@
-export { Storage } from './Storage'
+export { getStorage } from './Storage'

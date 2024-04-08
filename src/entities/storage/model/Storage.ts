@@ -1,35 +1,40 @@
-import { browser } from '@shared/browser'
+import { TOnChangeListenerProps, browser } from '@shared/browser'
 import { TResult } from '@shared/libs/operationResult'
 
-export class Storage<StorageValue> {
-  key: string
-  defaultValue: StorageValue
+export const getStorage = <StorageValue>(
+  key: string,
+  defaultValue: StorageValue,
+) => {
+  return {
+    get() {
+      return browser.storage.local.get<StorageValue>(key, defaultValue)
+    },
 
-  constructor(key: string, defaultValue: StorageValue) {
-    this.key = key
-    this.defaultValue = defaultValue
-  }
+    set(value: StorageValue) {
+      return browser.storage.local.set(key, value)
+    },
 
-  get() {
-    return browser.storage.local.get<StorageValue>(this.key, this.defaultValue)
-  }
+    onChanged: {
+      addListener(
+        callback: (
+          changes: TResult<{
+            newValue: StorageValue
+            oldValue: StorageValue
+          }>,
+        ) => void,
+      ) {
+        return browser.storage.local.onChanged.addListener<StorageValue>(
+          key,
+          callback,
+          defaultValue,
+        )
+      },
 
-  set(value: StorageValue) {
-    return browser.storage.local.set<StorageValue>(this.key, value)
-  }
-
-  onChanged(
-    callback: (
-      changes: TResult<{
-        newValue: StorageValue
-        oldValue: StorageValue
-      }>,
-    ) => void,
-  ) {
-    browser.storage.local.onChanged<StorageValue>(
-      this.key,
-      callback,
-      this.defaultValue,
-    )
+      removeListener(
+        listener: (changes: TOnChangeListenerProps<StorageValue>) => void,
+      ) {
+        browser.storage.local.onChanged.removeListener<StorageValue>(listener)
+      },
+    },
   }
 }

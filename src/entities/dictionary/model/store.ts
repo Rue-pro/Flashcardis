@@ -1,7 +1,7 @@
 import { atom, onMount, task } from 'nanostores'
 
 import { TLanguageCode } from '@entities/language'
-import { Storage } from '@entities/storage'
+import { getStorage } from '@entities/storage'
 
 import { browser } from '@shared/browser'
 import { Result } from '@shared/libs/operationResult'
@@ -10,12 +10,14 @@ import { addToast, getErrorToast } from '@shared/ui/Toast'
 import { DICTIONARIES } from './dictionaries'
 import { TDictionaries } from './types'
 
-export const DictionaryStorage = new Storage<TDictionaries>(
+type StorageValue = TDictionaries
+
+export const DictionaryStorage = getStorage<StorageValue>(
   'dictionaries',
   DICTIONARIES,
 )
 
-export const $dictionaries = atom<TDictionaries>(DICTIONARIES)
+export const $dictionaries = atom<StorageValue>(DICTIONARIES)
 
 onMount($dictionaries, () => {
   task(async () => {
