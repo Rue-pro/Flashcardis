@@ -27,7 +27,7 @@ describe('note store', () => {
         transcription: 'text',
       },
     ],
-    jp: [
+    ja: [
       {
         id: '1',
         text: 'text',
@@ -71,9 +71,9 @@ describe('note store', () => {
       await allTasks()
 
       await waitFor(async () => {
-        const result = await deleteNote('jp', noteId)
+        const result = await deleteNote('ja', noteId)
         expect(result.data).toBeDefined()
-        expect($notes.get()['jp']).toEqual([])
+        expect($notes.get()['ja']).toEqual([])
       })
     })
 
@@ -127,9 +127,9 @@ describe('note store', () => {
       await allTasks()
 
       await waitFor(async () => {
-        const result = await editNote('jp', newNote)
+        const result = await editNote('ja', newNote)
         expect(result.data).toBeDefined()
-        expect($notes.get()['jp']).toEqual([newNote])
+        expect($notes.get()['ja']).toEqual([newNote])
       })
     })
 
