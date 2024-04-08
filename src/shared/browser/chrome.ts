@@ -3,7 +3,7 @@ import { TLanguageCode } from '@entities/language'
 import { Result } from '@shared/libs/operationResult'
 
 import { PortReceiver } from './port'
-import { IBrowser, TOnChangeListener } from './types'
+import { IBrowser, TOnChangeListenerProps } from './types'
 
 export const chromeBrowser: IBrowser = {
   storage: {
@@ -50,7 +50,7 @@ export const chromeBrowser: IBrowser = {
 
       onChanged: {
         addListener: (key, callback, defaultValue) => {
-          const listener: TOnChangeListener = (changes) => {
+          const listener = (changes: TOnChangeListenerProps) => {
             if (changes[key]) {
               let oldValue = defaultValue
               try {

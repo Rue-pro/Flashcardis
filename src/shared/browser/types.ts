@@ -52,9 +52,9 @@ export interface IBrowser {
 
 export type TTab = { id: number; url: string }
 export type TActiveTabInfo = { tabId: number }
-export type TOnChangeListener<Value = unknown> = (changes: {
+export type TOnChangeListenerProps<Value = unknown> = {
   [key: string]: {
     newValue?: Value
     oldValue?: Value
   }
-}) => void
+}
