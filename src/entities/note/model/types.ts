@@ -5,3 +5,10 @@ export interface INote {
   context?: string
   transcription?: string
 }
+
+export interface INoteSelectors {
+  text: string
+  translation: string
+  context: string
+  transcription: string
+}
