@@ -139,4 +139,14 @@ export const chromeBrowser: IBrowser = {
       })
     },
   },
+
+  contextMenus: {
+    create: chrome.contextMenus.create,
+
+    onClicked: {
+      addListener: chrome.contextMenus.onClicked.addListener,
+    },
+
+    removeAll: chrome.contextMenus.removeAll,
+  },
 }

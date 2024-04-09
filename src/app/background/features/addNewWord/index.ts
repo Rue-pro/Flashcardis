@@ -1,17 +1,17 @@
 import { TLanguageCode, getLanguageCodeByPageUrl } from '@entities/language'
 import { noteStore } from '@entities/note'
 
-import { browser } from '@shared/browser'
+import { TOnClickContextMenuInfoProps, browser } from '@shared/browser'
 
 export const addNewWord = (parentId: string) => {
-  chrome.contextMenus.create({
+  browser.contextMenus.create({
     title: 'CONTEXT_MENU_ADD_NEW_WORD',
     id: 'new_word',
     parentId: parentId,
     contexts: ['selection'],
   })
 
-  const handleClick = async (info: chrome.contextMenus.OnClickData) => {
+  const handleClick = async (info: TOnClickContextMenuInfoProps) => {
     if (info.menuItemId === 'new_word') {
       let finalLanguageCode: TLanguageCode = 'other'
       const languageCode = getLanguageCodeByPageUrl(info.pageUrl)
@@ -27,5 +27,5 @@ export const addNewWord = (parentId: string) => {
     }
   }
 
-  chrome.contextMenus.onClicked.addListener(handleClick)
+  browser.contextMenus.onClicked.addListener(handleClick)
 }

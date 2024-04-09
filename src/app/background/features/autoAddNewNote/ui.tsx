@@ -9,7 +9,12 @@ import {
 import { errorStore } from '@entities/error'
 import { noteStore } from '@entities/note'
 
-import { PortEmitter } from '@shared/browser'
+import {
+  PortEmitter,
+  TOnClickContextMenuInfoProps,
+  TOnClickContextMenuTabProps,
+  browser,
+} from '@shared/browser'
 
 import {
   getLanguageFromPage,
@@ -23,7 +28,7 @@ import {
 const $dictionaryPorts = map<Record<string, PortEmitter>>()
 
 export const autoAddNewNote = (parentId: string) => {
-  chrome.contextMenus.create({
+  browser.contextMenus.create({
     title: 'CONTEXT_MENU_ADD_NOTE_AUTOMATICALLY',
     id: 'auto_new_note',
     parentId: parentId,
@@ -32,8 +37,8 @@ export const autoAddNewNote = (parentId: string) => {
   })
 
   const handleClick = async (
-    info: chrome.contextMenus.OnClickData,
-    tab?: chrome.tabs.Tab,
+    info: TOnClickContextMenuInfoProps,
+    tab?: TOnClickContextMenuTabProps,
   ) => {
     if (info.menuItemId === 'auto_new_note') {
       if (!tab?.id) return
@@ -87,7 +92,7 @@ export const autoAddNewNote = (parentId: string) => {
     }
   }
 
-  chrome.contextMenus.onClicked.addListener(handleClick)
+  browser.contextMenus.onClicked.addListener(handleClick)
 }
 
 function createDictionaryPort(
