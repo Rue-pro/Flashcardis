@@ -126,14 +126,14 @@ export const DICTIONARIES: TDictionaries = {
     value: 'pt',
     dictionaries: [
       {
-        id: 'jp_Jisho',
-        name: 'Jisho',
-        url: 'https://jisho.org/',
+        id: 'pt_Wordreference',
+        name: 'Wordreference',
+        url: 'https://www.wordreference.com/pten/',
         selectors: {
-          text: '.furigana .kanji',
-          transcription: '.meaning-meaning',
-          context: 'sentence .japanese',
-          translation: '.meaning-meaning',
+          text: '.even.FrWrd',
+          transcription: '',
+          context: '',
+          translation: '.even.FrWrd',
         },
       },
     ],
@@ -143,14 +143,14 @@ export const DICTIONARIES: TDictionaries = {
     value: 'ko',
     dictionaries: [
       {
-        id: 'jp_Jisho',
+        id: 'ko_NaverDictionary',
         name: 'Jisho',
-        url: 'https://jisho.org/',
+        url: 'https://korean.dict.naver.com/koendict',
         selectors: {
-          text: '.furigana .kanji',
-          transcription: '.meaning-meaning',
-          context: 'sentence .japanese',
-          translation: '.meaning-meaning',
+          text: '.highlight',
+          transcription: '',
+          context: '',
+          translation: '.u_word_dic',
         },
       },
     ],
