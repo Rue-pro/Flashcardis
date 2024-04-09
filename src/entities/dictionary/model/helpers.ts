@@ -43,7 +43,7 @@ export const getSelectorsFromDictionary = (
   return dictionary.selectors
 }
 
-const getDictionariesUrls = (): string[] => {
+export const getDictionariesUrls = (): string[] => {
   const urls: string[] = []
   const languages = Object.entries(DICTIONARIES)
 
@@ -66,5 +66,3 @@ const getDictionariesUrls = (): string[] => {
 
   return urls
 }
-
-export const dictionariesUrls = getDictionariesUrls()

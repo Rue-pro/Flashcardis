@@ -2,7 +2,7 @@ import { map } from 'nanostores'
 
 import {
   GOOGLE_TRANSLATE,
-  dictionariesUrls,
+  getDictionariesUrls,
   getDictionaryByPageUrl,
   getSelectorsFromDictionary,
 } from '@entities/dictionary'
@@ -28,7 +28,7 @@ export const autoAddNewNote = (parentId: string) => {
     id: 'auto_new_note',
     parentId: parentId,
     contexts: ['page'],
-    documentUrlPatterns: dictionariesUrls,
+    documentUrlPatterns: getDictionariesUrls(),
   })
 
   const handleClick = async (
