@@ -1,6 +1,6 @@
-import { IConnectionProps, IPort } from './types'
+import { IConnectionProps, IPortEmitter, IPortReceiver } from './types'
 
-export class ChromePortEmitter implements IPort {
+export class ChromePortEmitter implements IPortEmitter {
   name: string
 
   private browserPort: chrome.runtime.Port | null
@@ -48,7 +48,7 @@ export class ChromePortEmitter implements IPort {
   }
 }
 
-export class ChromePortReceiver implements IPort {
+export class ChromePortReceiver implements IPortReceiver {
   name: string
   private browserPort: chrome.runtime.Port | null
 

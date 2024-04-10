@@ -1,9 +1,9 @@
+import { browser } from '@background/shared/browser'
+
 import { addNewWord } from '@background/features/addNewWord'
 import { autoAddNewNote } from '@background/features/autoAddNewNote'
 
 import { $notes } from '@shared/entities/note/model/store'
-
-import { browser } from '@shared/shared/browser'
 
 const PARENT_ID = 'CONTEXT_MENU_ROOT'
 

@@ -1,7 +1,7 @@
 import { TLanguageCode } from '@shared/entities/language'
 import { INote, INoteSelectors } from '@shared/entities/note'
 
-import { PortEmitter, PortReceiver } from '@shared/shared/browser'
+import { IPortEmitter, IPortReceiver } from '@shared/shared/browser/port'
 
 interface Request {
   message: 'GET_NOTE_FROM_DICTIONARY_PAGE'
@@ -17,7 +17,7 @@ interface Response {
 }
 
 export const getNoteFromDictionaryPage = async (
-  port: PortEmitter,
+  port: IPortEmitter,
   lang: TLanguageCode,
   selectors: INoteSelectors,
 ) => {
@@ -28,7 +28,7 @@ export const getNoteFromDictionaryPage = async (
 }
 
 export const getNoteFromDictionaryPageHandler = async (
-  port: PortReceiver,
+  port: IPortReceiver,
   callback: (selectors: INoteSelectors) => Omit<INote, 'id'>,
 ) => {
   port.onMessage<Request>((request) => {
@@ -44,7 +44,7 @@ export const getNoteFromDictionaryPageHandler = async (
 }
 
 export const getNoteFromDictionaryPageResult = async (
-  port: PortEmitter,
+  port: IPortEmitter,
   callback: (response: Response['data']) => void,
 ) => {
   port.onMessage<Response>((response) => {

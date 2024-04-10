@@ -3,9 +3,12 @@ export interface IConnectionProps {
   connectInfo: { name: string }
 }
 
-export interface IPort {
+interface IPort {
   name: string
   onMessage: <T>(callback: (msg: T) => void) => void
   postMessage: <T>(_msg: T) => void
   onDisconnect: (callback: () => void) => void
 }
+
+export type IPortEmitter = IPort
+export type IPortReceiver = IPort

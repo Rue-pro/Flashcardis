@@ -2,7 +2,8 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import { Result } from '@shared/shared/libs/operationResult'
 
-import { chromeBrowser } from '../chrome'
+import { i18n } from '../i18n'
+import { storage } from '../storage'
 
 describe('browser', () => {
   describe('storage', () => {
@@ -31,10 +32,7 @@ describe('browser', () => {
             },
           )
 
-          const getResult = await chromeBrowser.storage.local.get(
-            KEY,
-            defaultValue,
-          )
+          const getResult = await storage.get(KEY, defaultValue)
 
           expect(getResult.data).toBeNull()
           expect(getResult.error).toMatchObject({
@@ -43,53 +41,34 @@ describe('browser', () => {
         })
 
         test('should get default value if storage is empty', async () => {
-          const getResult = await chromeBrowser.storage.local.get(
-            KEY,
-            defaultValue,
-          )
+          const getResult = await storage.get(KEY, defaultValue)
 
           expect(getResult).toEqual(Result.Success(defaultValue))
         })
 
         test('should get previously setted data', async () => {
-          const setResult =
-            await chromeBrowser.storage.local.set<TStorageValue>(
-              KEY,
-              storedValue,
-            )
+          const setResult = await storage.set<TStorageValue>(KEY, storedValue)
 
           expect(setResult).toEqual(Result.Success(true))
 
-          const getResult = await chromeBrowser.storage.local.get(
-            KEY,
-            defaultValue,
-          )
+          const getResult = await storage.get(KEY, defaultValue)
 
           expect(getResult).toEqual(Result.Success(storedValue))
         })
 
         test('should not set data to the storage if data is not valid', async () => {
-          let setResult = await chromeBrowser.storage.local.set<TStorageValue>(
-            KEY,
-            storedValue,
-          )
+          let setResult = await storage.set<TStorageValue>(KEY, storedValue)
 
           expect(setResult).toEqual(Result.Success(true))
 
-          setResult = await chromeBrowser.storage.local.set<TStorageValue>(
-            KEY,
-            circularValue,
-          )
+          setResult = await storage.set<TStorageValue>(KEY, circularValue)
 
           expect(setResult.data).toBeNull()
           expect(setResult.error).toMatchObject({
             type: 'ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE',
           })
 
-          const getResult = await chromeBrowser.storage.local.get(
-            KEY,
-            defaultValue,
-          )
+          const getResult = await storage.get(KEY, defaultValue)
 
           expect(getResult).toEqual(Result.Success(storedValue))
         })
@@ -114,11 +93,7 @@ describe('browser', () => {
             })
           })
 
-          chromeBrowser.storage.local.onChanged.addListener(
-            KEY,
-            callback,
-            defaultValue,
-          )
+          storage.onChanged.addListener(KEY, callback, defaultValue)
 
           expect(callback).toHaveBeenCalledWith(
             Result.Success({ newValue, oldValue }),
@@ -140,11 +115,7 @@ describe('browser', () => {
             })
           })
 
-          chromeBrowser.storage.local.onChanged.addListener(
-            KEY,
-            callback,
-            defaultValue,
-          )
+          storage.onChanged.addListener(KEY, callback, defaultValue)
 
           expect(callback).toHaveBeenCalledTimes(2)
 
@@ -178,11 +149,7 @@ describe('browser', () => {
             })
           })
 
-          chromeBrowser.storage.local.onChanged.addListener(
-            KEY,
-            callback,
-            defaultValue,
-          )
+          storage.onChanged.addListener(KEY, callback, defaultValue)
 
           const call = callback.mock.calls[0]
           expect(call[0].data).toBeNull()
@@ -198,7 +165,7 @@ describe('browser', () => {
     test('should return the message for the given key', () => {
       const KEY = 'testKey'
 
-      const message = chromeBrowser.i18n.getMessage(KEY)
+      const message = i18n.getMessage(KEY)
 
       expect(message).toEqual(`Translated<${KEY}>`)
     })

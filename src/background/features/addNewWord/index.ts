@@ -1,10 +1,12 @@
+import { browser } from '@background/shared/browser'
+import { TOnClickContextMenuInfoProps } from '@background/shared/browser/contextMenus'
+
 import {
   TLanguageCode,
   getLanguageCodeByPageUrl,
 } from '@shared/entities/language'
+import { $languages } from '@shared/entities/language/model/store'
 import { noteStore } from '@shared/entities/note'
-
-import { TOnClickContextMenuInfoProps, browser } from '@shared/shared/browser'
 
 export const addNewWord = (parentId: string) => {
   browser.contextMenus.create({
@@ -23,7 +25,10 @@ export const addNewWord = (parentId: string) => {
       finalLanguageCode =
         languageCode !== 'other'
           ? languageCode
-          : await browser.i18n.detectLanguage(text)
+          : await browser.i18n.detectLanguage(
+              text,
+              $languages.get().map((language) => language.value),
+            )
 
       noteStore.addNote(finalLanguageCode, { text })
       // !TODO show toast that note is added

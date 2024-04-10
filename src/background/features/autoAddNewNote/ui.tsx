@@ -1,3 +1,8 @@
+import { browser } from '@background/shared/browser'
+import {
+  TOnClickContextMenuInfoProps,
+  TOnClickContextMenuTabProps,
+} from '@background/shared/browser/contextMenus/types'
 import { map } from 'nanostores'
 
 import {
@@ -9,12 +14,8 @@ import {
 import { addError } from '@shared/entities/error'
 import { noteStore } from '@shared/entities/note'
 
-import {
-  PortEmitter,
-  TOnClickContextMenuInfoProps,
-  TOnClickContextMenuTabProps,
-  browser,
-} from '@shared/shared/browser'
+import { PortEmitter } from '@shared/shared/browser/port'
+import { IPortEmitter } from '@shared/shared/browser/port/types'
 
 import {
   getLanguageFromPage,
@@ -25,7 +26,7 @@ import {
   getNoteFromDictionaryPageResult,
 } from './api/getNoteFromDictionary'
 
-const $dictionaryPorts = map<Record<string, PortEmitter>>()
+const $dictionaryPorts = map<Record<string, IPortEmitter>>()
 
 export const autoAddNewNote = (parentId: string) => {
   browser.contextMenus.create({
@@ -98,7 +99,7 @@ export const autoAddNewNote = (parentId: string) => {
 function createDictionaryPort(
   tabId: number,
   dictionaryId: string,
-): PortEmitter {
+): IPortEmitter {
   let dictionaryPort = $dictionaryPorts.get()[dictionaryId]
 
   if (!dictionaryPort) {

@@ -1,6 +1,6 @@
 import { TLanguageCode } from '@shared/entities/language'
 
-import { PortEmitter, PortReceiver } from '@shared/shared/browser'
+import { IPortEmitter, IPortReceiver } from '@shared/shared/browser/port'
 
 interface Request {
   message: 'GET_LANGUAGE_FROM_PAGE'
@@ -11,14 +11,14 @@ interface Response {
   data: TLanguageCode
 }
 
-export const getLanguageFromPage = async (port: PortEmitter) => {
+export const getLanguageFromPage = async (port: IPortEmitter) => {
   port.postMessage<Request>({
     message: 'GET_LANGUAGE_FROM_PAGE',
   })
 }
 
 export const getLanguageFromPageHandler = async (
-  port: PortReceiver,
+  port: IPortReceiver,
   callback: () => TLanguageCode,
 ) => {
   port.onMessage<Request>((request) => {
@@ -34,7 +34,7 @@ export const getLanguageFromPageHandler = async (
 }
 
 export const getLanguageFromPageResult = async (
-  port: PortEmitter,
+  port: IPortEmitter,
   callback: (response: Response['data']) => void,
 ) => {
   port.onMessage<Response>((response) => {

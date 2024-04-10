@@ -1,12 +1,11 @@
-import { chromeBrowser } from './chrome'
-import type { IBrowser } from './types'
+import { i18n } from './i18n'
+import { runtime } from './runtime'
+import { storage } from './storage'
+import { tabs } from './tabs'
 
-export const browser: IBrowser = chromeBrowser
-
-export type {
-  TTab,
-  TOnChangeListenerProps,
-  TOnClickContextMenuInfoProps,
-  TOnClickContextMenuTabProps,
-} from './types'
-export * from './port'
+export const browser = {
+  storage,
+  i18n,
+  runtime,
+  tabs,
+}

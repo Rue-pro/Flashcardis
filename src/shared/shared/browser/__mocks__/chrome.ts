@@ -1,6 +1,6 @@
 import { MockedObject, vi } from 'vitest'
 
-import { TOnChangeListenerProps } from '../types'
+import { TOnChangeListenerProps } from '../storage/types'
 
 type TChrome = typeof chrome
 type TStorageValue = Record<string, unknown>

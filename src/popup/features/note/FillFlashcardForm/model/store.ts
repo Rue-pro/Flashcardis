@@ -2,11 +2,11 @@ import { computed } from 'nanostores'
 
 import { $activeTab } from '@popup/entities/tab'
 
-import { PortEmitter } from '@shared/shared/browser'
+import { IPortEmitter, PortEmitter } from '@shared/shared/browser/port'
 
 export const $ankiPort = computed(
   $activeTab,
-  (activeTab): PortEmitter | null => {
+  (activeTab): IPortEmitter | null => {
     if (!activeTab?.id) return null
     const isAnkiTab = activeTab
       ? activeTab.url === 'https://ankiuser.net/add'

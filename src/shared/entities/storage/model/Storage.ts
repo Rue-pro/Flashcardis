@@ -1,4 +1,5 @@
-import { TOnChangeListenerProps, browser } from '@shared/shared/browser'
+import { browser } from '@shared/shared/browser'
+import { TOnChangeListenerProps } from '@shared/shared/browser/storage'
 import { TResult } from '@shared/shared/libs/operationResult'
 
 export const getStorage = <StorageValue>(
@@ -7,11 +8,11 @@ export const getStorage = <StorageValue>(
 ) => {
   return {
     get() {
-      return browser.storage.local.get<StorageValue>(key, defaultValue)
+      return browser.storage.get<StorageValue>(key, defaultValue)
     },
 
     set(value: StorageValue) {
-      return browser.storage.local.set(key, value)
+      return browser.storage.set(key, value)
     },
 
     onChanged: {
@@ -23,7 +24,7 @@ export const getStorage = <StorageValue>(
           }>,
         ) => void,
       ) {
-        return browser.storage.local.onChanged.addListener<StorageValue>(
+        return browser.storage.onChanged.addListener<StorageValue>(
           key,
           callback,
           defaultValue,
@@ -33,7 +34,7 @@ export const getStorage = <StorageValue>(
       removeListener(
         listener: (changes: TOnChangeListenerProps<StorageValue>) => void,
       ) {
-        browser.storage.local.onChanged.removeListener<StorageValue>(listener)
+        browser.storage.onChanged.removeListener<StorageValue>(listener)
       },
     },
   }

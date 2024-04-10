@@ -2,7 +2,8 @@ import { atom, onMount, task } from 'nanostores'
 
 import { addToast, getErrorToast } from '@popup/shared/ui/Toast'
 
-import { TTab, browser } from '@shared/shared/browser'
+import { browser } from '@shared/shared/browser'
+import { TTab } from '@shared/shared/browser/tabs'
 
 export const $activeTab = atom<TTab | null>(null)
 

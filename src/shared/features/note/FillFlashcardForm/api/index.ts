@@ -1,6 +1,6 @@
 import { INote } from '@shared/entities/note'
 
-import { PortEmitter, PortReceiver } from '@shared/shared/browser'
+import { IPortEmitter, IPortReceiver } from '@shared/shared/browser/port'
 
 interface Request {
   message: 'FILL_FORM'
@@ -12,12 +12,12 @@ interface Response {
   data: INote
 }
 
-export const autoFillForm = (port: PortEmitter, note: INote) => {
+export const autoFillForm = (port: IPortEmitter, note: INote) => {
   port.postMessage<Request>({ message: 'FILL_FORM', data: note })
 }
 
 export const autoFillFormHandler = (
-  port: PortReceiver,
+  port: IPortReceiver,
   callback: (note: INote) => void,
 ) => {
   port.onMessage<Request>((request) => {
@@ -33,7 +33,7 @@ export const autoFillFormHandler = (
 }
 
 export const autoFillFormResult = (
-  port: PortEmitter,
+  port: IPortEmitter,
   callback: (response: Response['data']) => void,
 ) => {
   port.onMessage<Response>((response) => {

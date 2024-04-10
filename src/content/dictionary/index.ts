@@ -1,7 +1,5 @@
-import {
-  getLanguageFromPageHandler,
-  getNoteFromDictionaryPageHandler,
-} from '@background/features/autoAddNewNote'
+import { getLanguageFromPageHandler } from '@background/features/autoAddNewNote'
+import { getNoteFromDictionaryPageHandler } from '@background/features/autoAddNewNote'
 
 import { GOOGLE_TRANSLATE } from '@shared/entities/dictionary'
 
