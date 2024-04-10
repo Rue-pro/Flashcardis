@@ -10,7 +10,7 @@ export default mergeConfig(
       outDir: 'dist/content/dictionary',
       rollupOptions: {
         input: {
-          dictionary: './src/app/content/dictionary/index.ts',
+          dictionary: './src/content/dictionary/index.ts',
         },
       },
     },

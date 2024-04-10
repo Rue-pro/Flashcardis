@@ -10,7 +10,7 @@ export default mergeConfig(
       outDir: 'dist/content/ankiWeb',
       rollupOptions: {
         input: {
-          ankiWeb: './src/app/content/ankiWeb/index.ts',
+          ankiWeb: './src/content/ankiWeb/index.ts',
         },
       },
     },

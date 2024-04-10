@@ -9,10 +9,9 @@
     "paths": {
       "react": ["node_modules/preact/compat/"],
       "react-dom": ["node_modules/preact/compat/"],
-      "@app/*": ["src/app/*"],
-      "@widgets/*": ["src/widgets/*"],
-      "@features/*": ["src/features/*"],
-      "@entities/*": ["src/entities/*"],
+      "@background/*": ["src/background/*"],
+      "@content/*": ["src/content/*"],
+      "@popup/*": ["src/popup/*"],
       "@shared/*": ["src/shared/*"],
       "@tests/*": ["src/__tests__/*"]
     },

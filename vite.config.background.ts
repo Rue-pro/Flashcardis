@@ -10,7 +10,7 @@ export default mergeConfig(
       outDir: 'dist/background',
       rollupOptions: {
         input: {
-          background: './src/app/background/index.ts',
+          background: './src/background/app/index.ts',
         },
       },
     },
