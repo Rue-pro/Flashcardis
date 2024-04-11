@@ -1,12 +1,11 @@
 import { useStore } from '@nanostores/preact'
 import { JSXInternal } from 'node_modules/preact/src/jsx'
 
+import { browser } from '@popup/shared/browser'
 import { Button } from '@popup/shared/ui/Button'
 import { addToast, getErrorToast } from '@popup/shared/ui/Toast'
 
 import { ILanguage } from '@shared/entities/language'
-
-import { browser } from '@shared/shared/browser'
 
 import {
   checkIsSelected,

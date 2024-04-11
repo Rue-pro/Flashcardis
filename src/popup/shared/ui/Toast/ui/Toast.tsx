@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { ComponentChildren } from 'preact'
 
-import { browser } from '@shared/shared/browser'
+import { browser } from '@popup/shared/browser'
 
 import { Button, TButtonColor } from '../../Button'
 import { ClearIcon } from '../../icons/ClearIcon'

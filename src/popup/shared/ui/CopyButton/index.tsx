@@ -1,8 +1,7 @@
 import { useState } from 'preact/hooks'
 
+import { browser } from '@popup/shared/browser'
 import { useResetAfterDelay } from '@popup/shared/libs/useResetAfterDelay'
-
-import { browser } from '@shared/shared/browser'
 
 import { Button, Props as ButtonProps } from '../Button'
 import { CopyIcon } from '../icons/CopyIcon'

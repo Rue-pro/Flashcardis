@@ -1,4 +1,5 @@
-import { browser } from '@shared/shared/browser'
+import { browser } from '@popup/shared/browser'
+
 import { TBaseError } from '@shared/shared/libs/operationResult'
 
 import { ErrorDetails } from '../../ErrorDetails'

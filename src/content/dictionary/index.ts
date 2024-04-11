@@ -1,9 +1,11 @@
-import { getLanguageFromPageHandler } from '@background/features/autoAddNewNote'
-import { getNoteFromDictionaryPageHandler } from '@background/features/autoAddNewNote'
+import { browser } from '@content/shared/browser'
+
+import {
+  getLanguageFromPageHandler,
+  getNoteFromDictionaryPageHandler,
+} from '@shared/features/note/AutoAddNewNote/api'
 
 import { GOOGLE_TRANSLATE } from '@shared/entities/dictionary'
-
-import { browser } from '@shared/shared/browser'
 
 import { getNotesFields } from './helpers/getNotesFields'
 

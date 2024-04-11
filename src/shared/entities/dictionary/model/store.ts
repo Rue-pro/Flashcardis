@@ -1,9 +1,10 @@
 import { atom, onMount, task } from 'nanostores'
 
+import { browser } from '@popup/shared/browser'
+
 import { TLanguageCode } from '@shared/entities/language'
 import { getStorage } from '@shared/entities/storage'
 
-import { browser } from '@shared/shared/browser'
 import { Result, TResult } from '@shared/shared/libs/operationResult'
 
 import { DICTIONARIES } from './dictionaries'

@@ -1,6 +1,7 @@
 import { useStore } from '@nanostores/preact'
 import { useEffect, useState } from 'preact/hooks'
 
+import { browser } from '@popup/shared/browser'
 import { useResetAfterDelay } from '@popup/shared/libs/useResetAfterDelay'
 import { Button } from '@popup/shared/ui/Button'
 import { AddCardIcon } from '@popup/shared/ui/icons/AddCardIcon'
@@ -12,8 +13,6 @@ import {
 } from '@shared/features/note/FillFlashcardForm'
 
 import { INote } from '@shared/entities/note'
-
-import { browser } from '@shared/shared/browser'
 
 import { $ankiPort } from '../model/store'
 
