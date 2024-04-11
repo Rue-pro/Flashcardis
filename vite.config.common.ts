@@ -15,10 +15,9 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@app': resolve(__dirname, './src/app'),
-      '@widgets': resolve(__dirname, './src/widgets'),
-      '@features': resolve(__dirname, './src/features'),
-      '@entities': resolve(__dirname, './src/entities'),
+      '@background': resolve(__dirname, './src/background'),
+      '@content': resolve(__dirname, './src/content'),
+      '@popup': resolve(__dirname, './src/popup'),
       '@shared': resolve(__dirname, './src/shared'),
       '@tests': resolve(__dirname, './src/__tests__'),
     },

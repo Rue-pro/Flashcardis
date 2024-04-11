@@ -1,9 +1,10 @@
 import { vi } from 'vitest'
 
-import { chromeMock } from '@shared/browser/__mocks__/chrome'
-import * as toastModule from '@shared/ui/Toast'
-import { getErrorToastMock } from '@shared/ui/Toast/helpers/__mock__/getErrorToast'
-import { addToastMock } from '@shared/ui/Toast/model/__mock__/store'
+import * as toastModule from '@popup/shared/ui/Toast'
+import { getErrorToastMock } from '@popup/shared/ui/Toast/helpers/__mock__/getErrorToast'
+import { addToastMock } from '@popup/shared/ui/Toast/model/__mock__/store'
+
+import { chromeMock } from '@shared/shared/browser/__mocks__/chrome'
 
 global.chrome = chromeMock
 
