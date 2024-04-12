@@ -3,7 +3,7 @@ import { Result } from '@shared/shared/libs/operationResult'
 import { IStorage, TOnChangeListenerProps } from './types'
 
 export const chromeStorage: IStorage = {
-  get: (key, defaultValue) => {
+  get: (key, defaultValue, enableLogging = true) => {
     return new Promise((resolve) => {
       chrome.storage.local.get(key, (storage) => {
         if (!storage[key]) resolve(Result.Success(defaultValue))
@@ -11,21 +11,23 @@ export const chromeStorage: IStorage = {
           resolve(Result.Success(JSON.parse(storage[key])))
         } catch (error) {
           resolve(
-            Result.Error({
-              type: 'ERROR_CAN_NOT_GET_DATA_FROM_STORAGE',
-              error: error instanceof Error ? error : null,
-            }),
+            Result.Error(
+              {
+                type: 'ERROR_CAN_NOT_GET_DATA_FROM_STORAGE',
+                error: error instanceof Error ? error : null,
+              },
+              enableLogging,
+            ),
           )
         }
       })
     })
   },
 
-  set: (key, value) => {
+  set: (key, value, enableLogging = true) => {
     return new Promise((resolve) => {
-      let stringifiedValue = ''
       try {
-        stringifiedValue = JSON.stringify(value)
+        const stringifiedValue = JSON.stringify(value)
         chrome.storage.local
           .set({
             [key]: stringifiedValue,
@@ -33,17 +35,20 @@ export const chromeStorage: IStorage = {
           .then(() => resolve(Result.Success(true)))
       } catch (error) {
         resolve(
-          Result.Error({
-            type: `ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE`,
-            error: error instanceof Error ? error : null,
-          }),
+          Result.Error(
+            {
+              type: `ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE`,
+              error: error instanceof Error ? error : null,
+            },
+            enableLogging,
+          ),
         )
       }
     })
   },
 
   onChanged: {
-    addListener: (key, callback, defaultValue) => {
+    addListener: (key, callback, defaultValue, enableLogging = true) => {
       const listener = (changes: TOnChangeListenerProps) => {
         if (changes[key]) {
           let oldValue = defaultValue
@@ -51,10 +56,13 @@ export const chromeStorage: IStorage = {
             oldValue = JSON.parse(changes[key].oldValue as string)
           } catch (error) {
             callback(
-              Result.Error({
-                type: `ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE`,
-                error: error instanceof Error ? error : null,
-              }),
+              Result.Error(
+                {
+                  type: `ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE`,
+                  error: error instanceof Error ? error : null,
+                },
+                enableLogging,
+              ),
             )
           }
 
@@ -68,10 +76,13 @@ export const chromeStorage: IStorage = {
             )
           } catch (error) {
             callback(
-              Result.Error({
-                type: `ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE`,
-                error: error instanceof Error ? error : null,
-              }),
+              Result.Error(
+                {
+                  type: `ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE`,
+                  error: error instanceof Error ? error : null,
+                },
+                enableLogging,
+              ),
             )
           }
         }

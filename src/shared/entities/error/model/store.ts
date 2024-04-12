@@ -4,7 +4,7 @@ import { getStorage } from '@shared/entities/storage'
 
 import { TBaseError } from '@shared/shared/libs/operationResult'
 
-export const ErrorStorage = getStorage<TBaseError[]>('errors', [])
+export const ErrorStorage = getStorage<TBaseError[]>('errors', [], false)
 
 export const $errors = atom<TBaseError[]>([])
 

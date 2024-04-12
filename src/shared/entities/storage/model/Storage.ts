@@ -4,14 +4,15 @@ import { TResult } from '@shared/shared/libs/operationResult'
 export const getStorage = <StorageValue>(
   key: string,
   defaultValue: StorageValue,
+  enableLogging = true,
 ) => {
   return {
     get() {
-      return storage.get<StorageValue>(key, defaultValue)
+      return storage.get<StorageValue>(key, defaultValue, enableLogging)
     },
 
     set(value: StorageValue) {
-      return storage.set(key, value)
+      return storage.set(key, value, enableLogging)
     },
 
     onChanged: {
@@ -27,6 +28,7 @@ export const getStorage = <StorageValue>(
           key,
           callback,
           defaultValue,
+          enableLogging,
         )
       },
 

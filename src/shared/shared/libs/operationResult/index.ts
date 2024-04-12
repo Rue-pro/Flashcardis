@@ -14,8 +14,9 @@ export const Result = Object.freeze({
   }),
   Error: <T = null, E extends TBaseError = TBaseError>(
     error: E,
+    enableLogging = true,
   ): TResult<T, E> => {
-    addError(error)
+    enableLogging && addError(error)
     return {
       data: null,
       error,
