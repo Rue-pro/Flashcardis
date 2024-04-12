@@ -1,9 +1,17 @@
 import { TResult } from '@shared/shared/libs/operationResult'
 
 export interface IStorage {
-  get: <Data>(key: string, defaultValue: Data) => Promise<TResult<Data>>
+  get: <Data>(
+    key: string,
+    defaultValue: Data,
+    enableLogging?: boolean,
+  ) => Promise<TResult<Data>>
 
-  set: <Data>(key: string, value: Data) => Promise<TResult<true>>
+  set: <Data>(
+    key: string,
+    value: Data,
+    enableLogging?: boolean,
+  ) => Promise<TResult<true>>
 
   onChanged: {
     addListener: <Data>(
@@ -15,6 +23,7 @@ export interface IStorage {
         }>,
       ) => void,
       defaultValue: Data,
+      enableLogging?: boolean,
     ) => (changes: {
       [key: string]: { newValue?: Data; oldValue?: Data }
     }) => void
