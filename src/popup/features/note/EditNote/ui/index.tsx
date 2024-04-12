@@ -1,14 +1,13 @@
 import { JSXInternal } from 'node_modules/preact/src/jsx'
 import { useState } from 'preact/hooks'
 
+import { browser } from '@popup/shared/browser'
 import { Button } from '@popup/shared/ui/Button'
 import { Textarea } from '@popup/shared/ui/Textarea'
 import { addToast, getErrorToast } from '@popup/shared/ui/Toast'
 
 import { TLanguageCode } from '@shared/entities/language'
 import { INote, noteStore } from '@shared/entities/note'
-
-import { browser } from '@shared/shared/browser'
 
 import styles from './styles.module.scss'
 

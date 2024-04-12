@@ -1,11 +1,10 @@
+import { browser } from '@popup/shared/browser'
 import { Button } from '@popup/shared/ui/Button'
 import { addToast, getErrorToast } from '@popup/shared/ui/Toast'
 import { DeleteIcon } from '@popup/shared/ui/icons/DeleteIcon'
 
 import { TLanguageCode } from '@shared/entities/language'
 import { noteStore } from '@shared/entities/note'
-
-import { browser } from '@shared/shared/browser'
 
 interface Props {
   lang: TLanguageCode

@@ -1,6 +1,6 @@
-import { autoFillFormHandler } from '@shared/features/note/FillFlashcardForm'
+import { browser } from '@content/shared/browser'
 
-import { browser } from '@shared/shared/browser'
+import { autoFillFormHandler } from '@shared/features/note/FillFlashcardForm'
 
 import { fillForm } from './helpers/fillForm'
 

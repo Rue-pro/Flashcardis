@@ -6,6 +6,13 @@ import {
 import { map } from 'nanostores'
 
 import {
+  getLanguageFromPage,
+  getLanguageFromPageResult,
+  getNoteFromDictionaryPage,
+  getNoteFromDictionaryPageResult,
+} from '@shared/features/note/AutoAddNewNote'
+
+import {
   GOOGLE_TRANSLATE,
   getDictionariesUrls,
   getDictionaryByPageUrl,
@@ -16,15 +23,6 @@ import { noteStore } from '@shared/entities/note'
 
 import { PortEmitter } from '@shared/shared/browser/port'
 import { IPortEmitter } from '@shared/shared/browser/port/types'
-
-import {
-  getLanguageFromPage,
-  getLanguageFromPageResult,
-} from './api/getLanguageFromPage'
-import {
-  getNoteFromDictionaryPage,
-  getNoteFromDictionaryPageResult,
-} from './api/getNoteFromDictionary'
 
 const $dictionaryPorts = map<Record<string, IPortEmitter>>()
 

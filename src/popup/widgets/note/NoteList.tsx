@@ -12,6 +12,7 @@ import {
 
 import { NoNotes, NoteCard } from '@popup/entities/note'
 
+import { browser } from '@popup/shared/browser'
 import { Button } from '@popup/shared/ui/Button'
 import { Modal } from '@popup/shared/ui/Modal'
 import { Tab, TabPanel, Tabs, TabsList, a11yProps } from '@popup/shared/ui/Tabs'
@@ -19,8 +20,6 @@ import { EditIcon } from '@popup/shared/ui/icons/EditIcon'
 
 import { languageStore } from '@shared/entities/language'
 import { INote, noteStore } from '@shared/entities/note'
-
-import { browser } from '@shared/shared/browser'
 
 export const NoteList = () => {
   const ankiPort = useStore($ankiPort)

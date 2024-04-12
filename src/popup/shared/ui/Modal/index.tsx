@@ -2,7 +2,7 @@ import { ComponentChildren } from 'preact'
 import { createPortal } from 'preact/compat'
 import { useEffect, useRef } from 'preact/hooks'
 
-import { browser } from '@shared/shared/browser'
+import { browser } from '@popup/shared/browser'
 
 import { Button } from '../Button'
 import { ClearIcon } from '../icons/ClearIcon'
