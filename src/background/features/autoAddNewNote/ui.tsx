@@ -8,11 +8,9 @@ import { map } from 'nanostores'
 import {
   getLanguageFromPage,
   getLanguageFromPageResult,
-} from '@shared/features/note/AutoAddNewNote/api/getLanguageFromPage'
-import {
   getNoteFromDictionaryPage,
   getNoteFromDictionaryPageResult,
-} from '@shared/features/note/AutoAddNewNote/api/getNoteFromDictionary'
+} from '@shared/features/note/AutoAddNewNote'
 
 import {
   GOOGLE_TRANSLATE,

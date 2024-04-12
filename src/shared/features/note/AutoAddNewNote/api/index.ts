@@ -1,2 +1,2 @@
-export { getLanguageFromPageHandler } from './getLanguageFromPage'
-export { getNoteFromDictionaryPageHandler } from './getNoteFromDictionary'
+export * from './getLanguageFromPage'
+export * from './getNoteFromDictionary'

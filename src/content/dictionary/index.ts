@@ -3,7 +3,7 @@ import { browser } from '@content/shared/browser'
 import {
   getLanguageFromPageHandler,
   getNoteFromDictionaryPageHandler,
-} from '@shared/features/note/AutoAddNewNote/api'
+} from '@shared/features/note/AutoAddNewNote'
 
 import { GOOGLE_TRANSLATE } from '@shared/entities/dictionary'
 
