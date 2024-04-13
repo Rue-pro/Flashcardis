@@ -1,6 +1,5 @@
 import { browser } from '@popup/shared/browser'
 import { Button } from '@popup/shared/ui/Button'
-import { addToast, getErrorToast } from '@popup/shared/ui/Toast'
 import { DeleteIcon } from '@popup/shared/ui/icons/DeleteIcon'
 
 import { TLanguageCode } from '@shared/entities/language'
@@ -13,9 +12,8 @@ interface Props {
 }
 
 export const DeleteNote = ({ lang, noteId, noteText }: Props) => {
-  const onDelete = async (lang: TLanguageCode, noteId: string) => {
-    const result = await noteStore.deleteNote(lang, noteId)
-    result.error && addToast(getErrorToast(result.error))
+  const onDelete = (lang: TLanguageCode, noteId: string) => {
+    noteStore.deleteNote(lang, noteId)
   }
 
   return (

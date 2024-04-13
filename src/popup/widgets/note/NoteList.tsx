@@ -107,7 +107,6 @@ export const NoteList = () => {
             lang={editNote.lang}
             note={editNote.note}
             onCancel={closeEditNoteModal}
-            onSubmit={closeEditNoteModal}
           />
         </Modal>
       ) : null}

@@ -1,7 +1,6 @@
 import { atom, onMount, task } from 'nanostores'
 
 import { browser } from '@popup/shared/browser'
-import { addToast, getErrorToast } from '@popup/shared/ui/Toast'
 
 import { TTab } from '@shared/shared/browser/tabs'
 
@@ -11,10 +10,6 @@ onMount($activeTab, () => {
   task(async () => {
     const getResult = await browser.tabs.getActiveTab()
 
-    if (getResult.data) {
-      $activeTab.set(getResult.data)
-    } else {
-      addToast(getErrorToast(getResult.error))
-    }
+    getResult.data && $activeTab.set(getResult.data)
   })
 })

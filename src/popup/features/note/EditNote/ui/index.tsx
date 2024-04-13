@@ -3,11 +3,13 @@ import { useState } from 'preact/hooks'
 
 import { browser } from '@popup/shared/browser'
 import { Button } from '@popup/shared/ui/Button'
+import { Result } from '@popup/shared/ui/Result'
 import { Textarea } from '@popup/shared/ui/Textarea'
-import { addToast, getErrorToast } from '@popup/shared/ui/Toast'
 
 import { TLanguageCode } from '@shared/entities/language'
 import { INote, noteStore } from '@shared/entities/note'
+
+import { TResult } from '@shared/shared/libs/operationResult'
 
 import styles from './styles.module.scss'
 
@@ -15,7 +17,7 @@ interface Props {
   lang: TLanguageCode
   note: INote
   onCancel: () => void
-  onSubmit: () => void
+  onSubmit?: () => void
 }
 
 export const EditNote = ({
@@ -24,6 +26,7 @@ export const EditNote = ({
   onCancel,
   onSubmit: outerOnSubmit,
 }: Props) => {
+  const [result, setResult] = useState<TResult | null>(null)
   const [fields, setFields] = useState<INote>(note)
 
   const onChange =
@@ -41,23 +44,18 @@ export const EditNote = ({
     e.preventDefault()
 
     const result = await noteStore.editNote(lang, fields)
-    if (result.data) {
-      addToast({
-        type: 'success',
-        title: result.data,
-      })
-      outerOnSubmit()
-    }
-    result.error && addToast(getErrorToast(result.error))
+    setResult(result)
+    if (result.data && outerOnSubmit) outerOnSubmit()
   }
 
   return (
     <form
+      className="form"
       name="edit_note"
       aria-labelledby="editNoteFormTitle"
       onSubmit={onSubmit}
     >
-      <h1 id="editNoteFormTitle" className="form__title">
+      <h1 id="editNoteFormTitle">
         {browser.i18n.getMessage('EDIT_NOTE_FORM_TITLE', fields.text)}
       </h1>
 
@@ -92,6 +90,8 @@ export const EditNote = ({
           )}
         />
       </div>
+
+      <Result result={result} />
 
       <footer className="form__footer">
         <Button variant="secondary" onClick={onCancel}>
