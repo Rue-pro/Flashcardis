@@ -70,6 +70,9 @@
   "ERROR_CAN_NOT_FIND_NOTE_TO_EDIT": {
     "message": "Can't find note"
   },
+  "EDIT_NOTE_SUCCESS": {
+    "message": "Your changes was succesfully saved"
+  },
   "DELETE_NOTE": {
     "message": "Delete note $noteText$",
     "placeholders": {
@@ -78,6 +81,12 @@
         "example": "carpel"
       }
     }
+  },
+  "DELETE_NOTE_SUCCESS": {
+    "message": "Note was successfully deleted"
+  },
+  "ADD_NOTE_SUCCESS": {
+    "message": "Note was successfully added"
   },
   "ERROR_CAN_NOT_FIND_NOTE_TO_DELETE": {
     "message": "Can't find note"
@@ -156,5 +165,20 @@
   },
   "TOAST_BUTTON_OPEN_DETAILS": {
     "message": "Open details"
+  },
+  "ERROR_LIST_NO_ITEMS": {
+    "message": "No logs"
+  },
+  "FACING_PROBLEMS": {
+    "message": "Facing problems? Send logs to us"
+  },
+  "FACING_PROBLEMS_HELP": {
+    "message": "Ask for help"
+  },
+  "SETTINGS_OPEN": {
+    "message": "Settings"
+  },
+  "CLEAR": {
+    "message": "Clear"
   }
 }

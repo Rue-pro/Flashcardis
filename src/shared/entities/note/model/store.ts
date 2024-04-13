@@ -62,7 +62,7 @@ export const deleteNote = async (
   })
 
   return setResult.data
-    ? Result.Success(browser.i18n.getMessage('SUCCESS_DELETE'))
+    ? Result.Success(browser.i18n.getMessage('DELETE_NOTE_SUCCESS'))
     : setResult
 }
 
@@ -92,7 +92,7 @@ export const editNote = async (
   })
 
   return setResult.data
-    ? Result.Success(browser.i18n.getMessage('SUCCESS_EDIT'))
+    ? Result.Success(browser.i18n.getMessage('EDIT_NOTE_SUCCESS'))
     : setResult
 }
 
@@ -110,6 +110,6 @@ export const addNote = async (
   const setResult = await NoteStorage.set(newNotes)
 
   return setResult.data
-    ? Result.Success(browser.i18n.getMessage('SUCCESS_ADD'))
+    ? Result.Success(browser.i18n.getMessage('ADD_NOTE_SUCCESS'))
     : setResult
 }
