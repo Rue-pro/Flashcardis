@@ -11,7 +11,9 @@ export const $errors = atom<TBaseError[]>([])
 onMount($errors, () => {
   task(async () => {
     const getResult = await ErrorStorage.get()
-    getResult.data ? $errors.set([]) : $errors.set([getResult.error])
+    getResult.data
+      ? $errors.set(getResult.data)
+      : $errors.set([getResult.error])
   })
 
   const listener = ErrorStorage.onChanged.addListener((changes) => {
@@ -33,4 +35,9 @@ export const addError = async (error: TBaseError) => {
   setResult.data
     ? $errors.set(newErrors)
     : $errors.set([setResult.error, ...newErrors])
+}
+
+export const reset = async () => {
+  const setResult = await ErrorStorage.set([])
+  setResult.data ? $errors.set([]) : $errors.set([setResult.error])
 }

@@ -1,11 +1,14 @@
 import { useStore } from '@nanostores/preact'
 import { JSXInternal } from 'node_modules/preact/src/jsx'
+import { useState } from 'preact/hooks'
 
 import { browser } from '@popup/shared/browser'
 import { Button } from '@popup/shared/ui/Button'
-import { addToast, getErrorToast } from '@popup/shared/ui/Toast'
+import { Result } from '@popup/shared/ui/Result'
 
 import { ILanguage } from '@shared/entities/language'
+
+import { TResult } from '@shared/shared/libs/operationResult'
 
 import {
   checkIsSelected,
@@ -20,6 +23,7 @@ interface Props {
 }
 
 export const SelectLanguages = ({ languages }: Props) => {
+  const [result, setResult] = useState<TResult | null>(null)
   useStore(localStore.languageCodes)
 
   const onSubmit: JSXInternal.SubmitEventHandler<HTMLFormElement> = async (
@@ -27,21 +31,17 @@ export const SelectLanguages = ({ languages }: Props) => {
   ) => {
     e.preventDefault()
     const result = await syncLocalStoreWithLanguageStore()
-    result.data &&
-      addToast({
-        type: 'success',
-        title: result.data,
-      })
-    result.error && addToast(getErrorToast(result.error))
+    setResult(result)
   }
 
   return (
     <form
+      className="form"
       name="select_languages"
       aria-labelledby="selectLanguageFormTitle"
       onSubmit={onSubmit}
     >
-      <h2 id="selectLanguageFormTitle" className="form__title">
+      <h2 id="selectLanguageFormTitle">
         {browser.i18n.getMessage('SELECT_LANGUAGES_FORM_TITLE')}
       </h2>
 
@@ -62,6 +62,8 @@ export const SelectLanguages = ({ languages }: Props) => {
           </li>
         ))}
       </ul>
+
+      <Result result={result} />
 
       <footer className="form__footer">
         <Button variant="secondary" onClick={reset}>

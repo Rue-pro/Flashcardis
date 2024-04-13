@@ -24,6 +24,7 @@ export const SelectDictionaryList = () => {
             <TabsList arrows={true}>
               {languages.map((language) => (
                 <Tab
+                  key={language.value}
                   value={language.value}
                   {...a11yProps('language_navigation', language.value)}
                 >
@@ -34,6 +35,7 @@ export const SelectDictionaryList = () => {
             {languages.map((language) => {
               return (
                 <TabPanel
+                  key={language.value}
                   {...a11yProps('language_navigation', language.value)}
                   value={language.value}
                 >

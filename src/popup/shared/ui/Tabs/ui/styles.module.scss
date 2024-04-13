@@ -39,6 +39,7 @@
 
 .tab {
   cursor: pointer;
+  user-select: none;
   background-color: transparent;
   border-inline: none;
   border-top: none;

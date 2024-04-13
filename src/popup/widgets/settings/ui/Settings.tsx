@@ -5,6 +5,7 @@ import { SelectLanguages } from '@popup/features/language/SelectLanguages'
 
 import { ErrorList } from '@popup/entities/error'
 
+import { browser } from '@popup/shared/browser'
 import { Button } from '@popup/shared/ui/Button'
 import { Modal } from '@popup/shared/ui/Modal'
 import { Tab, TabPanel, Tabs, TabsList, a11yProps } from '@popup/shared/ui/Tabs'
@@ -18,12 +19,12 @@ export const Settings = () => {
   return (
     <>
       <Button
+        className="settings-opener"
         variant="secondary"
         startIcon={<SettingsIcon />}
-        aria-label="Settings"
+        aria-label={browser.i18n.getMessage('SETTINGS_OPEN')}
         onClick={() => setSettingsOpen(true)}
       />
-
       <Modal open={settingsOpen} onClose={() => setSettingsOpen(false)}>
         <Tabs defaultValue="languages">
           <TabsList>

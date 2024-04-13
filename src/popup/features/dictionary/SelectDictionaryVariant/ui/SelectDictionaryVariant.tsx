@@ -2,7 +2,6 @@ import { DictionaryCard } from '@popup/entities/dictionary'
 
 import { browser } from '@popup/shared/browser'
 import { Button } from '@popup/shared/ui/Button'
-import { addToast } from '@popup/shared/ui/Toast'
 
 import {
   IDictionaryWithVariants,
@@ -18,14 +17,8 @@ interface GroupProps {
 }
 
 export const SelectDictionaryVariant = ({ dictionary, lang }: GroupProps) => {
-  const onSelectVariant = async (variant: string) => {
-    const result = await dictionaryStore.selectVariant(
-      lang,
-      dictionary.id,
-      variant,
-    )
-
-    result.error && addToast({ title: result.error.type, type: 'error' })
+  const onSelectVariant = (variant: string) => {
+    dictionaryStore.selectVariant(lang, dictionary.id, variant)
   }
 
   return (

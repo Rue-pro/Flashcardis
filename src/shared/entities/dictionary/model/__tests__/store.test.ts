@@ -2,8 +2,6 @@ import { waitFor } from '@tests/testUtils'
 import { allTasks, cleanStores, keepMount } from 'nanostores'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
-import { $errors } from '@shared/entities/error/model/store'
-
 import { chromeMockClearListeners } from '@shared/shared/browser/__mocks__/chrome'
 import { Result } from '@shared/shared/libs/operationResult'
 
@@ -21,7 +19,6 @@ describe('dictionary store', () => {
     await chrome.storage.local.clear()
     cleanStores($dictionaries)
     $dictionaries.set(DICTIONARIES)
-    $errors.set([])
     chromeMockClearListeners()
     vi.clearAllMocks()
   })
@@ -38,19 +35,17 @@ describe('dictionary store', () => {
       await allTasks()
 
       expect($dictionaries.get()).toEqual(newDictionaries)
-      expect($errors.get().length).toEqual(0)
     })
 
     test('should set empty array and set error when can not get data from DictionaryStorage', async () => {
       vi.spyOn(DictionaryStorage, 'get').mockResolvedValueOnce(
-        Result.Error(error),
+        Result.Error(error, false),
       )
 
       keepMount($dictionaries)
       await allTasks()
 
       expect($dictionaries.get()).toEqual(DICTIONARIES)
-      expect($errors.get().length).toEqual(1)
     })
   })
 

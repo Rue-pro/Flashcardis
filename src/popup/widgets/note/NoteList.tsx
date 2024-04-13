@@ -21,6 +21,8 @@ import { EditIcon } from '@popup/shared/ui/icons/EditIcon'
 import { TLanguageCode, languageStore } from '@shared/entities/language'
 import { INote, noteStore } from '@shared/entities/note'
 
+import styles from './styles.module.scss'
+
 export const NoteList = () => {
   const ankiPort = useStore($ankiPort)
   const languages = useStore(languageStore.$languages)
@@ -33,7 +35,7 @@ export const NoteList = () => {
   const closeEditNoteModal = () => setEditNote(null)
 
   return (
-    <>
+    <div className={styles.container}>
       {!ankiPort && <FillFlashcardFormNotAvailable />}
       {languages.length ? (
         <>
@@ -41,6 +43,7 @@ export const NoteList = () => {
             <TabsList arrows={true}>
               {languages.map((language) => (
                 <Tab
+                  key={language.value}
                   value={language.value}
                   {...a11yProps('language_navigation', language.value)}
                 >
@@ -51,6 +54,7 @@ export const NoteList = () => {
             {languages.map((language) => {
               return (
                 <TabPanel
+                  key={language.value}
                   {...a11yProps('language_navigation', language.value)}
                   value={language.value}
                 >
@@ -59,6 +63,7 @@ export const NoteList = () => {
                       {notes[language.value].map((note) => {
                         return (
                           <NoteCard
+                            key={note.id}
                             note={note}
                             actions={
                               <>
@@ -102,10 +107,9 @@ export const NoteList = () => {
             lang={editNote.lang}
             note={editNote.note}
             onCancel={closeEditNoteModal}
-            onSubmit={closeEditNoteModal}
           />
         </Modal>
       ) : null}
-    </>
+    </div>
   )
 }
