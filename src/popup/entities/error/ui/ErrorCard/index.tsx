@@ -7,7 +7,7 @@ interface Props {
 export const ErrorCard = ({ error }: Props) => {
   return (
     <div>
-      Error {error.type} {error.error}
+      {error.type} {error.error}
     </div>
   )
 }
