@@ -19,7 +19,7 @@ export const Settings = () => {
   return (
     <>
       <Button
-        className="settings_opener"
+        className="settings-opener"
         variant="secondary"
         startIcon={<SettingsIcon />}
         aria-label={browser.i18n.getMessage('SETTINGS_OPEN')}
