@@ -19,11 +19,14 @@ export const Modal = ({ open, children, onClose }: Props) => {
 
   useEffect(() => {
     if (dialogRef.current) {
-      open ? dialogRef.current.showModal() : onClose()
+      if (open) {
+        dialogRef.current.showModal()
+      } else {
+        dialogRef.current.close()
+        onClose()
+      }
     }
   }, [open])
-
-  if (!open) return null
 
   return createPortal(
     <dialog ref={dialogRef} className={styles.modal}>

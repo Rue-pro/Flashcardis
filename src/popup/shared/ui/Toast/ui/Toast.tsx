@@ -29,16 +29,14 @@ export const Toast = ({ toast, removeToast, openDetails }: Props) => {
     <li className={toastClass} role="status">
       <div className={styles.toast__content}>
         <p className={cn(styles.toast__title, 'h2')}>{title}</p>
-
         {typeof message === 'string' ? <p>{message}</p> : message}
-
         {!!details && (
           <Button
             variant="secondary"
             color={mapToastTypeToButtonColor[type]}
             onClick={() => openDetails(details)}
           >
-            Open details
+            {browser.i18n.getMessage('TOAST_BUTTON_OPEN_DETAILS')}
           </Button>
         )}
       </div>

@@ -10,7 +10,7 @@ import { noteStore } from '@shared/entities/note'
 
 export const addNewWord = (parentId: string) => {
   browser.contextMenus.create({
-    title: 'CONTEXT_MENU_ADD_NEW_WORD',
+    title: browser.i18n.getMessage('CONTEXT_MENU_ADD_NEW_WORD'),
     id: 'new_word',
     parentId: parentId,
     contexts: ['selection'],

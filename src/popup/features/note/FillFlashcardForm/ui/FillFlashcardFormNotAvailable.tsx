@@ -1,3 +1,5 @@
+import { browser } from '@popup/shared/browser'
+
 export const FillFlashcardFormNotAvailable = () => (
-  <span>Filling anki available only on anki page</span>
+  <span>{browser.i18n.getMessage('FILL_ANKI_FORM_NOT_AVAILABLE')}</span>
 )

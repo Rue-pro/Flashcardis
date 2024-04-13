@@ -72,7 +72,9 @@ export const selectVariant = async (
   }
 
   return Result.Error({
-    type: 'ERROR_CAN_NOT_FIND_DICTIONARY_TO_SELECT_VARIANT',
+    type: browser.i18n.getMessage(
+      'ERROR_CAN_NOT_FIND_DICTIONARY_TO_SELECT_VARIANT',
+    ),
     error: new Error(
       `Dictionary with id ${dictionaryId} and variants option not found, available dictionaries: /n ${JSON.stringify(dictionaries)}`,
     ),

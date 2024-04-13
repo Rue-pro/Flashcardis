@@ -34,11 +34,8 @@
   "SELECT_LANGUAGES_FORM_TITLE": {
     "message": "Select languages to learn"
   },
-  "SELECT_DICTIONARY_VARIANT_SAVED": {
-    "message": "Your choice was succesfully saved"
-  },
-  "ERROR_CAN_NOT_FIND_DICTIONARY_TO_SELECT_VARIANT": {
-    "message": "Can't find dictionary"
+  "SELECTED_LANGUAGES_NO_ITEMS": {
+    "message": "No languages are selected. Select some languages to learn"
   },
   "EDIT_NOTE_OPEN": {
     "message": "Open note editor $noteText$",
@@ -70,6 +67,9 @@
   "EDIT_NOTE_FORM_FIELD_PLACEHOLDER_FOR_TRANSCRIPTION": {
     "message": "Transcription"
   },
+  "ERROR_CAN_NOT_FIND_NOTE_TO_EDIT": {
+    "message": "Can't find note"
+  },
   "DELETE_NOTE": {
     "message": "Delete note $noteText$",
     "placeholders": {
@@ -78,6 +78,9 @@
         "example": "carpel"
       }
     }
+  },
+  "ERROR_CAN_NOT_FIND_NOTE_TO_DELETE": {
+    "message": "Can't find note"
   },
   "COPY_TEXT": {
     "message": "Copy text $text$",
@@ -90,5 +93,68 @@
   },
   "COPY_TEXT_COPIED": {
     "message": "Text copied to clipboard"
+  },
+  "CONTEXT_MENU_ROOT": {
+    "message": "Flashcardis"
+  },
+  "CONTEXT_MENU_ADD_NEW_WORD": {
+    "message": "Add word"
+  },
+  "CONTEXT_MENU_ADD_NOTE_AUTOMATICALLY": {
+    "message": "Add note"
+  },
+  "ERROR_CAN_NOT_IDENTIFY_DICTIONARY_ADD_NOTE_AUTOMATICALLY": {
+    "message": "Adding note automatically failed, can't identify dictionary"
+  },
+  "NOTE_LIST_NO_ITEMS": {
+    "message": "No notes found"
+  },
+  "SELECT_DICTIONARY_VERSION_IS_USED": {
+    "message": "$text$ version is used",
+    "placeholders": {
+      "text": {
+        "content": "$1",
+        "example": "British"
+      }
+    }
+  },
+  "SELECT_DICTIONARY_USE_VERSION": {
+    "message": "Use $text$ version",
+    "placeholders": {
+      "text": {
+        "content": "$1",
+        "example": "British"
+      }
+    }
+  },
+  "SELECT_DICTIONARY_VARIANT_SAVED": {
+    "message": "Your choice was succesfully saved"
+  },
+  "ERROR_CAN_NOT_FIND_DICTIONARY_TO_SELECT_VARIANT": {
+    "message": "Can't find dictionary"
+  },
+  "FILL_ANKI_FORM_FORM_FILLED": {
+    "message": "Form filled"
+  },
+  "FILL_ANKI_FORM_BUTTON": {
+    "message": "Fill anki form with note $text$",
+     "placeholders": {
+      "text": {
+        "content": "$1",
+        "example": "carpel"
+      }
+    }
+  },
+  "FILL_ANKI_FORM_NOT_AVAILABLE": {
+    "message": "Filling anki available only on anki page"
+  },
+  "TABS_BUTTON_BACK": {
+    "message": "Back"
+  },
+  "TABS_BUTTON_FORWARD": {
+    "message": "Forward"
+  },
+  "TOAST_BUTTON_OPEN_DETAILS": {
+    "message": "Open details"
   }
 }

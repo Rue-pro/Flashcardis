@@ -47,8 +47,8 @@ export const FillFlashcardForm = ({ note }: Props) => {
       startIcon={isFormFilled ? <DoneIcon /> : <AddCardIcon />}
       aria-label={
         isFormFilled
-          ? 'Form filled'
-          : browser.i18n.getMessage('FILL_ANKI_BUTTON', note.text)
+          ? browser.i18n.getMessage('FILL_ANKI_FORM_FORM_FILLED')
+          : browser.i18n.getMessage('FILL_ANKI_FORM_BUTTON', note.text)
       }
       onClick={fillAnkiForm}
       disabled={!ankiPort}

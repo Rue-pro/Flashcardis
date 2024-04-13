@@ -1,5 +1,6 @@
 import { DictionaryCard } from '@popup/entities/dictionary'
 
+import { browser } from '@popup/shared/browser'
 import { Button } from '@popup/shared/ui/Button'
 import { addToast } from '@popup/shared/ui/Toast'
 
@@ -7,17 +8,19 @@ import {
   IDictionaryWithVariants,
   dictionaryStore,
 } from '@shared/entities/dictionary'
+import { TLanguageCode } from '@shared/entities/language'
 
 import styles from './styles.module.scss'
 
 interface GroupProps {
   dictionary: IDictionaryWithVariants
+  lang: TLanguageCode
 }
 
-export const SelectDictionaryVariant = ({ dictionary }: GroupProps) => {
+export const SelectDictionaryVariant = ({ dictionary, lang }: GroupProps) => {
   const onSelectVariant = async (variant: string) => {
     const result = await dictionaryStore.selectVariant(
-      'en',
+      lang,
       dictionary.id,
       variant,
     )
@@ -39,9 +42,12 @@ export const SelectDictionaryVariant = ({ dictionary }: GroupProps) => {
                 disabled={isActive}
                 onClick={() => onSelectVariant(variant.value)}
               >
-                {isActive
-                  ? `${variant.label} version is used`
-                  : `Use ${variant.label} version`}
+                {browser.i18n.getMessage(
+                  isActive
+                    ? 'SELECT_DICTIONARY_VERSION_IS_USED'
+                    : 'SELECT_DICTIONARY_USE_VERSION',
+                  variant.label,
+                )}
               </Button>
             }
           />

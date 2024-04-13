@@ -46,6 +46,7 @@ export const SelectDictionaryList = () => {
                               <SelectDictionaryVariant
                                 key={dictionary.id}
                                 dictionary={dictionary}
+                                lang={language.value}
                               />
                             </li>
                           )

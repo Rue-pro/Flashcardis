@@ -57,7 +57,6 @@ export const SelectLanguages = ({ languages }: Props) => {
                 checked={checkIsSelected(language.value)}
                 onChange={() => toggle(language.value)}
               />
-
               {language.label}
             </label>
           </li>

@@ -1,9 +1,10 @@
+import { map } from 'nanostores'
+
 import { browser } from '@background/shared/browser'
 import {
   TOnClickContextMenuInfoProps,
   TOnClickContextMenuTabProps,
-} from '@background/shared/browser/contextMenus/types'
-import { map } from 'nanostores'
+} from '@background/shared/browser/contextMenus'
 
 import {
   getLanguageFromPage,
@@ -21,14 +22,13 @@ import {
 import { addError } from '@shared/entities/error'
 import { noteStore } from '@shared/entities/note'
 
-import { PortEmitter } from '@shared/shared/browser/port'
-import { IPortEmitter } from '@shared/shared/browser/port/types'
+import { IPortEmitter, PortEmitter } from '@shared/shared/browser/port'
 
 const $dictionaryPorts = map<Record<string, IPortEmitter>>()
 
 export const autoAddNewNote = (parentId: string) => {
   browser.contextMenus.create({
-    title: 'CONTEXT_MENU_ADD_NOTE_AUTOMATICALLY',
+    title: browser.i18n.getMessage('CONTEXT_MENU_ADD_NOTE_AUTOMATICALLY'),
     id: 'auto_new_note',
     parentId: parentId,
     contexts: ['page'],
@@ -66,7 +66,9 @@ export const autoAddNewNote = (parentId: string) => {
           })
         } else {
           addError({
-            type: 'ERROR_CAN_NOT_IDENTIFY_DICTIONARY_ADD_NOTE_AUTOMATICALLY',
+            type: browser.i18n.getMessage(
+              'ERROR_CAN_NOT_IDENTIFY_DICTIONARY_ADD_NOTE_AUTOMATICALLY',
+            ),
             error: null,
           })
 
