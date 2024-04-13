@@ -1,5 +1,6 @@
 import { Result } from '@shared/shared/libs/operationResult'
 
+import { i18n } from '../i18n'
 import { IStorage, TOnChangeListenerProps } from './types'
 
 export const chromeStorage: IStorage = {
@@ -13,7 +14,7 @@ export const chromeStorage: IStorage = {
           resolve(
             Result.Error(
               {
-                type: 'ERROR_CAN_NOT_GET_DATA_FROM_STORAGE',
+                type: i18n.getMessage('ERROR_CAN_NOT_GET_DATA_FROM_STORAGE'),
                 error: error instanceof Error ? error : null,
               },
               enableLogging,
@@ -37,7 +38,7 @@ export const chromeStorage: IStorage = {
         resolve(
           Result.Error(
             {
-              type: `ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE`,
+              type: i18n.getMessage('ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE'),
               error: error instanceof Error ? error : null,
             },
             enableLogging,
@@ -58,7 +59,9 @@ export const chromeStorage: IStorage = {
             callback(
               Result.Error(
                 {
-                  type: `ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE`,
+                  type: i18n.getMessage(
+                    'ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE',
+                  ),
                   error: error instanceof Error ? error : null,
                 },
                 enableLogging,
@@ -78,7 +81,9 @@ export const chromeStorage: IStorage = {
             callback(
               Result.Error(
                 {
-                  type: `ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE`,
+                  type: i18n.getMessage(
+                    'ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE',
+                  ),
                   error: error instanceof Error ? error : null,
                 },
                 enableLogging,

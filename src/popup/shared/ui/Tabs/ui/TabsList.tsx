@@ -2,6 +2,7 @@ import cn from 'classnames'
 import { ComponentChildren } from 'preact'
 import { useRef } from 'preact/hooks'
 
+import { browser } from '@popup/shared/browser'
 import { Button } from '@popup/shared/ui/Button'
 import { ArrowUp } from '@popup/shared/ui/icons/ArrowUp'
 
@@ -49,7 +50,7 @@ export const TabsList = ({ className, children, arrows }: Props) => {
           className={styles['tablist__button-left']}
           onClick={move('back')}
           startIcon={<ArrowUp />}
-          aria-label="Back"
+          aria-label={browser.i18n.getMessage('TABS_BUTTON_BACK')}
         />
       )}
 
@@ -69,7 +70,7 @@ export const TabsList = ({ className, children, arrows }: Props) => {
           className={styles['tablist__button-right']}
           onClick={move('forward')}
           startIcon={<ArrowUp />}
-          aria-label="Forward"
+          aria-label={browser.i18n.getMessage('TABS_BUTTON_FORWARD')}
         />
       )}
     </div>

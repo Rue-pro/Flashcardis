@@ -18,7 +18,7 @@ import { Modal } from '@popup/shared/ui/Modal'
 import { Tab, TabPanel, Tabs, TabsList, a11yProps } from '@popup/shared/ui/Tabs'
 import { EditIcon } from '@popup/shared/ui/icons/EditIcon'
 
-import { languageStore } from '@shared/entities/language'
+import { TLanguageCode, languageStore } from '@shared/entities/language'
 import { INote, noteStore } from '@shared/entities/note'
 
 export const NoteList = () => {
@@ -26,7 +26,10 @@ export const NoteList = () => {
   const languages = useStore(languageStore.$languages)
   const notes = useStore(noteStore.$notes)
 
-  const [editNote, setEditNote] = useState<INote | null>(null)
+  const [editNote, setEditNote] = useState<{
+    lang: TLanguageCode
+    note: INote
+  } | null>(null)
   const closeEditNoteModal = () => setEditNote(null)
 
   return (
@@ -67,7 +70,7 @@ export const NoteList = () => {
                                     note.text,
                                   )}
                                   onClick={() => {
-                                    setEditNote(note)
+                                    setEditNote({ lang: language.value, note })
                                   }}
                                 />
                                 <DeleteNote
@@ -96,8 +99,8 @@ export const NoteList = () => {
       {editNote ? (
         <Modal open={true} onClose={closeEditNoteModal}>
           <EditNote
-            lang={'en'}
-            note={editNote}
+            lang={editNote.lang}
+            note={editNote.note}
             onCancel={closeEditNoteModal}
             onSubmit={closeEditNoteModal}
           />

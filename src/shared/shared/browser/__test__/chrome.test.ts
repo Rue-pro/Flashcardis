@@ -36,7 +36,7 @@ describe('browser', () => {
 
           expect(getResult.data).toBeNull()
           expect(getResult.error).toMatchObject({
-            type: 'ERROR_CAN_NOT_GET_DATA_FROM_STORAGE',
+            type: 'Translated<ERROR_CAN_NOT_GET_DATA_FROM_STORAGE>',
           })
         })
 
@@ -65,7 +65,7 @@ describe('browser', () => {
 
           expect(setResult.data).toBeNull()
           expect(setResult.error).toMatchObject({
-            type: 'ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE',
+            type: 'Translated<ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE>',
           })
 
           const getResult = await storage.get(KEY, defaultValue)
@@ -122,7 +122,7 @@ describe('browser', () => {
           const call1 = callback.mock.calls[0]
           expect(call1[0].data).toBeNull()
           expect(call1[0].error).toMatchObject({
-            type: 'ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE',
+            type: 'Translated<ERROR_CAN_NOT_GET_OLD_DATA_FROM_STORAGE>',
           })
 
           const call2 = callback.mock.calls[1]
@@ -154,7 +154,7 @@ describe('browser', () => {
           const call = callback.mock.calls[0]
           expect(call[0].data).toBeNull()
           expect(call[0].error).toMatchObject({
-            type: 'ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE',
+            type: 'Translated<ERROR_CAN_NOT_GET_NEW_DATA_FROM_STORAGE>',
           })
         })
       })

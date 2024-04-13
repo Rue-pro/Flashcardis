@@ -48,7 +48,7 @@ export const deleteNote = async (
 
   if (!note) {
     return Result.Error({
-      type: 'ERROR_CAN_NOT_FIND_NOTE_TO_DELETE',
+      type: browser.i18n.getMessage('ERROR_CAN_NOT_FIND_NOTE_TO_DELETE'),
       error: new Error(
         `Note with id ${noteId} not found, available notes: /n ${JSON.stringify(notes)}`,
       ),
@@ -75,7 +75,7 @@ export const editNote = async (
 
   if (!note) {
     return Result.Error({
-      type: 'ERROR_CAN_NOT_FIND_NOTE_TO_EDIT',
+      type: browser.i18n.getMessage('ERROR_CAN_NOT_FIND_NOTE_TO_EDIT'),
       error: new Error(
         `Note with id ${newNote.id} not found, available notes: /n ${JSON.stringify(notes)}`,
       ),

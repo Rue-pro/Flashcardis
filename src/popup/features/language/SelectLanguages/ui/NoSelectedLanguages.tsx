@@ -1,3 +1,5 @@
+import { browser } from '@popup/shared/browser'
+
 export const NoSelectedLanguages = () => (
-  <span>No languages are selected. Select some languages to learn</span>
+  <span>{browser.i18n.getMessage('SELECTED_LANGUAGES_NO_ITEMS')}</span>
 )

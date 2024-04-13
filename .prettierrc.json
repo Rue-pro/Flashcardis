@@ -12,6 +12,9 @@
   "importOrder": [
     "^@background/app/(.*)$",
     "^@background/features/(.*)$",
+    "^@background/shared/(.*)$",
+    "^@content/(.*)$",
+    "^@content/shared/(.*)$",
     "^@popup/app/(.*)$",
     "^@popup/widgets/(.*)$",
     "^@popup/features/(.*)$",
