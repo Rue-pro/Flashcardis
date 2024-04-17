@@ -1,4 +1,4 @@
-import { atom, onMount, task } from 'nanostores'
+import { atom, computed, onMount, task } from 'nanostores'
 
 import { browser } from '@popup/shared/browser'
 
@@ -14,6 +14,9 @@ type StorageValue = ILanguage[]
 export const LanguageStorage = getStorage<StorageValue>('languages', LANGUAGES)
 
 export const $languages = atom<StorageValue>(LANGUAGES)
+export const $languageCodes = computed($languages, (languages) => {
+  return languages.map((language) => language.value)
+})
 
 onMount($languages, () => {
   task(async () => {

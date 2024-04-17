@@ -1,6 +1,6 @@
 import { computed } from 'nanostores'
 
-import { $activeTab } from '@popup/entities/tab'
+import { $activeTab } from '@shared/entities/tab'
 
 import { IPortEmitter, PortEmitter } from '@shared/shared/browser/port'
 
