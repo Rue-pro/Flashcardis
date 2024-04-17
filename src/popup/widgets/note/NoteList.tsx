@@ -10,6 +10,7 @@ import {
   FillFlashcardFormNotAvailable,
 } from '@popup/features/note/FillFlashcardForm'
 
+import { currentLanguagePageStore } from '@popup/entities/language'
 import { NoNotes, NoteCard } from '@popup/entities/note'
 
 import { browser } from '@popup/shared/browser'
@@ -27,6 +28,9 @@ export const NoteList = () => {
   const ankiPort = useStore($ankiPort)
   const languages = useStore(languageStore.$languages)
   const notes = useStore(noteStore.$notes)
+  const currentPageLanguage = useStore(
+    currentLanguagePageStore.$currentPageLanguage,
+  )
 
   const [editNote, setEditNote] = useState<{
     lang: TLanguageCode
@@ -39,7 +43,7 @@ export const NoteList = () => {
       {!ankiPort && <FillFlashcardFormNotAvailable />}
       {languages.length ? (
         <>
-          <Tabs>
+          <Tabs defaultValue={currentPageLanguage}>
             <TabsList arrows={true}>
               {languages.map((language) => (
                 <Tab

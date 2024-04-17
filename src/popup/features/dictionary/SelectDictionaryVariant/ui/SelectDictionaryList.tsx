@@ -3,6 +3,7 @@ import { useStore } from '@nanostores/preact'
 import { NoSelectedLanguages } from '@popup/features/language/SelectLanguages'
 
 import { DictionaryCard } from '@popup/entities/dictionary'
+import { currentLanguagePageStore } from '@popup/entities/language'
 
 import { Tab, TabPanel, Tabs, TabsList, a11yProps } from '@popup/shared/ui/Tabs'
 
@@ -15,12 +16,15 @@ import styles from './styles.module.scss'
 export const SelectDictionaryList = () => {
   const dictionaries = useStore(dictionaryStore.$dictionaries)
   const languages = useStore(languageStore.$languages)
+  const currentPageLanguage = useStore(
+    currentLanguagePageStore.$currentPageLanguage,
+  )
 
   return (
     <>
       {languages.length ? (
         <>
-          <Tabs>
+          <Tabs defaultValue={currentPageLanguage}>
             <TabsList arrows={true}>
               {languages.map((language) => (
                 <Tab

@@ -1,5 +1,5 @@
 import { ComponentChildren, createContext } from 'preact'
-import { useContext, useState } from 'preact/hooks'
+import { useContext, useEffect, useState } from 'preact/hooks'
 
 import { TTabValue } from '../model/types'
 
@@ -20,6 +20,10 @@ interface Props {
 
 export const Tabs = ({ children, defaultValue, value, onChange }: Props) => {
   const [currentTab, setCurrentTab] = useState<TTabValue>(defaultValue ?? null)
+
+  useEffect(() => {
+    defaultValue && setCurrentTab(defaultValue)
+  }, [defaultValue])
 
   return (
     <TabsContext.Provider
