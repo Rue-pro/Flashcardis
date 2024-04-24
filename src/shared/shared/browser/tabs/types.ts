@@ -1,6 +1,11 @@
 import { TResult } from '@shared/shared/libs/operationResult'
 
 export interface ITabs {
+  _getActiveTabWithRetry: (
+    onSuccess: (tab: TTab) => void,
+    onError: () => void,
+  ) => void
+
   getActiveTab: () => Promise<TResult<TTab>>
 
   onActivated: {
