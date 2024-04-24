@@ -15,9 +15,9 @@ import { $languages } from '@shared/entities/language/model/store'
 
 import { getNotesFields } from './helpers/getNotesFields'
 
-$languages.listen(() => {})
-
 browser.runtime.onConnect.addListener(async function (port) {
+  $languages.listen(() => {})
+
   if (port.name === 'CurrentPage') {
     getLanguageFromPageHandler(port, () => {
       let pageLanguage: TLanguageCode = 'other'

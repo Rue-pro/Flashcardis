@@ -1,5 +1,6 @@
 import { addNewWord } from '@background/features/addNewWord'
 import { autoAddNewNote } from '@background/features/autoAddNewNote'
+import { editLatestNote } from '@background/features/editLatestNote'
 
 import { browser } from '@background/shared/browser'
 
@@ -18,6 +19,8 @@ browser.contextMenus.removeAll(() => {
   addNewWord(PARENT_ID)
 
   autoAddNewNote(PARENT_ID)
+
+  editLatestNote(PARENT_ID)
 })
 
 $notes.listen(() => {})

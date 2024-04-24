@@ -112,6 +112,15 @@
   "CONTEXT_MENU_ADD_NOTE_AUTOMATICALLY": {
     "message": "Add note"
   },
+  "CONTEXT_MENU_EDIT_LATEST_NOTE_TRANSLATION": {
+    "message": "Edit latest note translation"
+  },
+  "CONTEXT_MENU_EDIT_LATEST_NOTE_CONTEXT": {
+    "message": "Edit latest note context"
+  },
+  "CONTEXT_MENU_EDIT_LATEST_NOTE_TRANSCRIPTION": {
+    "message": "Edit latest note transcription"
+  },
   "ERROR_CAN_NOT_IDENTIFY_DICTIONARY_ADD_NOTE_AUTOMATICALLY": {
     "message": "Adding note automatically failed, can't identify dictionary"
   },
@@ -180,5 +189,11 @@
   },
   "CLEAR": {
     "message": "Clear"
+  },
+  "ERROR_CAN_NOT_GET_ACTIVE_TAB": {
+    "message": "Can't get active tab"
+  },
+  "ERROR_CAN_NOT_GET_ACTIVE_TAB_ON_ACTIVATED": {
+    "message": "Can't get active tab while activating"
   }
 }
