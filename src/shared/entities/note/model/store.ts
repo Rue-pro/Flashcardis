@@ -15,7 +15,7 @@ export type StorageValue = Record<TLanguageCode, INote[]>
 export const defaultNotes: StorageValue = {
   en: [],
   ja: [],
-  pt: [],
+  'pt-BR': [],
   ko: [],
   other: [],
 }
