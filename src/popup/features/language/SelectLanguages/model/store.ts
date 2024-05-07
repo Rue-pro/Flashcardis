@@ -36,7 +36,7 @@ export const toggle = async (languageCode: TLanguageCode) => {
     ? languageCodes.filter((lang) => lang !== languageCode)
     : [...languageCodes, languageCode]
 
-  localStore.languageCodes.set(newSelectedLanguages)
+  localStore.languageCodes.set([...newSelectedLanguages, 'other'])
 }
 
 export const checkIsSelected = (languageCode: TLanguageCode): boolean => {
