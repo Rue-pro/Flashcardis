@@ -1,20 +1,27 @@
 import { atom } from 'nanostores'
 
-import { TLanguageCode, languageStore } from '@shared/entities/language'
+import {
+  LANGUAGES,
+  TLanguageCode,
+  languageStore,
+} from '@shared/entities/language'
 
 import { TResult } from '@shared/shared/libs/operationResult'
 
-let defaultValue: TLanguageCode[] = []
-
 export const localStore = {
-  languageCodes: atom<TLanguageCode[]>([]),
-  islanguageCodesDirty: atom(true),
+  defaultValue: atom<TLanguageCode[]>([]),
+  languageCodes: atom<TLanguageCode[]>(
+    LANGUAGES.map((language) => language.value),
+  ),
+  islanguageCodesDirty: atom(false),
 }
 
 languageStore.$languages.listen((newValue) => {
-  if (localStore.islanguageCodesDirty.get()) {
-    const languageCodes = newValue.map((language) => language.value)
-    defaultValue = languageCodes
+  const islanguageCodesDirty = localStore.islanguageCodesDirty.get()
+  const languageCodes = newValue.map((language) => language.value)
+  if (islanguageCodesDirty) {
+    localStore.defaultValue.set(languageCodes)
+  } else {
     localStore.languageCodes.set(languageCodes)
   }
 })
@@ -37,7 +44,7 @@ export const checkIsSelected = (languageCode: TLanguageCode): boolean => {
 }
 
 export const reset = () => {
-  localStore.languageCodes.set(defaultValue)
+  localStore.languageCodes.set(localStore.defaultValue.get())
 }
 
 export const syncLocalStoreWithLanguageStore = (): Promise<TResult> => {

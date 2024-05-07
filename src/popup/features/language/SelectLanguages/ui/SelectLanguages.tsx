@@ -46,21 +46,23 @@ export const SelectLanguages = ({ languages }: Props) => {
       </h2>
 
       <ul>
-        {languages.map((language) => (
-          <li key={language.value}>
-            <label>
-              <input
-                name="languages"
-                type="checkbox"
-                multiple
-                value={language.value}
-                checked={checkIsSelected(language.value)}
-                onChange={() => toggle(language.value)}
-              />
-              {language.label}
-            </label>
-          </li>
-        ))}
+        {languages.map((language) =>
+          language.value === 'other' ? null : (
+            <li key={language.value}>
+              <label>
+                <input
+                  name="languages"
+                  type="checkbox"
+                  multiple
+                  value={language.value}
+                  checked={checkIsSelected(language.value)}
+                  onChange={() => toggle(language.value)}
+                />
+                {language.label}
+              </label>
+            </li>
+          ),
+        )}
       </ul>
 
       <Result result={result} />
