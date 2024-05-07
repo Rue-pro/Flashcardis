@@ -7,7 +7,10 @@ export const chromeStorage: IStorage = {
   get: (key, defaultValue, enableLogging = true) => {
     return new Promise((resolve) => {
       chrome.storage.local.get(key, (storage) => {
-        if (!storage[key]) resolve(Result.Success(defaultValue))
+        if (!storage[key]) {
+          resolve(Result.Success(defaultValue))
+          return
+        }
         try {
           resolve(Result.Success(JSON.parse(storage[key])))
         } catch (error) {
