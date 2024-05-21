@@ -1,6 +1,4 @@
-import { ILanguage } from '.'
-
-export const LANGUAGE_CODES = ['en', 'ja', 'pt-BR', 'ko', 'other'] as const
+import { ILanguage } from './types'
 
 export const LANGUAGES: ILanguage[] = [
   { label: 'English', value: 'en' },

@@ -5,11 +5,13 @@ import {
   getNoteFromDictionaryPageHandler,
 } from '@shared/features/note/AutoAddNewNote'
 
-import { GOOGLE_TRANSLATE } from '@shared/entities/dictionary'
+import {
+  GOOGLE_TRANSLATE,
+  getDictionaryLanguageCodeByPageUrl,
+} from '@shared/entities/dictionary'
 import {
   TLanguageCode,
   getLanguageCodeByPageMetaData,
-  getLanguageCodeByPageUrl,
 } from '@shared/entities/language'
 import { $languages } from '@shared/entities/language/model/store'
 
@@ -27,7 +29,7 @@ browser.runtime.onConnect.addListener(async function (port) {
       if (isTranslatorPage) {
         pageLanguage = GOOGLE_TRANSLATE.getLanguage()
       } else {
-        pageLanguage = getLanguageCodeByPageUrl(window.location.href)
+        pageLanguage = getDictionaryLanguageCodeByPageUrl(window.location.href)
         if (pageLanguage === 'other') {
           pageLanguage = getLanguageCodeByPageMetaData()
         }

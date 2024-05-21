@@ -2,6 +2,7 @@ import { atom, onMount, task } from 'nanostores'
 
 import { browser } from '@popup/shared/browser'
 
+import { addError } from '@shared/entities/error'
 import { TLanguageCode } from '@shared/entities/language'
 import { getStorage } from '@shared/entities/storage'
 
@@ -15,6 +16,7 @@ type StorageValue = TDictionaries
 export const DictionaryStorage = getStorage<StorageValue>(
   'dictionaries',
   DICTIONARIES,
+  addError,
 )
 
 export const $dictionaries = atom<StorageValue>(DICTIONARIES)

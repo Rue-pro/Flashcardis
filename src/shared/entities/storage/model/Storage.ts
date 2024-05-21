@@ -1,18 +1,19 @@
-import { TOnChangeListenerProps, storage } from '@shared/shared/browser/storage'
-import { TResult } from '@shared/shared/libs/operationResult'
+import { storage } from '@shared/shared/browser/storage'
+import { TOnChangeListenerPlainProps } from '@shared/shared/browser/storage/types'
+import { TBaseError, TResult } from '@shared/shared/libs/operationResult'
 
 export const getStorage = <StorageValue>(
   key: string,
   defaultValue: StorageValue,
-  enableLogging = true,
+  logError?: (error: TBaseError) => void,
 ) => {
   return {
     get() {
-      return storage.get<StorageValue>(key, defaultValue, enableLogging)
+      return storage.get<StorageValue>(key, defaultValue, logError)
     },
 
     set(value: StorageValue) {
-      return storage.set(key, value, enableLogging)
+      return storage.set(key, value, logError)
     },
 
     onChanged: {
@@ -28,12 +29,12 @@ export const getStorage = <StorageValue>(
           key,
           callback,
           defaultValue,
-          enableLogging,
+          logError,
         )
       },
 
       removeListener(
-        listener: (changes: TOnChangeListenerProps<StorageValue>) => void,
+        listener: (changes: TOnChangeListenerPlainProps<StorageValue>) => void,
       ) {
         storage.onChanged.removeListener<StorageValue>(listener)
       },

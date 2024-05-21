@@ -1,10 +1,10 @@
 import { Result } from '@shared/shared/libs/operationResult'
 
 import { i18n } from '../i18n'
-import { IStorage, TOnChangeListenerProps } from './types'
+import { IStorage, TOnChangeListenerPlainProps } from './types'
 
 export const chromeStorage: IStorage = {
-  get: (key, defaultValue, enableLogging = true) => {
+  get: (key, defaultValue, logError) => {
     return new Promise((resolve) => {
       chrome.storage.local.get(key, (storage) => {
         if (!storage[key]) {
@@ -20,7 +20,7 @@ export const chromeStorage: IStorage = {
                 type: i18n.getMessage('ERROR_CAN_NOT_GET_DATA_FROM_STORAGE'),
                 error: error instanceof Error ? error : null,
               },
-              enableLogging,
+              logError,
             ),
           )
         }
@@ -28,7 +28,7 @@ export const chromeStorage: IStorage = {
     })
   },
 
-  set: (key, value, enableLogging = true) => {
+  set: (key, value, logError) => {
     return new Promise((resolve) => {
       try {
         const stringifiedValue = JSON.stringify(value)
@@ -44,7 +44,7 @@ export const chromeStorage: IStorage = {
               type: i18n.getMessage('ERROR_CAN_NOT_UPDATE_DATA_IN_STORAGE'),
               error: error instanceof Error ? error : null,
             },
-            enableLogging,
+            logError,
           ),
         )
       }
@@ -52,8 +52,8 @@ export const chromeStorage: IStorage = {
   },
 
   onChanged: {
-    addListener: (key, callback, defaultValue, enableLogging = true) => {
-      const listener = (changes: TOnChangeListenerProps) => {
+    addListener: (key, callback, defaultValue, logError) => {
+      const listener = (changes: TOnChangeListenerPlainProps) => {
         if (changes[key]) {
           let oldValue = defaultValue
           try {
@@ -67,7 +67,7 @@ export const chromeStorage: IStorage = {
                   ),
                   error: error instanceof Error ? error : null,
                 },
-                enableLogging,
+                logError,
               ),
             )
           }
@@ -89,7 +89,7 @@ export const chromeStorage: IStorage = {
                   ),
                   error: error instanceof Error ? error : null,
                 },
-                enableLogging,
+                logError,
               ),
             )
           }
@@ -102,5 +102,10 @@ export const chromeStorage: IStorage = {
     removeListener: (listener) => {
       chrome.storage.local.onChanged.removeListener(listener)
     },
+  },
+
+  clear: async () => {
+    await chrome.storage.local.clear()
+    return Promise.resolve(Result.Success(true))
   },
 }

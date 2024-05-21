@@ -67,3 +67,10 @@ export const getDictionariesUrls = (): string[] => {
 
   return urls
 }
+
+export const getDictionaryLanguageCodeByPageUrl = (
+  url: string,
+): TLanguageCode => {
+  const dictionary = getDictionaryByPageUrl(url)
+  return dictionary ? dictionary.languageCode : 'other'
+}

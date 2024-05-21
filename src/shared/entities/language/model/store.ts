@@ -2,6 +2,7 @@ import { atom, computed, onMount, task } from 'nanostores'
 
 import { browser } from '@popup/shared/browser'
 
+import { addError } from '@shared/entities/error'
 import { ILanguage, TLanguageCode } from '@shared/entities/language'
 import { getStorage } from '@shared/entities/storage'
 
@@ -11,7 +12,11 @@ import { LANGUAGES } from './languages'
 
 type StorageValue = ILanguage[]
 
-export const LanguageStorage = getStorage<StorageValue>('languages', LANGUAGES)
+export const LanguageStorage = getStorage<StorageValue>(
+  'languages',
+  LANGUAGES,
+  addError,
+)
 
 export const $languages = atom<StorageValue>(LANGUAGES)
 export const $languageCodes = computed($languages, (languages) => {

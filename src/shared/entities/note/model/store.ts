@@ -3,6 +3,7 @@ import { atom, onMount, task } from 'nanostores'
 
 import { browser } from '@popup/shared/browser'
 
+import { addError } from '@shared/entities/error'
 import { TLanguageCode } from '@shared/entities/language'
 import { getStorage } from '@shared/entities/storage'
 
@@ -20,7 +21,11 @@ export const defaultNotes: StorageValue = {
   other: [],
 }
 
-export const NoteStorage = getStorage<StorageValue>(`notes`, defaultNotes)
+export const NoteStorage = getStorage<StorageValue>(
+  `notes`,
+  defaultNotes,
+  addError,
+)
 
 export const $notes = atom<StorageValue>(defaultNotes)
 
