@@ -1,7 +1,7 @@
 import { TLanguageCode } from '@shared/entities/language'
 import { INoteSelectors } from '@shared/entities/note'
 
-import { DICTIONARIES, GOOGLE_TRANSLATE } from '.'
+import { DICTIONARIES, GOOGLE_TRANSLATE } from './dictionaries'
 import { IDictionary } from './types'
 
 export const getDictionaryByPageUrl = (
@@ -16,6 +16,7 @@ export const getDictionaryByPageUrl = (
     let dictionaryIndex = 0
     while (dictionaryIndex < languageDictionaries.length) {
       const dictionary = languageDictionaries[dictionaryIndex]
+
       if (pageUrl.includes(dictionary.url)) {
         return {
           languageCode: languages[languageIndex].value,
@@ -65,4 +66,11 @@ export const getDictionariesUrls = (): string[] => {
   urls.push(GOOGLE_TRANSLATE.url + '*')
 
   return urls
+}
+
+export const getDictionaryLanguageCodeByPageUrl = (
+  url: string,
+): TLanguageCode => {
+  const dictionary = getDictionaryByPageUrl(url)
+  return dictionary ? dictionary.languageCode : 'other'
 }

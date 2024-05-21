@@ -121,14 +121,14 @@ export const DICTIONARIES: TDictionaries = {
       },
     ],
   },
-  pt: {
+  'pt-BR': {
     label: 'Portuguese',
-    value: 'pt',
+    value: 'pt-BR',
     dictionaries: [
       {
-        id: 'pt_Wordreference',
+        id: 'pt-BR_Wordreference',
         name: 'Wordreference',
-        url: 'https://www.wordreference.com/pten/',
+        url: 'https://www.wordreference.com/enpt/',
         selectors: {
           text: '.even.FrWrd',
           transcription: '',

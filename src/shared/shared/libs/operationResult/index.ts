@@ -1,5 +1,3 @@
-import { addError } from '@shared/entities/error'
-
 export type TBaseError = { type: string; error: Error | null }
 export type TResult<T = string, E = TBaseError> =
   | { data: T; error: null }
@@ -14,9 +12,9 @@ export const Result = Object.freeze({
   }),
   Error: <T = null, E extends TBaseError = TBaseError>(
     error: E,
-    enableLogging = true,
+    log?: (error: TBaseError) => void,
   ): TResult<T, E> => {
-    enableLogging && addError(error)
+    log && log(error)
     return {
       data: null,
       error,

@@ -26,18 +26,20 @@ export const SelectDictionaryList = () => {
         <>
           <Tabs defaultValue={currentPageLanguage}>
             <TabsList arrows={true}>
-              {languages.map((language) => (
-                <Tab
-                  key={language.value}
-                  value={language.value}
-                  {...a11yProps('language_navigation', language.value)}
-                >
-                  {language.label}
-                </Tab>
-              ))}
+              {languages.map((language) =>
+                language.value === 'other' ? null : (
+                  <Tab
+                    key={language.value}
+                    value={language.value}
+                    {...a11yProps('language_navigation', language.value)}
+                  >
+                    {language.label}
+                  </Tab>
+                ),
+              )}
             </TabsList>
             {languages.map((language) => {
-              return (
+              return language.value === 'other' ? null : (
                 <TabPanel
                   key={language.value}
                   {...a11yProps('language_navigation', language.value)}

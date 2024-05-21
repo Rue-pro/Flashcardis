@@ -1,8 +1,10 @@
 import { waitFor } from '@tests/testUtils'
 import { allTasks, cleanStores, keepMount } from 'nanostores'
-import { afterEach, describe, expect, test } from 'vitest'
+import { beforeEach, describe, expect, test } from 'vitest'
 
 import { languageStore } from '@shared/entities/language'
+
+import { storage } from '@shared/shared/browser/storage'
 
 import {
   checkIsSelected,
@@ -13,10 +15,16 @@ import {
 } from '../store'
 
 describe('selectedLanguageCodes store', () => {
-  afterEach(async () => {
-    await chrome.storage.local.clear()
+  beforeEach(async () => {
+    await storage.clear()
+    cleanStores(languageStore.$languageCodes)
     cleanStores(localStore.languageCodes)
+    cleanStores(localStore.islanguageCodesDirty)
+    cleanStores(localStore.defaultValue)
+    languageStore.$languages.set([])
     localStore.languageCodes.set([])
+    localStore.islanguageCodesDirty.set(false)
+    localStore.defaultValue.set([])
   })
 
   describe('commmon', () => {

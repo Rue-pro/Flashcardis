@@ -3,6 +3,13 @@ import { TTab } from '@shared/shared/browser/tabs'
 export interface IContextMenus {
   create: (menuConfig: IMenuConfig) => string | number
 
+  update: (
+    menuItemId: string | number,
+    menuConfig: Partial<IMenuConfig>,
+  ) => void
+
+  remove: (menuItemId: string | number) => void
+
   onClicked: {
     addListener: (
       callback: (
