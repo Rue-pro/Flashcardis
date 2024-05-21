@@ -2,6 +2,7 @@ import { waitFor } from '@tests/testUtils'
 import { allTasks, cleanStores, keepMount } from 'nanostores'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
+import { storage } from '@shared/shared/browser/storage'
 import { Result } from '@shared/shared/libs/operationResult'
 
 import { ILanguage } from '..'
@@ -15,7 +16,7 @@ describe('languages store', () => {
   }
 
   afterEach(async () => {
-    await chrome.storage.local.clear()
+    await storage.clear()
     cleanStores($languages)
     $languages.set([])
   })

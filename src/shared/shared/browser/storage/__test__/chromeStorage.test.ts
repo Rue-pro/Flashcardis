@@ -3,7 +3,6 @@ import { MockedObject, beforeAll, describe, expect, test, vi } from 'vitest'
 
 import { Result } from '@shared/shared/libs/operationResult'
 
-import { storageMock } from '../__mocks__'
 import { chromeStorageMock } from '../__mocks__/chromeStorageMock'
 import { chromeStorage } from '../chromeStorage'
 
@@ -20,7 +19,7 @@ describe('chromeStorage', () => {
         local: chromeStorageMock,
       },
     } as unknown as MockedObject<typeof chrome>
-    await storageMock.clear()
+    await chromeStorageMock.clear()
     vi.restoreAllMocks()
   })
 
