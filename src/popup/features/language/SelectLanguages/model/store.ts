@@ -22,6 +22,7 @@ languageStore.$languages.listen((newValue) => {
   if (islanguageCodesDirty) {
     localStore.defaultValue.set(languageCodes)
   } else {
+    localStore.defaultValue.set(languageCodes)
     localStore.languageCodes.set(languageCodes)
   }
 })
