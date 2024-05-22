@@ -40,7 +40,7 @@ export const DICTIONARIES: TDictionaries = {
         name: 'Merriam-Webster',
         url: 'https://www.merriam-webster.com/dictionary',
         selectors: {
-          text: 'hword',
+          text: '.hword',
           transcription: '.play-pron-v2',
           context: '.ex-sent',
           translation: '.dtText',
@@ -56,7 +56,7 @@ export const DICTIONARIES: TDictionaries = {
             value: 'us',
             selectors: {
               text: '.h2_entry .orth',
-              transcription: '.pron .type-ipa',
+              transcription: '.american .pron',
               context: '.quote',
               translation: '.def',
             },
@@ -65,9 +65,9 @@ export const DICTIONARIES: TDictionaries = {
             label: 'British',
             value: 'uk',
             selectors: {
-              text: '.headword',
-              transcription: '.uk .pron',
-              context: '.eg',
+              text: '.h2_entry .orth',
+              transcription: '.ced .pron',
+              context: '.quote',
               translation: '.def',
             },
           },
@@ -85,7 +85,7 @@ export const DICTIONARIES: TDictionaries = {
             selectors: {
               text: '.headerWord',
               transcription: '.pronRH',
-              context: '.quote',
+              context: '.rh_ex',
               translation: '.definition',
             },
           },
@@ -95,7 +95,7 @@ export const DICTIONARIES: TDictionaries = {
             selectors: {
               text: '.headerWord',
               transcription: '.pronWR',
-              context: '.eg',
+              context: '.rh_ex',
               translation: '.definition',
             },
           },
@@ -113,9 +113,9 @@ export const DICTIONARIES: TDictionaries = {
         name: 'Jisho',
         url: 'https://jisho.org/',
         selectors: {
-          text: '.furigana .kanji',
-          transcription: '.meaning-meaning',
-          context: 'sentence .japanese',
+          text: '.furigana',
+          transcription: '',
+          context: '.sentence .japanese',
           translation: '.meaning-meaning',
         },
       },
@@ -130,27 +130,10 @@ export const DICTIONARIES: TDictionaries = {
         name: 'Wordreference',
         url: 'https://www.wordreference.com/enpt/',
         selectors: {
-          text: '.even.FrWrd',
+          text: '.even .FrWrd',
           transcription: '',
           context: '',
-          translation: '.even.FrWrd',
-        },
-      },
-    ],
-  },
-  ko: {
-    label: 'Korean',
-    value: 'ko',
-    dictionaries: [
-      {
-        id: 'ko_NaverDictionary',
-        name: 'Jisho',
-        url: 'https://korean.dict.naver.com/koendict',
-        selectors: {
-          text: '.highlight',
-          transcription: '',
-          context: '',
-          translation: '.u_word_dic',
+          translation: '.even .ToWrd',
         },
       },
     ],

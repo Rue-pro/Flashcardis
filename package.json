@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "vite dev --config=vite.config.popup.ts",
     "build": "tsc && vite build --config=vite.config.popup.ts && vite build --config=vite.config.ankiWeb.ts && vite build --config=vite.config.dictionary.ts && vite build --config=vite.config.background.ts",
