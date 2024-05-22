@@ -1,4 +1,4 @@
-export const LANGUAGE_CODES = ['en', 'ja', 'pt-BR', 'ko', 'other'] as const
+export const LANGUAGE_CODES = ['en', 'ja', 'pt-BR', 'other'] as const
 
 export type TLanguageCode = (typeof LANGUAGE_CODES)[number]
 
